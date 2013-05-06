@@ -1,0 +1,2 @@
+class RadioStationsController < ApplicationController
+end

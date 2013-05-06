@@ -1,4 +1,20 @@
 @import "bootstrap";
-@import "sc-player-standard/standards";
-@import "sc-player-standard/structure-horizontal";
-@import "sc-player-standard/colors-orange";
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Corben', Georgia, Times, serif;
+}
+p, div {
+    font-family: 'Nobile', Helvetica, Arial, sans-serif;
+}
+
+.container {
+    background: url(dust.png) repeat 0 0;
+	padding: 50px;
+	height: 800px;
+	margin: 0 0 100px 100px;
+}
+
+body {
+	background: url(black.jpg);
+	margin-top: 50px;
+}

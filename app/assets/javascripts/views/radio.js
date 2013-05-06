@@ -1,8 +1,6 @@
-<iframe id="sc-widget" width="800" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1848538&show_artwork=true"></iframe>
-<script src="https://w.soundcloud.com/player/api.js" type="text/javascript"></script>
-<script type="text/javascript">
-$(function () {
-      var widgetIframe = document.getElementById('sc-widget'),
+SV.Views.Radio = Backbone.View.extend({
+	setupPlayer: function () {
+      var widgetIframe = this.$("#sc-widget").get(0),
           widget       = SC.Widget(widgetIframe),
           newSoundUrl = 'http://api.soundcloud.com/tracks/13692671';
 
@@ -17,6 +15,18 @@ $(function () {
         // load new widget
         widget.bind(SC.Widget.Events.FINISH, nextTrackCallback);
       });
+		
+	},
+		
+	render: function() {
+		var renderedContent = JST["radio/main"]();
+		var radioTagView = new SV.Views.RadioTag();
+		
+		this.$el.html(renderedContent)
+				.append(radioTagView.render().$el);
+				
+		this.setupPlayer();
+		
+		return this;
+	}
 });
-
-</script>
