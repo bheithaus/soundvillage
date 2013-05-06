@@ -1,3 +1,3 @@
-SV.Models.RadioTag = Backbone.Model.extend({
+SV.Models.Tag = Backbone.RelationalModel.extend({
 	
 });

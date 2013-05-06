@@ -5,7 +5,7 @@ window.SV = {
 	Views: {},
 	Store: {},
 
-	init: function($navbar, $content, currentUserData, usersData) {
+	init: function($navbar, $content, currentUserData) {
 		var that = this;
 
 		this.router = new SV.Routers.SoundVillageRouter($content);

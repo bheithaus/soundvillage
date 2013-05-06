@@ -40,6 +40,9 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 	},
 	
 	radio: function() {
+		var tags = new SV.Collections.Tags();
+		tags.fetch();
+		
 		this.currentView = new SV.Views.Radio();
 	},
 	

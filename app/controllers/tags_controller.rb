@@ -1,11 +1,17 @@
 class TagsController < ApplicationController
   respond_to :json
   
-  def create
-    @radio_tag = RadioTag.new(params[:tag])
+  def index 
+    @tags = Tag.all
     
-    if @radio_tag.save
-      render json: @radio_tag
+    render json: @tags
+  end
+  
+  def create
+    @tag = Tag.new(params[:tag])
+    
+    if @tag.save
+      render json: @tag
     else
       p "aw crap"
     end
