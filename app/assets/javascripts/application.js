@@ -25,6 +25,9 @@
 //= require_tree ./routers
 //= require_tree ./views
 //
+//= require soundcloud.player.api
+//= require sc-player
+//
 //= require_tree ../templates
 //
 //= require_tree .
