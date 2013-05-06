@@ -1,2 +1,3 @@
 class RadioTagsController < ApplicationController
+
 end

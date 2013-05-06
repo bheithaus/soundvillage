@@ -9,13 +9,13 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 // 		console.log(params);
 // 		console.log(route.toString().split("/")[0]);
 		
-		// if (!params.length) {
-		// 	this.selectNewTab(route);
-		// } else {
-		// 	this.selectNewTab(
-		// 		route.toString().split("/")[0]
-		// 	);
-		// }
+		if (!params.length) {
+			this.selectNewTab(route);
+		} else {
+			this.selectNewTab(
+				route.toString().split("/")[0]
+			);
+		}
 		
 		if (this.currentView) {
 			this.currentView.remove();
@@ -26,27 +26,30 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 	after: function(route) {
 		console.log("running after filter");
 		console.log(new Date().getTime());
-		this.$content.html(this.currentView.render().$el);
+		if (this.currentView) {
+			this.$content.html(this.currentView.render().$el);	
+		}
 	},
 	
 	routes: {
 		"welcome": "welcome",
 		"home": "home",
 		"radio": "radio",
-		"games": "game",
+		"friends": "friends",
 		"games/:id": "game"
 	},
 	
 	radio: function() {
 		this.currentView = new SV.Views.Radio();
-	}
-	// selectNewTab: function(route) {
-// 		console.log("#"+route);
-// 		
-// 		$("ul.nav").children().filter("li").removeClass("active");
-// 		$("li#" + route).addClass("active");
-// 	},
-// 	
+	},
+	
+	selectNewTab: function(route) {
+		console.log("#"+route);
+		
+		$("ul.nav").children().filter("li").removeClass("active");
+		$("li#" + route).addClass("active");
+	},
+	
 // 	game: function(id) {
 // 		console.log(typeof(CH.Store.currentUser.get("games")));
 // 		this.currentView = new CH.Views.Game({

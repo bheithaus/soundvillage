@@ -1,10 +1,17 @@
 @import "bootstrap";
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Corben', Georgia, Times, serif;
+@font-face {
+  font-family: 'Cav';    
+  src: url('/assets/CaviarDreams.ttf');
+  font-weight: normal;
+  font-style: normal;
 }
-p, div {
-    font-family: 'Nobile', Helvetica, Arial, sans-serif;
+
+.navbar-inner  {
+	a {
+		font-family: 'Cav';
+		font-size: x-large;
+	}	
 }
 
 .container {
