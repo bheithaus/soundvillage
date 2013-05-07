@@ -1,15 +1,7 @@
 @import "bootstrap";
 
-@font-face {
-  font-family: 'Cav';    
-  src: url('/assets/CaviarDreams.ttf');
-  font-weight: normal;
-  font-style: normal;
-}
-
 .navbar-inner  {
 	a {
-		font-family: 'Cav';
 		font-size: x-large;
 	}	
 }

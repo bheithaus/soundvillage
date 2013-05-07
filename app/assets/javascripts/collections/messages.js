@@ -3,22 +3,10 @@ SV.Collections.Messages = Backbone.Collection.extend({
 	
 	url: "/messages",
 	
-	initialize: function() {
+	initialize: function(model, options) {
+		
+		this.channelName = options.channelName;
+		console.log(this.channelName)
+		console.log(options);
 	},
-	
-// 	handle_change: function(message) {
-// 		var model;
-// 		
-// 		// switch(message.action) {
-// // 			case 'create':
-// // 				this.add(message.obj);
-// // 				break;
-// // 			case 'update':
-// // 				model = this.get(message.id);
-// // 				model.set(message.obj);
-// // 				break;
-// // 			case 'destroy':
-// // 				this.remove(message.obj);
-// // 		}
-// 	}
 });

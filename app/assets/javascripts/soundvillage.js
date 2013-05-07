@@ -9,6 +9,7 @@ window.SV = {
 		this.Store.radioStations = new SV.Collections.RadioStations(radioStationsData);
 		this.router = new SV.Routers.SoundVillageRouter($content);
 		this.makeNavbar($navbar);
+		this.connectSocket();
 		
 		Backbone.history.start();
 	},
@@ -19,10 +20,10 @@ window.SV = {
 	},
 	
 	connectSocket: function() {
-		var pusher = new Pusher('6a57463cf6800154ee3d');
-		var channel = pusher.subscribe('my-channel');
-		channel.bind('my-event', function(data) {
-		  alert('An event was triggered with message: ' + data.message);
-		});
+		this.pusher = new Pusher('6a57463cf6800154ee3d');
+		// var channel = pusher.subscribe('my-channel');
+	// 	channel.bind('my-event', function(data) {
+	// 	  alert('An event was triggered with message: ' + data.message);
+	// 	});
 	}
 };

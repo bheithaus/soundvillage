@@ -4,7 +4,7 @@ class MessagesController < ApplicationController
   respond_to :json
   
   def create
-    @message = Message.new(params[:message])
+    @message = Message.new(params[:message])  
     
     if @message.save
       

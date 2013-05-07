@@ -1,4 +1,8 @@
 SV.Views.Radio = Backbone.View.extend({
+	intitialize: function() {
+			
+	},
+	
 	events: {
 		"click button#new-station"    : "newStationModal"
 	},
@@ -44,9 +48,11 @@ SV.Views.Radio = Backbone.View.extend({
 		this.radioTagsView = new SV.Views.RadioTags({
 			collection: new SV.Collections.Tags()
 		});
-		
+		console.log(this.model.get("name"));
 		this.messagesView = new SV.Views.MessagesIndex({
-			collection: new SV.Collections.Messages()
+			collection: new SV.Collections.Messages({}, {
+				channelName: this.model.get("name")
+			}),
 		});
 		
 		this.$el.html(renderedContent)

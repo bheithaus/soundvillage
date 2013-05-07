@@ -43,7 +43,11 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 		var tags = new SV.Collections.Tags();
 		tags.fetch();
 		
-		this.currentView = new SV.Views.Radio();
+		this.currentView = new SV.Views.Radio({
+			model: new SV.Models.RadioStation({
+				name: "rap"
+			})
+		});
 	},
 	
 	selectNewTab: function(route) {
