@@ -12,7 +12,15 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 		reverseRelation: {
 			key: "radio_station",
 			keySource: "radio_station_id",
-			includeInJSON: 'id'
+			includeInJSON: false
 		}
-	}]
+	}],
+	
+	toJSON: function () {
+		var attrs = _.clone(this.attributes);
+		attrs["tags_attributes"] = attrs["tags"];
+		delete attrs["tags"];
+		
+		return { radio_station: attrs };
+	}
 });

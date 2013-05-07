@@ -3,6 +3,4 @@ class RadioTag < ActiveRecord::Base
   
   belongs_to :radio_station
   belongs_to :tag
-  
-  validates :name, presence: true
 end

@@ -1,6 +1,6 @@
 SV.Views.Radio = Backbone.View.extend({
 	events: {
-		"click button#new-station" : "newStation"
+		"click button#new-station"    : "newStationModal"
 	},
 	
 	setupPlayer: function () {
@@ -30,39 +30,33 @@ SV.Views.Radio = Backbone.View.extend({
 			  that.upcomingTracks = data;
 		  }
 	  );
-	  
-	  
 	},
 	
-	newStation: function() {
-		console.log("this is happening")
-		var stationName = $("#station-name").val();
+	enterPressed: function(event) {
+		console.log(event.keyCode)
+		console.log(event.target);
+	},
+	
+	newStationModal: function() {
+		console.log("this is happening");
+		var newStation = new SV.Models.RadioStation();
 		
-		var newStation = new SV.Models.RadioStation({
-			name: stationName
-		});
-		
-		$('.radio-station-tag').each(function(i, tagField) {
-			console.log($(tagField).val());
-			newStation.get("tags").add(new SV.Models.Tag({
-				name: $(tagField).val()
-			}));
-		});
-		
-		newStation.save({
-			success: function(data) {
-				console.log(data);
-			}
-		});
+		var newStationForm = new SV.Views.NewRadioStationForm({
+			model: newStation
+		})
+		this.$("#new-station-modal").children().first().html(newStationForm.render().$el);
+		$("#new-station-modal").modal();
 		//load a modal
 	},
 		
 	render: function() {
 		var renderedContent = JST["radio/main"]();
-		var radioTagsView = new SV.Views.RadioTags();
+		this.radioTagsView = new SV.Views.RadioTags({
+			collection: new SV.Collections.Tags()
+		});
 		
 		this.$el.html(renderedContent)
-				.append(radioTagsView.render().$el);
+				.append(this.radioTagsView.render().$el);
 				
 		this.setupPlayer();
 		

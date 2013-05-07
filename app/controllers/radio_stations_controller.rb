@@ -4,7 +4,7 @@ class RadioStationsController < ApplicationController
   def index 
     @radio_stations = RadioStation.all
     
-    render :json @radio_stations
+    render json: @radio_stations
   end
   
   
