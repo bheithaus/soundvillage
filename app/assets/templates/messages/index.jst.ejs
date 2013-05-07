@@ -1,0 +1,9 @@
+<h1>Messages</h1>
+
+<ul>
+<% messages.each(function(message) { %>
+	<li><%= message.escape("body")%> </li>
+<% }); %>
+</ul>
+
+<input id="new-message" placeholder="type your message">
