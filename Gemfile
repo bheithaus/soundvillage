@@ -7,6 +7,8 @@ gem 'ejs'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
+gem 'figaro'
+gem 'pusher'
 
 # Gems used only for assets and not required
 # in production environments by default.
