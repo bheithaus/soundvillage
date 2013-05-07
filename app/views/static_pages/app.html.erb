@@ -3,13 +3,14 @@
 
 <script>
 	$(function() {
+		var radioStationsData = <%= @radio_stations.to_json.html_safe %>;
 		var $navbar = $("#navbar");
 		var $content = $("#content");
 		
 		window.SV.init(
 			$navbar,
-			$content );
-		
+			$content,
+			radioStationsData
+		);
 	});
-
 </script>

@@ -5,11 +5,10 @@ window.SV = {
 	Views: {},
 	Store: {},
 
-	init: function($navbar, $content, currentUserData) {
-		var that = this;
-
+	init: function($navbar, $content, radioStationsData) {
+		this.Store.radioStations = new SV.Collections.RadioStations(radioStationsData);
 		this.router = new SV.Routers.SoundVillageRouter($content);
-		that.makeNavbar($navbar);
+		this.makeNavbar($navbar);
 		
 		Backbone.history.start();
 		// Current User stuff
@@ -60,10 +59,7 @@ window.SV = {
 	},
 	
 	makeNavbar: function($navbar) {
-		var that = this;
-		
 		var navbarView = new SV.Views.Navbar();
-		
 		$navbar.html(navbarView.render().$el);
 	}
 };

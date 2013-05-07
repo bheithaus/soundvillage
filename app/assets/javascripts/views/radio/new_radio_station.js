@@ -10,7 +10,7 @@ SV.Views.NewRadioStationForm = Backbone.View.extend({
 	
 		this.model.save({}, {
 			success: function(data) {
-				console.log(data);
+				SV.Store.radioStations.add(data);
 			}
 		});
 	},

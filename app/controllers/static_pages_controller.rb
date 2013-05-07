@@ -4,6 +4,6 @@ class StaticPagesController < ApplicationController
   end
   
   def app
-    
+    @radio_stations = RadioStation.includes(:tags).all
   end
 end
