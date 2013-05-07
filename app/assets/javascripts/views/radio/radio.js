@@ -21,7 +21,7 @@ SV.Views.Radio = Backbone.View.extend({
         widget.bind(SC.Widget.Events.FINISH, nextTrackCallback);
       });
 	  
-	  var client_id = '1853d978ae73aae455ce18bf7c92f5dc'
+	  var client_id = '1853d978ae73aae455ce18bf7c92f5dc';
 	  var url = 'https://api.soundcloud.com/tracks.json?client_id=' + client_id + '&tags='+ 'dance' +'&order_by=hotness';
 	  var that = this;
 	  $.getJSON(
