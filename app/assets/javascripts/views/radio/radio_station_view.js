@@ -192,7 +192,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 		var url = this.nextSound.waveform_url;
 		this.canvas = this.$('#canvas').get(0);
 		var ctx = this.ctx = this.canvas.getContext('2d'),
-		   wave = new Image(),
+		   wave = this.wave =  new Image(),
 		 height = this.canvas.height,
 	   	  width = this.canvas.width;
 		  
@@ -213,12 +213,13 @@ SV.Views.RadioStation = Backbone.View.extend({
 		var percentComplete = this.sound.position / this.sound.durationEstimate;
 		
 		var   height = this.canvas.height,
-	   	   completed = this.canvas.width * percentComplete,
-		   		  dx = this.canvas.width * this.waveUpdateInterval / ( this.sound.durationEstimate );
+	   	       width = this.canvas.width,
+		   		  dx = percentComplete * this.canvas.width,
+				 ctx = this.ctx;
 		   
-				
-		   this.ctx.fillStyle = "rgba(45, 45, 125, .3)";
-		   this.ctx.fillRect(completed, 0, dx, height);
+		ctx.drawImage(this.wave, 0, 0, width, height);	
+		ctx.fillStyle = "rgba(45, 45, 125, .4)";
+		ctx.fillRect(0, 0, dx, height);
          //then set the global alpha to the amound that you want to tint it, and draw the buffer directly on top of it.
 	},
 	
