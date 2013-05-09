@@ -114,6 +114,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	nextSound: function() {
+		console.log(this._isSkipping);
 		if (this._isSkipping) { return; }
 		this._isSkipping = true;
 		
