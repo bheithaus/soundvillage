@@ -9,6 +9,6 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me
   # attr_accessible :title, :body
   
-  has_many :favoritings
-  has_many :favorite_tracks, through: :favoritings
+  has_many :favoritings, dependent: :destroy
+  has_many :favorite_tracks, through: :favoritings, inverse_of: :users
 end
