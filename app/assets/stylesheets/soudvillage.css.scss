@@ -11,12 +11,22 @@
 	opacity: .4;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	padding: 3px;
+	padding: 15px 15px 15px 15px;
 	clear: both;
+}
+
+#comments {
+	background: #000000;
+	opacity: .9;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding: 15px;
+	height:250px;
 }
 
 #artwork {
 	margin-left: 20px;
+	margin-bottom: 10px;
 }
 
 #loading {

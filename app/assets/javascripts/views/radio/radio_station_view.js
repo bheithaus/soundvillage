@@ -1,12 +1,24 @@
 SV.Views.RadioStation = Backbone.View.extend({
 	initialize: function() {
 		this.waveUpdateInterval = 200;
+		this.palette = [
+						"#E01B6A",
+						"#C91BE0",
+						"#812B8C",
+						"#8C2B5F",
+						"#393BA8",
+						"#5B26ED",
+						"#C200AB" ];
 	},
 	
 	events: {
 		"click button#new-station"    : "newStationModal",
 		"click button#play" 		  : "playOrPause",
 		"click button#skip" 		  : "nextSound"
+	},
+	
+	randomColor: function() {
+		return this.palette[Math.floor(Math.random() * this.palette.length)];
 	},
 	
 	setupPlayer: function() {
@@ -23,17 +35,35 @@ SV.Views.RadioStation = Backbone.View.extend({
 			newSoundUrl = that.nextSound.uri;
 			
 			console.log(that.nextSound);
-			SC.stream(newSoundUrl, function(sound){
+			SC.stream(newSoundUrl, {
+				ontimedcomments: that.showComment.bind(that)
+			}, function(sound){
 				that.setSound(sound);
 			});
 			that.showSoundDetails();
   	  	};
-  	  	
+		
+		this.comments = 0;
 		this.model.getUpcomingTracks(this.nextTrackCallback);
 		this.setupSpinner();
 		this.setLoading();
 		this.setupVolumeSlider();
   	},
+	
+	showComment: function(comments) {
+		this.comments++;
+		var comment = this.beautify(comments[0].body);
+		if (this.comments % 3 == 0) {
+			this.$comments.html(comment);
+		} else {
+			this.$comments.append(comment);
+		}
+		//console.log(comments[0].body);
+	},
+	
+	beautify: function(comment) {
+		return $("<h5 class='inline'>" + comment + "</h5>").css("color", this.randomColor());
+	},
 	
 	clearSoundDetails: function() {
 		this.$("#description").empty();
@@ -45,8 +75,8 @@ SV.Views.RadioStation = Backbone.View.extend({
 		
 		this.$("#description").html(this.formatDetails(nextSound));
 		this.$("#artwork").attr("src", nextSound.artwork_url)
-							.attr("height", "200")
-							.attr("width", "200");
+							.attr("height", "150")
+							.attr("width", "150");
 	},
 	
 	formatDetails: function() {
@@ -275,9 +305,10 @@ SV.Views.RadioStation = Backbone.View.extend({
 		this.$el.html(renderedContent)
 				.append(this.radioTagsView.render().$el)
 				.append(this.messagesView.render().$el);
-				
-		this.setupPlayer();
 		
+		this.$comments = this.$("#comments");
+		this.setupPlayer();
+	
 		return this;
 	}
 });
