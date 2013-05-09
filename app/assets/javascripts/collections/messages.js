@@ -6,7 +6,7 @@ SV.Collections.Messages = Backbone.Collection.extend({
 	initialize: function(model, options) {
 		
 		this.channelName = options.channelName;
-		console.log(this.channelName)
-		console.log(options);
+		// console.log(this.channelName)
+// 		console.log(options);
 	},
 });

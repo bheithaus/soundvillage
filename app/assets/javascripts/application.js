@@ -12,11 +12,17 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui-1.10.3.custom.min
 //= require underscore
 //= require backbone
 //= require backbone-relational
 //= require bootstrap
 //= require backbone.routefilter
+//
+//= require sdk.js
+//
+//= require pusher.min
+//= require spin.min
 //
 //= require soundvillage
 //

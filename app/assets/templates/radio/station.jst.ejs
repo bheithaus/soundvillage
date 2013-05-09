@@ -1,0 +1,28 @@
+<h1>Now listening to <%= station.escape("name") %> in SoundVillage</h1>
+<div class="tags">
+	<ul class="unstyled inline">
+		<% station.get("tags").each(function(tag) { %>
+			<li><%= tag.escape("name") %></li>
+		<% }) %>
+	</ul>
+</div>
+<div class="pull-right" id="loading"></div>
+<button class="btn btn-large" id="play">Play</button>
+<button class="btn btn-large" id="skip">Skip</button>
+<button class="btn btn-large pull-right" id="new-station">Make a new Station</button><br><br>
+
+
+<div><canvas class="pull-left" id="canvas" height="100" width="600"></div>
+<div class="pull-left" id="volume"></div>
+<div class="pull-left"><img id="artwork" alt="sound artwork"></div>
+<br>
+
+<div class="center" id="description"></div>
+
+
+
+
+<div id="new-station-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-body">
+	</div>
+</div>

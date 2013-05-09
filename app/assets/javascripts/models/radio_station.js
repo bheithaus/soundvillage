@@ -1,11 +1,18 @@
 SV.Models.RadioStation = Backbone.RelationalModel.extend({
 	initialize: function() {
+		var that = this;
 		
+		that.genres = that.get("genre") ? that.get("genre") : "";
+		console.log("genre");
+		console.log(that.genres);
+		that.firstQuery = true;
 		//do i have tags?
 		//set upcoming tracks if possible
+		that.tags = {};
 		
-		this.getUpcomingTracks(); 
-		
+		that.get("tags").each(function(tag) {
+			that.tags[tag.get("name")] = that.tags[tag.get("name")] ? that.tags[tag.get("name")] + 1 : 1;
+		});
 	},
 	
 	urlRoot: "/radio_stations",
@@ -25,34 +32,75 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 		}
 	}],
 	
-	getUpcomingTracks: function() {
-		console.log(this.get("tags").length);
+	getUpcomingTracks: function(callback) {
+		// console.log(this.get("tags").length);
 		if (this.get("tags").length) {
 			var client_id = '1853d978ae73aae455ce18bf7c92f5dc'
+			var tagString = this.tagString();
 			var url = 'https://api.soundcloud.com/tracks.json?client_id=' 
-						+ client_id + '&tags='+ this.tagString() +'&order_by=hotness';
+						+ client_id + '&genres=' + this.genres + '&tags='+ tagString +'&order_by=hotness';
 			var that = this;
+			console.log(url);
 			$.getJSON(
 			  url,
 			  function (data) {
-				  that.upcomingTracks = data;
+				  that.isLoaded = true;
+				  that.upcomingTracks = helpers.shuffle(data);
+				  console.log("upcoming tracks");
+				  that.printUpcoming();
+				  if (callback) {
+					  callback();
+				  }
 			  }
 			);
 		}
 	},
 	
+	printUpcoming: function() {
+		_(this.upcomingTracks).each(function(track, i) {
+			console.log("Track #" + i + ": " + track.title);
+		});
+	},
+	
 	nextTrack: function() {
-		if (this.upcomingTracks.length == 1) {
+		if (!this.upcomingTracks) {
+			this.getUpcomingTracks();
+			return;
+		} else if (this.upcomingTracks.length == 1) {
 			this.getUpcomingTracks();
 		}
+		console.log(this.upcomingTracks);
+		this.addTags(this.upcomingTracks[0].tag_list);
 		return this.upcomingTracks.shift();
 	},
 	
-	tagString: function() {
-		var str;
-		_(this.tags).each(function(tag){
-			str += tag.escape("name");
+	addTags: function(tags) {
+		var that = this;
+		_(tags.split(" ")).each(function(tag) {
+			that.tags[tag] = that.tags[tag] ? that.tags[tag] + 1 : 1;
 		});
+	},
+	
+	tagString: function() {
+		if (this.firstQuery) {
+			this.firstQuery = false;
+			return this.get("tags").pluck("name").join();
+		} else {
+			return this.topTags().join();
+		}
+	},
+	
+	topTags: function() {
+		var sorted_tags = [];
+		
+		for (var tag in this.tags) {
+			sorted_tags.push([tag, this.tags[tag]]);
+		}
+		sorted_tags.sort(function(a, b) {
+			return b[1] - a[1];
+		});
+		
+		return [sorted_tags[0][0], sorted_tags[1][0], sorted_tags[2][0]];
 	},
 	
 	toJSON: function () {

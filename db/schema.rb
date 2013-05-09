@@ -11,13 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130506205250) do
+ActiveRecord::Schema.define(:version => 20130508234511) do
 
   create_table "radio_stations", :force => true do |t|
     t.string   "name"
     t.boolean  "editable"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "genre"
   end
 
   create_table "radio_tags", :force => true do |t|

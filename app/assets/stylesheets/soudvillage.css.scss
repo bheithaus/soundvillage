@@ -6,6 +6,25 @@
 	}	
 }
 
+#canvas-bg {
+	background: #000000;
+	opacity: .4;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding: 3px;
+	clear: both;
+}
+
+#artwork {
+	margin-left: 20px;
+}
+
+#loading {
+	position: absolute;
+	left:300px;
+	top:180px;
+}
+
 .container {
     background: url(dust.png) repeat 0 0;
 	padding: 50px;
@@ -16,4 +35,8 @@
 body {
 	background: url(black.jpg);
 	margin-top: 50px;
+}
+
+br {
+	clear: both;
 }

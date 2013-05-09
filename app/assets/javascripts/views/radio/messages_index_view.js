@@ -22,7 +22,7 @@ SV.Views.MessagesIndex = Backbone.View.extend({
 	},
 	
 	connectToChatChannel: function() {
-		console.log(this.collection.channelName)
+		// console.log(this.collection.channelName)
 		var channel = SV.pusher.subscribe(this.collection.channelName);
 		channel.bind('chatted', function(data) {
 		  alert('An event was triggered with message: ' + data.message);

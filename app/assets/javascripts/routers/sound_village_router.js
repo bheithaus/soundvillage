@@ -5,9 +5,7 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 	
 	before: function(route, params) {
 		console.log("running before filter");
-		// console.log(route);
-// 		console.log(params);
-// 		console.log(route.toString().split("/")[0]);
+		console.log(route);
 		
 		if (!params.length) {
 			this.selectNewTab(route);
@@ -20,12 +18,12 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 		if (this.currentView) {
 			this.currentView.remove();
 		}
-		console.log(new Date().getTime());
+		// console.log(new Date().getTime());
 	},
 	
 	after: function(route) {
-		console.log("running after filter");
-		console.log(new Date().getTime());
+		// console.log("running after filter");
+// 		console.log(new Date().getTime());
 		if (this.currentView) {
 			this.$content.html(this.currentView.render().$el);	
 		}
@@ -34,6 +32,7 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 	routes: {
 		"welcome": "welcome",
 		"home": "home",
+		"radio/:id": "radioStation",
 		"radio": "radio",
 		"friends": "friends",
 		"games/:id": "game"
@@ -43,53 +42,26 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 		var tags = new SV.Collections.Tags();
 		tags.fetch();
 		
-		this.currentView = new SV.Views.Radio({
-			model: new SV.Models.RadioStation({
-				name: "rap"
-			})
+		this.currentView = new SV.Views.RadioIndex({
+			collection: SV.Store.radioStations
+		});
+	},
+	
+	radioStation: function(id) {
+		console.log(id);
+		var tags = new SV.Collections.Tags();
+		tags.fetch();
+		var station = SV.Store.radioStations.findWhere({ id: parseInt(id) });
+		console.log(station)
+		this.currentView = new SV.Views.RadioStation({
+			model: station
 		});
 	},
 	
 	selectNewTab: function(route) {
-		console.log("#"+route);
+		// console.log("#"+route);
 		
 		$("ul.nav").children().filter("li").removeClass("active");
 		$("li#" + route).addClass("active");
-	},
-	
-// 	game: function(id) {
-// 		console.log(typeof(CH.Store.currentUser.get("games")));
-// 		this.currentView = new CH.Views.Game({
-// 			collection: CH.Store.currentUser.get("games"),
-// 			gameID: parseInt(id)
-// 		});
-// 		
-// 		this.$content.html(this.currentView.render().$el);
-// 	},
-// 	
-// 	chat: function() {
-// 		//stub
-// 	},
-// 	
-// 	welcome: function(){		
-// 		this.currentView = new CH.Views.Welcome();
-// 		
-// 		this.$content.html(this.currentView.render().$el);
-// 	},
-// 	
-// 	usersIndex: function(){		
-// 		this.currentView = new CH.Views.UsersIndex({
-// 			collection: CH.Store.users
-// 		});
-// 		
-// 		this.$content.html(this.currentView.render().$el);
-// 	},
-// 	
-// 	home: function() {	
-// 		this.currentView = new CH.Views.UserLanding({
-// 			model: CH.Store.currentUser
-// 		});
-// 		
-// 		this.$content.html(this.currentView.render().$el);
-// 	}
+	}
 });

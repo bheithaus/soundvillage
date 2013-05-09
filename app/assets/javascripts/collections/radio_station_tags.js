@@ -1,7 +1,7 @@
 SV.Collections.RadioStationTags = Backbone.Collection.extend({
 	initialize: function(data, options) {
-		console.log(data);
-		console.log(options);
+		// console.log(data);
+// 		console.log(options);
 		this.radio_station = options.radio_station;
 	},
 	

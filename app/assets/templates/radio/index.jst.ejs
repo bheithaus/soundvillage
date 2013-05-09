@@ -1,0 +1,8 @@
+<h1>All Stations</h1>
+<% stations.each(function(station) { %>
+	<li>
+		<a href="#radio/<%= station.escape("id") %>">
+			<%= station.escape("name") %>
+		</a>
+	</li>
+<% }); %>

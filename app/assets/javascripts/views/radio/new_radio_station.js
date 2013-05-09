@@ -1,16 +1,37 @@
 SV.Views.NewRadioStationForm = Backbone.View.extend({
+	initialize: function(options) {
+		this.newStationCallback = options.newStationCallback;
+	},
+	
 	events: {
-		"keypress #radio-station-tag" : "enterPressed",
+		"keypress #station-tag" : "enterPressed",
 		"click button#commit" 		  : "createStation"
 	},
 	
 	createStation: function() {
-		console.log("this is happening")
-		this.model.set({ name: $("#station-name").val() });
-	
+		// console.log("this is happening")
+		this.model.set({
+			name: this.$("#station-name").val(),
+			genre: this.$("#station-genre").val()
+		});
+		
+		console.log(this.model);
+		
+		var tag = this.$("#station-tag").val();
+		if (tag) {
+			this.addTag(tag);
+		}
+		
+		var that = this;	
 		this.model.save({}, {
-			success: function(data) {
-				SV.Store.radioStations.add(data);
+			success: function(savedStationData) {
+				SV.Store.radioStations.add(savedStationData);
+				if (that.newStationCallback) {
+					that.newStationCallback();
+				}
+				$("#new-station-modal").modal('hide');
+				Backbone.history.navigate("radio/" + savedStationData.id,
+											{ trigger: true });
 			}
 		});
 	},
@@ -20,8 +41,8 @@ SV.Views.NewRadioStationForm = Backbone.View.extend({
 			this.addTag($(event.target).val());
 			$(event.target).val("");
 		}
-		console.log(event.keyCode)
-		console.log(event.target);
+		// console.log(event.keyCode)
+// 		console.log(event.target);
 	},
 	
 	addTag: function(tag) {
