@@ -4,6 +4,7 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 		
 		that.genres = that.get("genre") ? that.get("genre") : "";
 		console.log("genre");
+		console.log(that.get("genre"))
 		console.log(that.genres);
 		that.firstQuery = true;
 		//do i have tags?
@@ -70,6 +71,8 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 			this.getUpcomingTracks();
 		}
 		console.log(this.upcomingTracks);
+		console.log("next track");
+		console.log(this.upcomingTracks[0]);
 		this.addTags(this.upcomingTracks[0].tag_list);
 		return this.upcomingTracks.shift();
 	},

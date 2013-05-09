@@ -1,4 +1,8 @@
-SV.Views.RadioStation = Backbone.View.extend({	
+SV.Views.RadioStation = Backbone.View.extend({
+	initialize: function() {
+		this.waveUpdateInterval = 200;
+	},
+	
 	events: {
 		"click button#new-station"    : "newStationModal",
 		"click button#play" 		  : "playOrPause",
@@ -6,17 +10,19 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	setupPlayer: function() {
-        var newSoundUrl,
-  			that = this;
+  		var	that = this,
+			newSoundUrl;
 			
 		SC.initialize({
 		  client_id: '1853d978ae73aae455ce18bf7c92f5dc'
 		});
 		
+		//this is a callback!
 		this.nextTrackCallback = function() {
-			this.nextSound = that.model.nextTrack();
-
-			newSoundUrl = nextSound.uri;
+			that.nextSound = that.model.nextTrack();
+			newSoundUrl = that.nextSound.uri;
+			
+			console.log(that.nextSound);
 			SC.stream(newSoundUrl, function(sound){
 				that.setSound(sound);
 			});
@@ -51,15 +57,16 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	showPosition: function() {
+		clearInterval(this.trackerID);
 		if (this.playing) {
-			this.trackerID = setInterval(this.updateWaveform.bind(this), 100);
-		} else {
-			clearInterval(this.trackerID);
+			this.trackerID = setInterval(this.updateWaveform.bind(this),
+								this.waveUpdateInterval);
 		}
 	},
 	
 	removeSound: function() {
 		if (this.sound) {
+			this.showPosition();
 			this.sound.stop();
 			this.sound.destruct();
 		}
@@ -70,7 +77,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 			this.removeSound();
 		}
 		this.sound = sound;
-		this.drawWaveform(nextSound);
+		this.drawWaveform();
 		this.sound.load({
 			volume: 50,
 			onfinish: this.nextTrackCallback,
@@ -188,7 +195,6 @@ SV.Views.RadioStation = Backbone.View.extend({
 		   wave = new Image(),
 		 height = this.canvas.height,
 	   	  width = this.canvas.width;
-      	this.dx = width * 100 / ( this.sound.durationEstimate );
 		  
 		   //background rect
 		ctx.fillStyle = "#000000";
@@ -207,10 +213,12 @@ SV.Views.RadioStation = Backbone.View.extend({
 		var percentComplete = this.sound.position / this.sound.durationEstimate;
 		
 		var   height = this.canvas.height,
-	   	   completed = this.canvas.width * percentComplete;
+	   	   completed = this.canvas.width * percentComplete,
+		   		  dx = this.canvas.width * this.waveUpdateInterval / ( this.sound.durationEstimate );
+		   
 				
-		   this.ctx.fillStyle = "rgba(45, 45, 125, .1)";
-		   this.ctx.fillRect(completed, 0, this.dx, height);
+		   this.ctx.fillStyle = "rgba(45, 45, 125, .3)";
+		   this.ctx.fillRect(completed, 0, dx, height);
          //then set the global alpha to the amound that you want to tint it, and draw the buffer directly on top of it.
 	},
 	
@@ -235,11 +243,16 @@ SV.Views.RadioStation = Backbone.View.extend({
 				
 		var newStationForm = new SV.Views.NewRadioStationForm({
 			model: newStation,
-			newStationCallback: this.removeSound.bind(this)
 		})
 		this.$("#new-station-modal").children().first().html(newStationForm.render().$el);
 		this.$("#new-station-modal").modal();
 		//load a modal
+	},
+	
+	remove: function() {
+		this.removeSound();
+	    this.model.unbind();
+	    Backbone.View.prototype.remove.call(this);
 	},
 		
 	render: function() {
