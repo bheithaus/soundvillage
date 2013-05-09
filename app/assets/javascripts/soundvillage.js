@@ -5,8 +5,11 @@ window.SV = {
 	Views: {},
 	Store: {},
 
-	init: function($navbar, $content, radioStationsData) {
+	init: function($navbar, $content, radioStationsData, currentUserData) {
+		console.log(currentUserData);
 		this.Store.radioStations = new SV.Collections.RadioStations(radioStationsData);
+		this.Store.currentUser = currentUserData ? new SV.Models.User(currentUserData) : null;
+		
 		this.router = new SV.Routers.SoundVillageRouter($content);
 		this.makeNavbar($navbar);
 		this.connectSocket();

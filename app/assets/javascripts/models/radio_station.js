@@ -24,7 +24,7 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 		relatedModel: "SV.Models.Tag",
 		collectionType: "SV.Collections.RadioStationTags",
 		collectionOptions: function(station) {
-			return {radio_station: station}
+			return {radio_station: station};
 		},
 		reverseRelation: {
 			key: "radio_station",

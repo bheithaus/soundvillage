@@ -4,13 +4,17 @@
 <script>
 	$(function() {
 		var radioStationsData = <%= @radio_stations.to_json.html_safe %>;
+		var currentUserData = <%= @current_user.to_json(include: :favorite_tracks).html_safe %>;
 		var $navbar = $("#navbar");
 		var $content = $("#content");
+		
+		console.log(currentUserData);
 		
 		window.SV.init(
 			$navbar,
 			$content,
-			radioStationsData
+			radioStationsData,
+			currentUserData
 		);
 	});
 </script>

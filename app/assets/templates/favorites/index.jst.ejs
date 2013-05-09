@@ -1,0 +1,7 @@
+<h1>Favorite Tracks</h1>
+
+<ul>
+<% favorite_tracks.each(function(track) { %>
+	<li><%= track.escape("title") %></li>
+<% }); %>
+</ul>

@@ -1,6 +1,7 @@
-<h1>All Stations</h1>
 <button class="btn btn-large pull-right" id="new-station">Make a new Station</button><br><br>
+<h4>Your Stations</h4>
 
+<h4>Public Stations</h4>
 <% stations.each(function(station) { %>
 	<li>
 		<a href="#radio/<%= station.escape("id") %>">
@@ -9,8 +10,6 @@
 	</li>
 <% }); %>
 
-
 <div id="new-station-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-body">
-	</div>
+	<div class="modal-body"></div>
 </div>

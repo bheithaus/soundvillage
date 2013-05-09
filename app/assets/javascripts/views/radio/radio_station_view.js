@@ -14,7 +14,44 @@ SV.Views.RadioStation = Backbone.View.extend({
 	events: {
 		"click button#new-station"    : "newStationModal",
 		"click button#play" 		  : "playOrPause",
-		"click button#skip" 		  : "nextSound"
+		"click button#skip" 		  : "nextSound",
+		"click button#favorite"		  : "favoriteTrack"
+	},
+	
+	favoriteTrack: function(event) {
+		if (this._isFavoriting) {return;}
+		this._isFavoriting = true;
+		
+		var btnText;
+		var $btn = $(event.target);
+		var favorited = SV.Store
+						.currentUser.get("favorite_tracks").findWhere({
+							url: this.nextSound.uri
+						});
+						
+		if (favorited) {
+			console.log("delete track");
+			console.log(favorited);
+			SV.Store.currentUser.get("favorite_tracks").remove(favorited);
+			btnText = "Favorite";
+		} else {
+			SV.Store.currentUser.get("favorite_tracks").add({
+				artist: this.nextSound.user.username,
+				title: this.nextSound.title,
+				url: this.nextSound.uri
+			});
+			btnText = "Unfavorite";
+		}
+		
+		SV.Store.currentUser.save({}, {
+			url: '/users',
+			success: function(successData) {
+				console.log(successData);
+				$btn.html(btnText);
+			}
+		});
+		
+		this._isFavoriting = false;
 	},
 	
 	randomColor: function() {
@@ -53,7 +90,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 	showComment: function(comments) {
 		this.comments++;
 		var comment = this.beautify(comments[0].body);
-		if (this.comments % 3 == 0) {
+		if (this.comments % 5 == 0) {
 			this.$comments.html(comment);
 		} else {
 			this.$comments.append(comment);
@@ -62,21 +99,32 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	beautify: function(comment) {
-		return $("<h5 class='inline'>" + comment + "</h5>").css("color", this.randomColor());
+		return $("<strong> " + comment + " </strong>").css("color", this.randomColor());
 	},
 	
 	clearSoundDetails: function() {
 		this.$("#description").empty();
 		this.$("#artwork").parent().empty().append("<img id='artwork'></img>");
+		this.$comments.empty();
 	},
 	
 	showSoundDetails: function() {
-		var nextSound = this.nextSound;
-		
-		this.$("#description").html(this.formatDetails(nextSound));
-		this.$("#artwork").attr("src", nextSound.artwork_url)
+		this.setFavButtonText();
+		this.$("#description").html(this.formatDetails());
+		this.$("#artwork").attr("src", this.nextSound.artwork_url)
 							.attr("height", "150")
 							.attr("width", "150");
+	},
+	
+	setFavButtonText: function() {
+		var btnText,
+			favorited = SV.Store
+						.currentUser.get("favorite_tracks").findWhere({
+							url: this.nextSound.uri
+						});
+		
+		btnText = favorited ? "Unfavorite" : "Favorite";
+		this.$("#favorite").html(btnText);
 	},
 	
 	formatDetails: function() {
