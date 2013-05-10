@@ -14,13 +14,26 @@ SV.Views.FavoritesIndex = Backbone.View.extend({
 		console.log(fromTrack.get("url"));
 		var newStationTags;	
 		SC.get(fromTrack.get("url"), function(track) {
-			newStationTags = track.tag_list.split();
+			newStationTags = track.tag_list.split(" ");
+			newStationTags = _(newStationTags).filter(function(tag) {
+				return tag.length < 10;
+			});
+			newStationTags = _(newStationTags).map(function(tag) {
+				return { name: tag.replace('"','') };
+			});
 			
 			
+			console.log(newStationTags);
 			
-			
-			
-			
+			newStation.get("tags").add(newStationTags);
+			console.log(newStation.get("tags"))
+			newStation.save({}, {
+				success: function(savedStationData) {
+					SV.Store.radioStations.add(savedStationData);
+					Backbone.history.navigate("radio/" + savedStationData.id,
+												{ trigger: true });
+				}
+			});
 		});
 		
 		

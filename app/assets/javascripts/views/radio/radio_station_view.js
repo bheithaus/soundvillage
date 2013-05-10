@@ -99,7 +99,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 	
 	clearSoundDetails: function() {
 		this.$("#description").empty();
-		this.$("#artwork").parent().empty().append("<img id='artwork'></img>");
+		this.$("#artwork").parent().empty().append("<img id='artwork' class='img-polaroid' alt='sound artwork'></img>");
 		this.$comments.empty();
 	},
 	
@@ -112,7 +112,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	visuallyEnableButtons: function() {
-		this.$("a#play").removeClass("disabled"); 	
+		this.$("a#play").removeClass("disabled");
 		this.$("a#skip").removeClass("disabled"); 	
 		this.$("a#favorite").removeClass("disabled");
 	},
@@ -136,8 +136,8 @@ SV.Views.RadioStation = Backbone.View.extend({
 	
 	formatDetails: function() {
 		var nextSound = this.nextSound;
-		return "<h1><a class='special' href='"+ nextSound.permalink_url +"'>"+ nextSound.title + "</a></h1>" +
-				"<h3><a class='special' href='"+ nextSound.user.permalink_url +"'>"+ nextSound.user.username + "</a></h3>" +
+		return "<h1><a class='special' target='_blank' href='"+ nextSound.permalink_url +"'>"+ nextSound.title + "</a></h1>" +
+				"<h3><a class='special' target='_blank' href='"+ nextSound.user.permalink_url +"'>"+ nextSound.user.username + "</a></h3>" +
 				"<p>" + nextSound.description + "</p>"
 	},
 	
