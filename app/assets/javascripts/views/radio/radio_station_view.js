@@ -12,14 +12,14 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	events: {
-		"click button#new-station"    : "newStationModal",
-		"click button#play" 		  : "playOrPause",
-		"click button#skip" 		  : "nextSound",
-		"click button#favorite"		  : "favoriteTrack"
+		"click button#new-station": "newStationModal",
+		"click a#play" 		      : "playOrPause",
+		"click a#skip" 		  	  : "nextSound",
+		"click a#favorite"		  : "favoriteTrack"
 	},
 	
 	favoriteTrack: function(event) {
-		if (this._isFavoriting) {return;}
+		if (this._isFavoriting || !this.isLoaded) {return;}
 		this._isFavoriting = true;
 		
 		var btnText;
@@ -30,8 +30,6 @@ SV.Views.RadioStation = Backbone.View.extend({
 						});
 						
 		if (favorited) {
-			console.log("delete track");
-			console.log(favorited);
 			SV.Store.currentUser.get("favorite_tracks").remove(favorited);
 			btnText = "Favorite";
 		} else {
@@ -45,8 +43,9 @@ SV.Views.RadioStation = Backbone.View.extend({
 		
 		SV.Store.currentUser.save({}, {
 			url: '/users',
-			success: function(successData) {
-				console.log(successData);
+			success: function(model, resp, options) {
+				console.log(resp)
+				SV.Store.currentUser.get("favorite_tracks").reset(resp)
 				$btn.html(btnText);
 			}
 		});
@@ -61,10 +60,6 @@ SV.Views.RadioStation = Backbone.View.extend({
 	setupPlayer: function() {
   		var	that = this,
 			newSoundUrl;
-			
-		SC.initialize({
-		  client_id: '1853d978ae73aae455ce18bf7c92f5dc'
-		});
 		
 		//this is a callback!
 		this.nextTrackCallback = function() {
@@ -116,6 +111,18 @@ SV.Views.RadioStation = Backbone.View.extend({
 							.attr("width", "150");
 	},
 	
+	visuallyEnableButtons: function() {
+		this.$("a#play").removeClass("disabled"); 	
+		this.$("a#skip").removeClass("disabled"); 	
+		this.$("a#favorite").removeClass("disabled");
+	},
+	
+	visuallyDisableButtons: function() {
+		this.$("a#play").addClass("disabled"); 	
+		this.$("a#skip").addClass("disabled"); 	
+		this.$("a#favorite").addClass("disabled");
+	},
+	
 	setFavButtonText: function() {
 		var btnText,
 			favorited = SV.Store
@@ -165,6 +172,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	setLoading: function() {
+		this.visuallyDisableButtons();
 		var target = this.$('#loading').get(0);
 		this.spinner.spin(target);
 	},
@@ -192,8 +200,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	nextSound: function() {
-		console.log(this._isSkipping);
-		if (this._isSkipping) { return; }
+		if (this._isSkipping || !this.isLoaded) { return; }
 		this._isSkipping = true;
 		
 		this.removeSound();
@@ -208,6 +215,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 		setTimeout(function() {
 			that.sound.setVolume(that.$("#volume").slider("option", "value"));
 			that.spinner.stop();
+			that.visuallyEnableButtons();
 			that.play();
 			that.showPosition();
 		}, 50);
@@ -229,8 +237,6 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	playOrPause: function() {
-		console.log(this._isPlayingOrPausing);
-		
 		if (this._isPlayingOrPausing || !this.isLoaded) { return; }
 		this._isPlayingOrPausing = true;
 		
@@ -303,7 +309,6 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	checkStationLoaded: function() {
-		console.log("chekjin")
 		if (this.model.isLoaded) {
 			clearTimeout(this.checkStationLoaded.bind(this));
 			this.nextTrackCallback();

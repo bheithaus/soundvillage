@@ -14,6 +14,11 @@ window.SV = {
 		this.makeNavbar($navbar);
 		this.connectSocket();
 		
+		//soundcloud SDK
+		SC.initialize({
+		  client_id: '1853d978ae73aae455ce18bf7c92f5dc'
+		});
+		
 		Backbone.history.start();
 	},
 	

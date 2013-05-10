@@ -2,6 +2,11 @@
 
 <ul>
 <% favorite_tracks.each(function(track) { %>
-	<li><%= track.escape("title") %></li>
+	<li data-id="<%= track.escape("id") %>">
+		<%= track.escape("title") %>
+		
+		<a id="new-station" class="btn">Create Station From This Track</a>
+		<a id="unfavorite" class="btn">Unfavorite</a>
+	</li>
 <% }); %>
 </ul>

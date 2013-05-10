@@ -6,14 +6,12 @@ class RegistrationsController < Devise::RegistrationsController
   end
   
   def update
-    # required for settings form to submit when password is left blank
-    # if params[:user][:password].blank?
-#       params[:user].delete("password")
-#       params[:user].delete("password_confirmation")
-#     end
+    #this is fun, I am using this method only to favorite / unfavorite tracks
+    
     @user = User.find(current_user.id)
     attrs = {}
     attrs[:favorite_track_ids] = []
+    tracks = []
     
     if (params[:user][:favorite_tracks_attributes])
         params[:user][:favorite_tracks_attributes].each do |trackData|
@@ -24,6 +22,7 @@ class RegistrationsController < Devise::RegistrationsController
           puts "response from find or create by url"
           p track
           attrs[:favorite_track_ids] << track.id
+          tracks << track
         end
     end
     
@@ -31,8 +30,7 @@ class RegistrationsController < Devise::RegistrationsController
     if @user.update_attributes(attrs)
       set_flash_message :notice, :updated
       # Sign in the user bypassing validation in case his password changed
-      sign_in @user, :bypass => true
-      render json: {}
+      render json: tracks
     else
       render json: {}, status: 422
     end
