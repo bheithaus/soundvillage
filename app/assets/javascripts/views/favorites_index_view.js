@@ -5,7 +5,7 @@ SV.Views.FavoritesIndex = Backbone.View.extend({
 	
 	events: {
 		"click a#new-station" : "createStation",
-		"click a#unfavorite" : "unFavoriteTrack"
+		"click a#unfavorite" : "confirmUnfavorite"
 	},
 	
 	createStation: function(event) {
@@ -17,9 +17,9 @@ SV.Views.FavoritesIndex = Backbone.View.extend({
 		var newStation = new SV.Models.RadioStation({
 							name: "station from track " + fromTrack.get("title") });
 		
-		console.log(fromTrack.get("url"));
 		var newStationTags;	
 		SC.get(fromTrack.get("url"), function(track) {
+			//on response from SoundCloud
 			newStationTags = track.tag_list.split(" ");
 			newStationTags = _(newStationTags).filter(function(tag) {
 				return tag.length < 10;
@@ -27,11 +27,8 @@ SV.Views.FavoritesIndex = Backbone.View.extend({
 			newStationTags = _(newStationTags).map(function(tag) {
 				return { name: tag.replace('"','') };
 			});
-			
-			console.log(newStationTags);
-			
+						
 			newStation.get("tags").add(newStationTags);
-			console.log(newStation.get("tags"))
 			newStation.save({}, {
 				success: function(savedStationData) {
 					SV.Store.radioStations.add(savedStationData);
@@ -40,8 +37,12 @@ SV.Views.FavoritesIndex = Backbone.View.extend({
 				}
 			});
 		});
-
-		console.log($(event.target).parent().data("id"));
+	},
+	
+	confirmUnfavorite: function(event) {
+		if (confirm("are you sure?")) {
+			this.unFavoriteTrack(event);
+		}
 	},
 	
 	unFavoriteTrack: function(event) {

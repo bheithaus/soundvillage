@@ -1,12 +1,25 @@
 <h1>Favorite Tracks</h1>
 
-<ul>
-<% favorite_tracks.each(function(track) { %>
-	<li data-id="<%= track.escape("id") %>">
-		<%= track.escape("title") %>
-		
-		<a id="new-station" class="btn">Create Station From This Track</a>
-		<a id="unfavorite" class="btn">Unfavorite</a>
-	</li>
-<% }); %>
-</ul>
+<% if (favorite_tracks) { %>
+	<table class="table">
+	<% favorite_tracks.each(function(track) { %>
+		<tr>
+			<td data-id="<%= track.escape("id") %>">
+				<a id="unfavorite" class="btn">
+					<i class="icon-remove"></i>
+				</a>
+				<a id="new-station" class="btn">
+					Create Station
+					<i class="icon-headphones"></i>
+				</a>
+
+				<%= track.escape("title") %>
+			</td>
+		</tr>
+	<% }); %>
+	</table>
+<% } else { %>
+	<h4>
+		Please Sign Up / Sign In to Save Favorites and Make Stations
+	</h4>
+<% } %>

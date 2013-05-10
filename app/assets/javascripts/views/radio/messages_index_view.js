@@ -30,7 +30,7 @@ SV.Views.MessagesIndex = Backbone.View.extend({
 	},
 	
 	writeChat: function(messageData) {
-		if (this.$("#chat").children().length > 7) {
+		if (this.$("#chat").children().length > 6) {
 			this.$("#chat").children().last().remove();
 		}
 		var sender = messageData.senderEmail ? messageData.senderEmail : "anonymous";

@@ -1,6 +1,5 @@
 @import "bootstrap";
 
-
 body {
 	background: url(black.jpg);
 	margin-top: 50px;
@@ -61,7 +60,7 @@ br {
 .container {
     background: url(dust.png) repeat 0 0;
 	padding: 50px;
-	height: 800px;
+	height: 900px;
 	margin: 0 auto;
 }
 
@@ -84,7 +83,6 @@ br {
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.56);
 	-webkit-font-smoothing: antialiased;
     margin: 3px;
-	
 }
 
 .tag {
@@ -124,11 +122,3 @@ a.special{
     width: 1.2em;
     z-index: 2;
 }
-//
-//.btn {
-//    -webkit-border-radius: 20px;
-//	-moz-border-radius: 20px;
-//	border-radius: 20px;
-//	background-color: blue;
-//	text: white;
-//}

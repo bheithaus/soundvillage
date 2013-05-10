@@ -41,14 +41,11 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 	
 	favorites: function() {
 		this.currentView = new SV.Views.FavoritesIndex({
-			collection: SV.Store.currentUser.get("favorite_tracks")
+			collection: SV.Store.currentUser ? SV.Store.currentUser.get("favorite_tracks") : null
 		});
 	},
 	
 	radio: function() {
-		// var tags = new SV.Collections.Tags();
-		// tags.fetch();
-		// 
 		this.currentView = new SV.Views.RadioIndex({
 			collection: SV.Store.radioStations
 		});
@@ -67,7 +64,6 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 	
 	selectNewTab: function(route) {
 		// console.log("#"+route);
-		
 		$("ul.nav").children().filter("li").removeClass("active");
 		$("li#" + route).addClass("active");
 	}
