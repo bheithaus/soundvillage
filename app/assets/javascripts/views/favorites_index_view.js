@@ -5,11 +5,16 @@ SV.Views.FavoritesIndex = Backbone.View.extend({
 	
 	createStation: function(event) {
 			// console.log("this is happening")
-		var newStation = new SV.Models.RadioStation(),
-			fromTrackID = parseInt($(event.target).parent().data("id"));
+		var fromTrackID = parseInt($(event.target).parent().data("id"));
 		var fromTrack = SV.Store.currentUser
 							.get("favorite_tracks")
 							.findWhere({ id: fromTrackID });
+							
+		var newStation = new SV.Models.RadioStation({
+							name: "station from track " + fromTrack.get("title") });
+		
+		
+		
 		
 		console.log(fromTrack.get("url"));
 		var newStationTags;	
@@ -21,7 +26,6 @@ SV.Views.FavoritesIndex = Backbone.View.extend({
 			newStationTags = _(newStationTags).map(function(tag) {
 				return { name: tag.replace('"','') };
 			});
-			
 			
 			console.log(newStationTags);
 			
@@ -37,9 +41,7 @@ SV.Views.FavoritesIndex = Backbone.View.extend({
 		});
 		
 		
-		// this.model.set({
-		// 	name: "station created from " + fromTrackID.title,
-		// });
+
 		// 	
 		// var tag = this.$("#station-tag").val();
 		// if (tag) {
