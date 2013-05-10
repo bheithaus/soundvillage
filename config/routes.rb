@@ -3,6 +3,9 @@ Soundvillage::Application.routes.draw do
 
   root to: "static_pages#app"
 
+
+  post '/pusher/auth' => 'pusher#auth'
+  
   resources :messages
   resources :favorite_tracks
   resources :radio_stations

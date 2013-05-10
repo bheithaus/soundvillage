@@ -1,5 +1,6 @@
 <button class="btn btn-custom btn-large pull-right" id="new-station">Make a new Station</button>
-<h1>Now listening to <%= station.escape("name") %> in SoundVillage</h1>
+<h4 class="inline">Now listening to</h4>
+<div id="now-listening" class="span6"><strong><%= station.escape("name") %></strong></div><br>
 
 <div class="pull-right" id="loading"></div>
 
@@ -19,7 +20,6 @@
 
 <div class="pull-left span6" id="description"></div>
 
-
 <a class="btn btn-custom btn-large disabled" id="play">
 	<i class='icon-play'></i>
 </a>
@@ -28,13 +28,8 @@
 </a>
 <a class="btn btn-custom btn-large disabled" id="favorite">Favorite</a>
 
-
-
-
 <br>
 <div class="pull-right span4" id="comments"></div>
-
-
 
 <div id="new-station-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-body">

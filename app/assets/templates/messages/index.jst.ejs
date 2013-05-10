@@ -1,9 +1,8 @@
 <h1>Messages</h1>
-
-<ul>
+<input id="new-message" placeholder="type your message">
+<ul class="unstyled" id="chat">
 <% messages.each(function(message) { %>
 	<li><%= message.escape("body")%> </li>
 <% }); %>
 </ul>
 
-<input id="new-message" placeholder="type your message">

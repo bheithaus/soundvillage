@@ -1,10 +1,14 @@
 SV.Views.FavoritesIndex = Backbone.View.extend({
+	initialize: function() {
+		this.renderCallback = this.render.bind(this);
+	},
+	
 	events: {
-		"click a#new-station" : "createStation"
+		"click a#new-station" : "createStation",
+		"click a#unfavorite" : "unFavoriteTrack"
 	},
 	
 	createStation: function(event) {
-			// console.log("this is happening")
 		var fromTrackID = parseInt($(event.target).parent().data("id"));
 		var fromTrack = SV.Store.currentUser
 							.get("favorite_tracks")
@@ -12,9 +16,6 @@ SV.Views.FavoritesIndex = Backbone.View.extend({
 							
 		var newStation = new SV.Models.RadioStation({
 							name: "station from track " + fromTrack.get("title") });
-		
-		
-		
 		
 		console.log(fromTrack.get("url"));
 		var newStationTags;	
@@ -39,29 +40,31 @@ SV.Views.FavoritesIndex = Backbone.View.extend({
 				}
 			});
 		});
-		
-		
 
-		// 	
-		// var tag = this.$("#station-tag").val();
-		// if (tag) {
-		// 	this.addTag(tag);
-		// }
-		// 	
-		// var that = this;	
-		// this.model.save({}, {
-		// 	success: function(savedStationData) {
-		// 		SV.Store.radioStations.add(savedStationData);
-		// 		$("#new-station-modal").modal('hide');
-		// 		Backbone.history.navigate("radio/" + savedStationData.id,
-		// 									{ trigger: true });
-		// 	}
-		// });
-		// },
-		
-		
-		
 		console.log($(event.target).parent().data("id"));
+	},
+	
+	unFavoriteTrack: function(event) {
+		if (this._isFavoriting) {return;}
+		this._isFavoriting = true;
+		var fromTrackID = parseInt($(event.target).parent().data("id"));
+		var favorited = SV.Store
+						.currentUser.get("favorite_tracks")
+						.findWhere({ id: fromTrackID });
+		var that = this;
+
+		SV.Store.currentUser.get("favorite_tracks").remove(favorited);
+		
+		SV.Store.currentUser.save({}, {
+			url: '/users',
+			success: function(model, resp, options) {
+				console.log(resp)
+				SV.Store.currentUser.get("favorite_tracks").reset(resp);
+				that.renderCallback();
+			}
+		});
+		
+		this._isFavoriting = false;
 	},
 	
 	render: function() {
