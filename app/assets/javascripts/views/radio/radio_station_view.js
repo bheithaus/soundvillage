@@ -107,8 +107,8 @@ SV.Views.RadioStation = Backbone.View.extend({
 		this.setFavButtonText();
 		this.$("#description").html(this.formatDetails());
 		this.$("#artwork").attr("src", this.nextSound.artwork_url)
-							.attr("height", "150")
-							.attr("width", "150");
+							.attr("height", "250")
+							.attr("width", "250");
 	},
 	
 	visuallyEnableButtons: function() {
@@ -136,8 +136,8 @@ SV.Views.RadioStation = Backbone.View.extend({
 	
 	formatDetails: function() {
 		var nextSound = this.nextSound;
-		return "<h1><a href='"+ nextSound.permalink_url +"'>"+ nextSound.title + "</a></h1>" +
-				"<h3><a href='"+ nextSound.user.permalink_url +"'>"+ nextSound.user.username + "</a></h3>" +
+		return "<h1><a class='special' href='"+ nextSound.permalink_url +"'>"+ nextSound.title + "</a></h1>" +
+				"<h3><a class='special' href='"+ nextSound.user.permalink_url +"'>"+ nextSound.user.username + "</a></h3>" +
 				"<p>" + nextSound.description + "</p>"
 	},
 	
@@ -227,13 +227,13 @@ SV.Views.RadioStation = Backbone.View.extend({
 		console.log("current song");
 		console.log(this.sound);
 		this.sound.play();
-		this.$("#play").text("Pause");
+		this.$("#play").html("<i class='icon-pause'></i>");
 	},
 	
 	pause: function() {
 		this.playing = false;
 		this.sound.pause();
-		this.$("#play").text("Play");
+		this.$("#play").html("<i class='icon-play'></i>");
 	},
 	
 	playOrPause: function() {

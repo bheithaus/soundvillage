@@ -1,28 +1,36 @@
+<button class="btn btn-custom btn-large pull-right" id="new-station">Make a new Station</button>
 <h1>Now listening to <%= station.escape("name") %> in SoundVillage</h1>
+
+<div class="pull-right" id="loading"></div>
+
 <div class="tags">
 	<ul class="unstyled inline">
 		<% station.get("tags").each(function(tag) { %>
-			<li><%= tag.escape("name") %></li>
+			<li class="btn disabled tag"><%= tag.escape("name") %></li>
 		<% }) %>
 	</ul>
 </div>
-<div class="pull-right" id="loading"></div>
 
-<a class="btn btn-large disabled" id="play">Play</a>
-<a class="btn btn-large disabled" id="skip">Skip</a>
-<a class="btn btn-large disabled" id="favorite">Favorite</a>
-
-<button class="btn btn-large pull-right" id="new-station">Make a new Station</button><br><br>
-
-
-<div><canvas class="pull-left" id="canvas" height="100" width="600"></div>
+<div><canvas class="pull-left" id="canvas" height="80" width="500"></div>
 <div class="pull-left" id="volume"></div>
-<div class="pull-left"><img id="artwork" alt="sound artwork"></div>
+<div class="pull-right"><img id="artwork" alt="sound artwork"></div>
+
+<div class="pull-left span6" id="description"></div>
+
+
+<a class="btn btn-custom btn-large disabled" id="play">
+	<i class='icon-play'></i>
+</a>
+<a class="btn btn-custom btn-large disabled" id="skip">
+	<i class="icon-chevron-right"></i>
+</a>
+<a class="btn btn-custom btn-large disabled" id="favorite">Favorite</a>
+
+
+
+
 <br>
 <div class="pull-right span4" id="comments"></div>
-
-<div class="center" id="description"></div>
-
 
 
 
