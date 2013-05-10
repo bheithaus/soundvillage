@@ -36,7 +36,14 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 		"radio": "radio",
 		"favorites" : "favorites",
 		"friends": "friends",
-		"games/:id": "game"
+	},
+	
+	home: function() {
+		this.currentView = new SV.Views.Home();
+	},
+	
+	friends: function() {
+		this.currentView = new SV.Views.ComingSoon();
 	},
 	
 	favorites: function() {

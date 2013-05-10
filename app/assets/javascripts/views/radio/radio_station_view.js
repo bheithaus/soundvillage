@@ -31,14 +31,14 @@ SV.Views.RadioStation = Backbone.View.extend({
 						
 		if (favorited) {
 			SV.Store.currentUser.get("favorite_tracks").remove(favorited);
-			btnText = "Favorite";
+			btnText = "Fav";
 		} else {
 			SV.Store.currentUser.get("favorite_tracks").add({
 				artist: this.nextSound.user.username,
 				title: this.nextSound.title,
 				url: this.nextSound.uri
 			});
-			btnText = "Unfavorite";
+			btnText = "UnFav";
 		}
 		
 		SV.Store.currentUser.save({}, {
@@ -138,7 +138,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 		var nextSound = this.nextSound;
 		return "<h1><a class='special' target='_blank' href='"+ nextSound.permalink_url +"'>"+ nextSound.title + "</a></h1>" +
 				"<h3><a class='special' target='_blank' href='"+ nextSound.user.permalink_url +"'>"+ nextSound.user.username + "</a></h3>" +
-				"<p>" + nextSound.description + "</p>"
+				"<p>" + nextSound.description.slice(0,500) + "</p>"
 	},
 	
 	showPosition: function() {

@@ -30,7 +30,7 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 			key: "radio_station",
 			keySource: "radio_station_id",
 			includeInJSON: false
-		}
+		},
 	}],
 	
 	getUpcomingTracks: function(callback) {
