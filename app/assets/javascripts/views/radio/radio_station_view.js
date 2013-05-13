@@ -124,14 +124,16 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	setFavButtonText: function() {
-		var btnText,
-			favorited = SV.Store
-						.currentUser.get("favorite_tracks").findWhere({
-							url: this.nextSound.uri
-						});
+		if (SV.Store.currentUser) {
+			var btnText,
+				favorited = SV.Store
+							.currentUser.get("favorite_tracks").findWhere({
+								url: this.nextSound.uri
+							});
 		
-		btnText = favorited ? "Unfavorite" : "Favorite";
-		this.$("#favorite").html(btnText);
+			btnText = favorited ? "Unfavorite" : "Favorite";
+			this.$("#favorite").html(btnText);
+		}
 	},
 	
 	formatDetails: function() {

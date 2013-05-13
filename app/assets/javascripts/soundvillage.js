@@ -6,7 +6,7 @@ window.SV = {
 	Store: {},
 
 	init: function($navbar, $content, radioStationsData, currentUserData) {
-		console.log(currentUserData);
+		//console.log(currentUserData);
 		this.Store.radioStations = new SV.Collections.RadioStations(radioStationsData);
 		this.Store.currentUser = currentUserData ? new SV.Models.User(currentUserData) : null;
 		

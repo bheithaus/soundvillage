@@ -3,9 +3,9 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 		var that = this;
 		
 		that.genres = that.get("genre") ? that.get("genre") : "";
-		console.log("genre");
-		console.log(that.get("genre"))
-		console.log(that.genres);
+		// console.log("genre");
+// 		console.log(that.get("genre"))
+// 		console.log(that.genres);
 		that.firstQuery = true;
 		//do i have tags?
 		//set upcoming tracks if possible
@@ -41,7 +41,7 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 			var url = 'https://api.soundcloud.com/tracks.json?client_id=' 
 						+ client_id + '&genres=' + this.genres + '&tags='+ tagString +'&order_by=hotness';
 			var that = this;
-			console.log(url);
+			// console.log(url);
 			$.getJSON(
 			  url,
 			  function (data) {
@@ -70,9 +70,9 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 		} else if (this.upcomingTracks.length == 1) {
 			this.getUpcomingTracks();
 		}
-		console.log(this.upcomingTracks);
-		console.log("next track");
-		console.log(this.upcomingTracks[0]);
+		// console.log(this.upcomingTracks);
+	// 	console.log("next track");
+	// 	console.log(this.upcomingTracks[0]);
 		this.addTags(this.upcomingTracks[0].tag_list);
 		return this.upcomingTracks.shift();
 	},
