@@ -6,6 +6,9 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 	before: function(route, params) {
 		console.log("running before filter");
 		console.log(route);
+		if (!route) {
+			route = 'home';
+		}
 		
 		if (!params.length) {
 			this.selectNewTab(route);
@@ -30,7 +33,7 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 	},
 	
 	routes: {
-		"welcome": "welcome",
+		"": "home",
 		"home": "home",
 		"radio/:id": "radioStation",
 		"radio": "radio",
