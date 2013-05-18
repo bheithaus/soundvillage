@@ -6,14 +6,7 @@ class RadioStationsController < ApplicationController
     
     render json: @radio_stations
   end
-  
-  
-  
-  def new
-    
-    
-    
-  end
+
   
   def create
     @radio_station = RadioStation.new(params[:radio_station])
@@ -22,6 +15,19 @@ class RadioStationsController < ApplicationController
       render json: @radio_station
     else
       p "aw crap"
+      render nothing: true
+    end
+  end
+  
+  def update
+    @radio_station = RadioStation.find(params[:id])
+    
+    @radio_station.tags.destroy_all
+    if @radio_station.update_attributes(params[:radio_station])
+      render json: @radio_station
+    else
+      p "aw crap"
+      render nothing: true
     end
   end
 

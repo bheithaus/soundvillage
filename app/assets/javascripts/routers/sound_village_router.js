@@ -62,9 +62,9 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 	},
 	
 	radioStation: function(id) {
-		console.log(id);
-		var tags = new SV.Collections.Tags();
-		tags.fetch();
+		// console.log(id);
+		// var tags = new SV.Collections.Tags();
+		// tags.fetch();
 		var station = SV.Store.radioStations.findWhere({ id: parseInt(id) });
 		console.log(station)
 		this.currentView = new SV.Views.RadioStation({

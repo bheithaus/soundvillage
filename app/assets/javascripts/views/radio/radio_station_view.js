@@ -15,7 +15,12 @@ SV.Views.RadioStation = Backbone.View.extend({
 		"click button#new-station": "newStationModal",
 		"click a#play" 		      : "playOrPause",
 		"click a#skip" 		  	  : "nextSound",
-		"click a#favorite"		  : "favoriteTrack"
+		"click a#favorite"		  : "favoriteTrack",
+		"click a#end" : "endOfSong"
+	},
+	
+	endOfSong: function() {
+		this.sound.setPosition(this.sound.durationEstimate - 1000);
 	},
 	
 	favoriteTrack: function(event) {
@@ -57,22 +62,35 @@ SV.Views.RadioStation = Backbone.View.extend({
 		return this.palette[Math.floor(Math.random() * this.palette.length)];
 	},
 	
+	SCAPIRequestError: function() {
+		this.$el.prepend("<h1>There was a problem with the communication with Soundcloud, it could be: </h1>"+
+							"<h2>a problem with your internet connection</h2>"+
+							"<h2>or a problem with your station tags</h2>"+
+							"<h2>or a problem with their server, sorry about that</h2>");
+	},
+	
 	setupPlayer: function() {
   		var	that = this,
 			newSoundUrl;
 		
-		//this is a callback!
+		//handle API errors
+		this.model.SCAPIRequestErrorCallback = this.SCAPIRequestError.bind(this);
+		
 		this.nextTrackCallback = function() {
 			that.nextSound = that.model.nextTrack();
-			newSoundUrl = that.nextSound.uri;
+			if (that.nextSound.streamable) {
+				newSoundUrl = that.nextSound.uri;
+				console.log(that.nextSound);
+				SC.stream(newSoundUrl, {
+					ontimedcomments: that.showComment.bind(that)
+				}, function(sound){
+					that.setSound(sound);
+				});
+				that.showSoundDetails();
+			} else {
+				that.nextTrackCallback();
+			}
 			
-			console.log(that.nextSound);
-			SC.stream(newSoundUrl, {
-				ontimedcomments: that.showComment.bind(that)
-			}, function(sound){
-				that.setSound(sound);
-			});
-			that.showSoundDetails();
   	  	};
 		
 		this.comments = 0;
@@ -90,7 +108,6 @@ SV.Views.RadioStation = Backbone.View.extend({
 		} else {
 			this.$comments.append(comment);
 		}
-		//console.log(comments[0].body);
 	},
 	
 	beautify: function(comment) {
@@ -167,10 +184,17 @@ SV.Views.RadioStation = Backbone.View.extend({
 		this.drawWaveform();
 		this.sound.load({
 			volume: 50,
-			onfinish: this.nextTrackCallback,
+			onfinish: this.finishedAndNextTrackCallback.bind(this),
 		});
 		this.isLoaded = true;
 		this.start();
+	},
+	
+	finishedAndNextTrackCallback: function() {
+		//add tags to list!
+		this.model.addTags();
+		this.model.updateTags();
+		this.nextTrackCallback();
 	},
 	
 	setLoading: function() {
@@ -182,7 +206,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 	setupSpinner: function() {
 		var opts = {
 		  lines: 9, // The number of lines to draw
-		  length: 8, // The length of each line
+		  length: 20, // The length of each line
 		  width: 5, // The line thickness
 		  radius: 7, // The radius of the inner circle
 		  corners: 1, // Corner roundness (0..1)
@@ -267,7 +291,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 			this.sound.setVolume(ui.value);
 		};
 		
-		console.log('setting up slider?')
+		console.log('setting up slider?');
 		this.slider = this.$("#volume").slider({
 			orientation: "vertical",
 			value: 50,

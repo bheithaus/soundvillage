@@ -1,14 +1,13 @@
 SV.Models.RadioStation = Backbone.RelationalModel.extend({
-	initialize: function() {
+	initialize: function(options) {
 		var that = this;
 		
+		that.set( {editable: true} );
 		that.genres = that.get("genre") ? that.get("genre") : "";
-		// console.log("genre");
-// 		console.log(that.get("genre"))
-// 		console.log(that.genres);
+
 		that.firstQuery = true;
-		//do i have tags?
-		//set upcoming tracks if possible
+		that.attempts = 0;
+		
 		that.tags = {};
 		
 		that.get("tags").each(function(tag) {
@@ -40,13 +39,27 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 			var tagString = this.tagString();
 			var url = 'https://api.soundcloud.com/tracks.json?client_id=' 
 						+ client_id + '&genres=' + this.genres + '&tags='+ tagString +'&order_by=hotness';
-			var that = this;
-			// console.log(url);
+			var that = this;			
+			
+			var errorTimeout = window.setTimeout(function() {
+			        // Handle error accordingly
+					that.attempts++;
+					if( that.attempts > 5) {
+						that.SCAPIRequestErrorCallback();
+					} else {
+				        console.log(that.attempts + " tries querying Soundcloud, retrying");
+						that.getUpcomingTracks(callback);
+					}
+			}, 5000);
+			
 			$.getJSON(
 			  url,
 			  function (data) {
+				  window.clearTimeout(errorTimeout);
 				  that.isLoaded = true;
-				  that.upcomingTracks = helpers.shuffle(data);
+	  			  that.firstQuery = false;
+				  
+				  that.upcomingTracks = helpers.shuffle(data).slice(0, 5);
 				  console.log("upcoming tracks");
 				  that.printUpcoming();
 				  if (callback) {
@@ -55,6 +68,22 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 			  }
 			);
 		}
+	},
+	
+	updateTags: function() {
+		console.log("editable? " + this.get("editable"));
+		if (this.get("editable")) {
+			this.get("tags").reset(this.savableTags());
+			this.save();
+		}
+	},
+	
+	savableTags: function() {
+		var tags = this.topTags();
+		
+		return _(tags).map(function(tag) {
+			return { name: tag }
+		});
 	},
 	
 	printUpcoming: function() {
@@ -73,12 +102,14 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 		// console.log(this.upcomingTracks);
 	// 	console.log("next track");
 	// 	console.log(this.upcomingTracks[0]);
-		this.addTags(this.upcomingTracks[0].tag_list);
+		this.currentTracksTags = this.upcomingTracks[0].tag_list;
 		return this.upcomingTracks.shift();
 	},
 	
-	addTags: function(tags) {
-		var that = this;
+	addTags: function() {
+		var that = this,
+			tags = this.currentTracksTags;
+			
 		_(tags.split(" ")).each(function(tag) {
 			that.tags[tag] = that.tags[tag] ? that.tags[tag] + 1 : 1;
 		});
@@ -86,7 +117,6 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 	
 	tagString: function() {
 		if (this.firstQuery) {
-			this.firstQuery = false;
 			return this.get("tags").pluck("name").join();
 		} else {
 			return this.topTags().join();
