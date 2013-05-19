@@ -74,9 +74,14 @@ br {
 }
 
 #loading {
-	position: absolute;
-	top: 140px;
-	left: 800px;
+	width: 1px;
+	height: 1px;
+    position: absolute;
+    top: 120px;
+    left: 0;
+    right: 0;
+
+    margin: 0 auto;
 }
 
 .container {

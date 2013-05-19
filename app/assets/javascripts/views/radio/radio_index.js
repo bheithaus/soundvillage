@@ -20,7 +20,7 @@ SV.Views.RadioIndex = Backbone.View.extend({
 		var newStationForm = new SV.Views.NewRadioStationForm({
 			model: newStation,
 		})
-		this.$("#new-station-modal").children().first().html(newStationForm.render().$el);
+		this.$("#new-station-modal .modal-body").html(newStationForm.render().$el);
 		this.$("#new-station-modal").modal();
 		//load a modal
 	},

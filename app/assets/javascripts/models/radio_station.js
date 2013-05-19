@@ -2,7 +2,7 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 	initialize: function(options) {
 		var that = this;
 		
-		that.set( {editable: true} );
+		//get rid of genres?
 		that.genres = that.get("genre") ? that.get("genre") : "";
 
 		that.firstQuery = true;
@@ -10,9 +10,7 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 		
 		that.tags = {};
 		
-		that.get("tags").each(function(tag) {
-			that.tags[tag.get("name")] = that.tags[tag.get("name")] ? that.tags[tag.get("name")] + 1 : 1;
-		});
+		that.addStoredTagsToTagCounts();
 	},
 	
 	urlRoot: "/radio_stations",
@@ -32,8 +30,16 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 		},
 	}],
 	
+	addStoredTagsToTagCounts: function() {
+		var that = this;
+		
+		that.get("tags").each(function(tag) {
+			that.tags[tag.get("name")] = 4;
+		});
+	},
+	
 	getUpcomingTracks: function(callback) {
-		// console.log(this.get("tags").length);
+		console.log(this.get("tags"));
 		if (this.get("tags").length) {
 			var client_id = '1853d978ae73aae455ce18bf7c92f5dc'
 			var tagString = this.tagString();
@@ -41,23 +47,14 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 						+ client_id + '&genres=' + this.genres + '&tags='+ tagString +'&order_by=hotness';
 			var that = this;			
 			
-			var errorTimeout = window.setTimeout(function() {
-			        // Handle error accordingly
-					that.attempts++;
-					if( that.attempts > 5) {
-						that.SCAPIRequestErrorCallback();
-					} else {
-				        console.log(that.attempts + " tries querying Soundcloud, retrying");
-						that.getUpcomingTracks(callback);
-					}
-			}, 5000);
+		  	console.log(url);
 			
 			$.getJSON(
 			  url,
 			  function (data) {
-				  window.clearTimeout(errorTimeout);
 				  that.isLoaded = true;
 	  			  that.firstQuery = false;
+				  that.attempts = 0;
 				  
 				  that.upcomingTracks = helpers.shuffle(data).slice(0, 5);
 				  console.log("upcoming tracks");
@@ -66,25 +63,36 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 					  callback();
 				  }
 			  }
-			);
+			).fail(function() { 
+				that.attempts++;
+				if( that.attempts > 7) {
+					that.SCAPIRequestErrorCallback();
+				} else {
+			        console.log(that.attempts + " tries querying Soundcloud, retrying");
+					that.getUpcomingTracks(callback);
+				}
+			});
 		}
 	},
 	
 	updateTags: function() {
-		console.log("editable? " + this.get("editable"));
-		if (this.get("editable")) {
-			this.get("tags").reset(this.savableTags());
-			this.save();
-		}
+		//check if any topTags have weight higher than current tags and add!	
+		var tags = this.topTags();
+		console.log(tags);
+		this.get("tags").update(tags);
+		console.log("saving");
+		this.save();
 	},
 	
-	savableTags: function() {
-		var tags = this.topTags();
-		
-		return _(tags).map(function(tag) {
-			return { name: tag }
-		});
-	},
+	// savableTags: function() {
+	// 	var tags = this.topTags();
+	// 	
+	// 	console.log("top tags");
+	// 	console.log(tags);
+	// 	return _(tags).map(function(tag) {
+	// 		return { name: tag }
+	// 	});
+	// },
 	
 	printUpcoming: function() {
 		_(this.upcomingTracks).each(function(track, i) {
@@ -99,33 +107,41 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 		} else if (this.upcomingTracks.length == 1) {
 			this.getUpcomingTracks();
 		}
-		// console.log(this.upcomingTracks);
-	// 	console.log("next track");
-	// 	console.log(this.upcomingTracks[0]);
+
 		this.currentTracksTags = this.upcomingTracks[0].tag_list;
 		return this.upcomingTracks.shift();
 	},
 	
-	addTags: function() {
+	addTag: function(tag, weight) {
+		this.get("tags").add({ name: tag , weight: weight });
+	},
+	
+	addToWorkingTags: function() {
 		var that = this,
 			tags = this.currentTracksTags;
-			
 		_(tags.split(" ")).each(function(tag) {
-			that.tags[tag] = that.tags[tag] ? that.tags[tag] + 1 : 1;
+			tag.replace(/\"/g, "");
+			tag.replace(/\'/g, "");
+			if (tag.length) {
+				that.tags[tag] = that.tags[tag] ? that.tags[tag] + 1 : 1;
+			}
 		});
 	},
 	
 	tagString: function() {
-		if (this.firstQuery) {
+		if (!this.get("editable")) {
 			return this.get("tags").pluck("name").join();
 		} else {
-			return this.topTags().join();
+			return _(this.topTags()).map(function(tag) {
+				return tag.name;
+			}).join();
 		}
 	},
 	
 	topTags: function() {
-		var sorted_tags = [];
-		
+		var sorted_tags = []
+			topTags = [];
+	
 		for (var tag in this.tags) {
 			sorted_tags.push([tag, this.tags[tag]]);
 		}
@@ -133,7 +149,13 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 			return b[1] - a[1];
 		});
 		
-		return [sorted_tags[0][0], sorted_tags[1][0], sorted_tags[2][0]];
+		var numberOfTags = sorted_tags.length < 4 ? sorted_tags.length : 4;
+		
+		_(numberOfTags).times(function(i) {
+			topTags.push({ name: sorted_tags[i][0], weight: sorted_tags[i][1] });
+		});
+		
+		return topTags;
 	},
 	
 	toJSON: function () {

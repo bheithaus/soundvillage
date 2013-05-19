@@ -14,20 +14,17 @@ class RadioStationsController < ApplicationController
     if @radio_station.save
       render json: @radio_station
     else
-      p "aw crap"
-      render nothing: true
+      render json: {}, status: 422
     end
   end
   
   def update
     @radio_station = RadioStation.find(params[:id])
     
-    @radio_station.tags.destroy_all
     if @radio_station.update_attributes(params[:radio_station])
       render json: @radio_station
     else
-      p "aw crap"
-      render nothing: true
+      render json: {}, status: 422
     end
   end
 

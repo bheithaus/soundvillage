@@ -1,4 +1,4 @@
-<button class="btn btn-large pull-right" id="new-station">Make a new Station</button><br><br>
+<button class="btn btn-custom btn-large pull-right" id="new-station">Make a new Station</button><br><br>
 
 <h3>Public Stations</h3>
 <ul class="unstyled inline">
@@ -15,5 +15,9 @@
 <% }); %>
 </ul>
 <div id="new-station-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+       <h3 id="myModalLabel">Create Your Station</h3>
+     </div>
 	<div class="modal-body"></div>
 </div>

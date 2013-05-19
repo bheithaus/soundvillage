@@ -63,10 +63,9 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	SCAPIRequestError: function() {
-		this.$el.prepend("<h1>There was a problem with the communication with Soundcloud, it could be: </h1>"+
-							"<h2>a problem with your internet connection</h2>"+
-							"<h2>or a problem with your station tags</h2>"+
-							"<h2>or a problem with their server, sorry about that</h2>");
+		this.$el.prepend($("<h1>Schucks! there was a problem with our request to Soundcloud</h1>"+
+							"<h2>...maybe refresh the page? </h2>").css("color", "#C20202"));
+		this.spinner.stop();
 	},
 	
 	setupPlayer: function() {
@@ -135,8 +134,8 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	visuallyDisableButtons: function() {
-		this.$("a#play").addClass("disabled"); 	
-		this.$("a#skip").addClass("disabled"); 	
+		this.$("a#play").addClass("disabled");
+		this.$("a#skip").addClass("disabled");
 		this.$("a#favorite").addClass("disabled");
 	},
 	
@@ -192,8 +191,12 @@ SV.Views.RadioStation = Backbone.View.extend({
 	
 	finishedAndNextTrackCallback: function() {
 		//add tags to list!
-		this.model.addTags();
-		this.model.updateTags();
+		if (this.model.get("editable")) {
+			console.log("adding tags");
+			this.model.addToWorkingTags();
+			console.log("updating tags");
+			this.model.updateTags();
+		}
 		this.nextTrackCallback();
 	},
 	
@@ -222,6 +225,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 		  top: 'auto', // Top position relative to parent in px
 		  left: 'auto' // Left position relative to parent in px
 		};
+		
 		this.spinner = new Spinner(opts);
 	},
 	
@@ -355,7 +359,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 		var newStationForm = new SV.Views.NewRadioStationForm({
 			model: newStation,
 		})
-		this.$("#new-station-modal").children().first().html(newStationForm.render().$el);
+		this.$("#new-station-modal .modal-body").html(newStationForm.render().$el);
 		this.$("#new-station-modal").modal();
 		//load a modal
 	},
