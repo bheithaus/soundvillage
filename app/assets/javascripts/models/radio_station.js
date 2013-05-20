@@ -34,7 +34,7 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 		var that = this;
 		
 		that.get("tags").each(function(tag) {
-			that.tags[tag.get("name")] = 4;
+			that.tags[tag.get("name")] = tag.get("weight");
 		});
 	},
 	
@@ -76,11 +76,8 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 	},
 	
 	updateTags: function() {
-		//check if any topTags have weight higher than current tags and add!	
 		var tags = this.topTags();
-		console.log(tags);
 		this.get("tags").update(tags);
-		console.log("saving");
 		this.save();
 	},
 	

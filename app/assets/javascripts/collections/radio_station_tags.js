@@ -16,12 +16,14 @@ SV.Collections.RadioStationTags = Backbone.Collection.extend({
 			tag;
 		_(tags).each(function(tagOBJ) {
 			tag = tagOBJ.name.toLowerCase()
-			model = that.findWhere({ name: tag });
-			if (!model && tagOBJ.weight > 2) {
-				that.add({
-					name: tag,
-				  weight: tagOBJ.weight });
-			} else {
+			model = that.findWhere({ name: tag });			
+			if (!model) {
+				if (tagOBJ.weight > 2) {
+					that.add({
+						name: tag,
+					  weight: tagOBJ.weight });
+				}
+			} else if( model.get("weight") != tagOBJ.weight ) {
 				model.set({ weight: tagOBJ.weight });
 			}
 		});
