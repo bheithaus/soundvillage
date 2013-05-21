@@ -16,11 +16,6 @@ SV.Views.RadioStation = Backbone.View.extend({
 		"click a#play" 		      : "playOrPause",
 		"click a#skip" 		  	  : "nextSound",
 		"click a#favorite"		  : "favoriteTrack",
-		"click a#end" : "endOfSong"
-	},
-	
-	endOfSong: function() {
-		this.sound.setPosition(this.sound.durationEstimate - 1000);
 	},
 	
 	favoriteTrack: function(event) {
@@ -49,7 +44,6 @@ SV.Views.RadioStation = Backbone.View.extend({
 		SV.Store.currentUser.save({}, {
 			url: '/users',
 			success: function(model, resp, options) {
-				console.log(resp)
 				SV.Store.currentUser.get("favorite_tracks").reset(resp)
 				$btn.html(btnText);
 			}
@@ -63,8 +57,13 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	SCAPIRequestError: function() {
-		this.$el.prepend($("<h1>Schucks! there was a problem with our request to Soundcloud</h1>"+
-							"<h2>...maybe refresh the page? </h2>").css("color", "#C20202"));
+		var $loadingText = $("<h4 id='loading'>Clones took over the network</h4>");
+		this.$el.prepend($loadingText
+							.css("color", "#C20202")
+							.fadeIn(6000,
+							function() {
+								$loadingText.fadeOut("slow");
+							}));
 		this.spinner.stop();
 	},
 	
@@ -79,7 +78,6 @@ SV.Views.RadioStation = Backbone.View.extend({
 			that.nextSound = that.model.nextTrack();
 			if (that.nextSound.streamable) {
 				newSoundUrl = that.nextSound.uri;
-				console.log(that.nextSound);
 				SC.stream(newSoundUrl, {
 					ontimedcomments: that.showComment.bind(that)
 				}, function(sound){
@@ -147,7 +145,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 								url: this.nextSound.uri
 							});
 		
-			btnText = favorited ? "Unfavorite" : "Favorite";
+			btnText = favorited ? "UnFav" : "Fav";
 			this.$("#favorite").html(btnText);
 		}
 	},
@@ -192,9 +190,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 	finishedAndNextTrackCallback: function() {
 		//add tags to list!
 		if (this.model.get("editable")) {
-			console.log("adding tags");
 			this.model.addToWorkingTags();
-			console.log("updating tags");
 			this.model.updateTags();
 		}
 		this.nextTrackCallback();
@@ -244,7 +240,6 @@ SV.Views.RadioStation = Backbone.View.extend({
 		var that = this;
 		setTimeout(function() {
 			that.sound.setVolume(that.$("#volume").slider("option", "value"));
-			that.spinner.stop();
 			that.visuallyEnableButtons();
 			that.play();
 			that.showPosition();
@@ -254,8 +249,6 @@ SV.Views.RadioStation = Backbone.View.extend({
 	play: function() {
 		this.spinner.stop();
 		this.playing = true;
-		console.log("current song");
-		console.log(this.sound);
 		this.sound.play();
 		this.$("#play").html("<i class='icon-pause'></i>");
 	},
@@ -276,7 +269,6 @@ SV.Views.RadioStation = Backbone.View.extend({
 			this.play();
 		}
 		this.showPosition();
-		console.log(this.playing);
 		
 		this._isPlayingOrPausing = false;
 	},
@@ -285,17 +277,16 @@ SV.Views.RadioStation = Backbone.View.extend({
 		this.setupVolumSlider();
 	},
 	
-	installPlayHandler: function() {
-		this.$("#play").on
-		sound.play();	
-	},
+	// installPlayHandler: function() {
+	// 	this.$("#play").on
+	// 	sound.play();	
+	// },
 	
 	setupVolumeSlider: function() {
 		var slideCallback = function(event, ui) {
 			this.sound.setVolume(ui.value);
 		};
 		
-		console.log('setting up slider?');
 		this.slider = this.$("#volume").slider({
 			orientation: "vertical",
 			value: 50,
@@ -335,7 +326,6 @@ SV.Views.RadioStation = Backbone.View.extend({
 		ctx.drawImage(this.wave, 0, 0, width, height);	
 		ctx.fillStyle = "rgba(45, 45, 125, .4)";
 		ctx.fillRect(0, 0, dx, height);
-         //then set the global alpha to the amound that you want to tint it, and draw the buffer directly on top of it.
 	},
 	
 	checkStationLoaded: function() {
@@ -347,13 +337,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 		}
 	},
 	
-	enterPressed: function(event) {
-		// console.log(event.keyCode)
-// 		console.log(event.target);
-	},
-	
 	newStationModal: function() {
-		//console.log("this is happening");
 		var newStation = new SV.Models.RadioStation();
 				
 		var newStationForm = new SV.Views.NewRadioStationForm({
@@ -361,12 +345,12 @@ SV.Views.RadioStation = Backbone.View.extend({
 		})
 		this.$("#new-station-modal .modal-body").html(newStationForm.render().$el);
 		this.$("#new-station-modal").modal();
-		//load a modal
 	},
 	
 	remove: function() {
 		this.removeSound();
 	    this.model.unbind();
+		this.$el.html("");
 	    Backbone.View.prototype.remove.call(this);
 	},
 		

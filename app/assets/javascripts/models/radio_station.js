@@ -39,25 +39,20 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 	},
 	
 	getUpcomingTracks: function(callback) {
-		console.log(this.get("tags"));
 		if (this.get("tags").length) {
 			var client_id = '1853d978ae73aae455ce18bf7c92f5dc'
 			var tagString = this.tagString();
 			var url = 'https://api.soundcloud.com/tracks.json?client_id=' 
 						+ client_id + '&genres=' + this.genres + '&tags='+ tagString +'&order_by=hotness';
-			var that = this;			
-			
-		  	console.log(url);
-			
+			var that = this;
+					
 			$.getJSON(
 			  url,
 			  function (data) {
 				  that.isLoaded = true;
-	  			  that.firstQuery = false;
-				  that.attempts = 0;
-				  
+	  			  that.firstQuery = false;				  
 				  that.upcomingTracks = helpers.shuffle(data).slice(0, 5);
-				  console.log("upcoming tracks");
+				  // console.log("upcoming tracks");
 				  that.printUpcoming();
 				  if (callback) {
 					  callback();
@@ -65,10 +60,14 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 			  }
 			).fail(function() { 
 				that.attempts++;
-				if( that.attempts > 7) {
+				if ( that.attempts > 7) {
 					that.SCAPIRequestErrorCallback();
+					window.setTimeout(function () {
+						that.attempts = 0;
+						that.getUpcomingTracks(callback);
+					}, 8000);
 				} else {
-			        console.log(that.attempts + " tries querying Soundcloud, retrying");
+			        // console.log(that.attempts + " tries querying Soundcloud, retrying");
 					that.getUpcomingTracks(callback);
 				}
 			});
@@ -84,8 +83,8 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 	// savableTags: function() {
 	// 	var tags = this.topTags();
 	// 	
-	// 	console.log("top tags");
-	// 	console.log(tags);
+	// 	// console.log("top tags");
+	// 	// console.log(tags);
 	// 	return _(tags).map(function(tag) {
 	// 		return { name: tag }
 	// 	});
@@ -93,7 +92,7 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 	
 	printUpcoming: function() {
 		_(this.upcomingTracks).each(function(track, i) {
-			console.log("Track #" + i + ": " + track.title);
+			// console.log("Track #" + i + ": " + track.title);
 		});
 	},
 	

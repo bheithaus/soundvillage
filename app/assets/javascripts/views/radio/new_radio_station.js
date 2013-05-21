@@ -5,16 +5,11 @@ SV.Views.NewRadioStationForm = Backbone.View.extend({
 	},
 	
 	createStation: function() {
-		// console.log("this is happening")
 		this.model.set({
 			name: this.$("#station-name").val(),
 			genre: this.$("#station-genre").val(),
 			editable: this.$("#editable").prop("checked")
 		});
-		
-		console.log("checked " + this.$("#editable").prop("checked"));
-		
-		console.log(this.model);
 				
 		var tag = this.$("#station-tag").val();
 		if (tag) {
@@ -38,8 +33,6 @@ SV.Views.NewRadioStationForm = Backbone.View.extend({
 			this.model.addTag($(event.target).val(), 4);
 			$(event.target).val("");
 		}
-		// console.log(event.keyCode)
-// 		console.log(event.target);
 	},
 	
 	render: function() {

@@ -1,7 +1,6 @@
 SV.Views.Navbar = Backbone.View.extend({
 	events: {
 		"click .signin" : "signInModal",
-		"keypress" 		: "enterPressed",
 		"click #commit-signin" : "signIn",
 		"click #commit-signup" : "signUp",
 		"click #signup" : "signUpModal",
@@ -68,12 +67,5 @@ SV.Views.Navbar = Backbone.View.extend({
 				window.location = "/";
 			}
 		);
-	},
-	
-	enterPressed: function(event) {
-		console.log(event.keyCode)
-		
-		console.log($(event.target).parent())
 	}
-	
 });

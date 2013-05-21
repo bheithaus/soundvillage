@@ -1,19 +1,18 @@
 <button class="btn btn-custom btn-large pull-right" id="new-station">Make a new Station</button><br><br>
 
 <h3>Public Stations</h3>
-<ul class="unstyled inline">
-<% stations.each(function(station) { %>
-	<li>
-		<div class="radio-station">
-			<h4>
-				<a href="#radio/<%= station.escape("id") %>">
-					<%= station.escape("name") %>
-				</a>
-			</h4>
-		</div>
-	</li>
-<% }); %>
-</ul>
+<div id="stations">
+	<% stations.each(function(station) { %>
+			<div class="radio-station">
+				<h4>
+					<a href="#radio/<%= station.escape("id") %>">
+						<%= station.escape("name") %>
+					</a>
+				</h4>
+			</div>
+	<% }); %>
+</div>
+
 <div id="new-station-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>

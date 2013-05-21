@@ -9,8 +9,20 @@ SV.Views.RadioIndex = Backbone.View.extend({
 			stations: this.collection
 		});
 		this.$el.html(renderedContent);
+		this.setupIsotope();
 		
 		return this;
+	},
+	
+	setupIsotope: function() {
+		$('#stations').isotope({
+			layoutMode: 'cellsByColumn',
+			cellsByColumn: {
+				columnWidth: 100,
+				rowHeight: 60
+			},
+			itemSelector : '.radio-station'
+		});
 	},
 	
 	newStationModal: function() {

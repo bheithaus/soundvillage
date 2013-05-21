@@ -59,7 +59,6 @@ SV.Views.FavoritesIndex = Backbone.View.extend({
 		SV.Store.currentUser.save({}, {
 			url: '/users',
 			success: function(model, resp, options) {
-				console.log(resp)
 				SV.Store.currentUser.get("favorite_tracks").reset(resp);
 				that.renderCallback();
 			}
