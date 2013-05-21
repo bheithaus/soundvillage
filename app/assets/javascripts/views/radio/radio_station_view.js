@@ -205,13 +205,13 @@ SV.Views.RadioStation = Backbone.View.extend({
 	setupSpinner: function() {
 		var opts = {
 		  lines: 9, // The number of lines to draw
-		  length: 20, // The length of each line
+		  length: 15, // The length of each line
 		  width: 5, // The line thickness
 		  radius: 7, // The radius of the inner circle
 		  corners: 1, // Corner roundness (0..1)
 		  rotate: 42, // The rotation offset
 		  direction: 1, // 1: clockwise, -1: counterclockwise
-		  color: '#000', // #rgb or #rrggbb
+		  color: '#871342', // #rgb or #rrggbb
 		  speed: 1, // Rounds per second
 		  trail: 60, // Afterglow percentage
 		  shadow: false, // Whether to render a shadow
