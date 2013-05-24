@@ -3,9 +3,18 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 		this.$content = $content;
 	},
 	
+	VALID_ROUTES: [
+	"station/:id",
+	"favorites",
+	"friends",
+	""
+	],
+	
 	before: function(route, params) {
-		if (!route) {
-			route = 'home';
+		console.log("route" + route);
+		console.log(" " + this.VALID_ROUTES.indexOf(route));
+		if (!route || this.VALID_ROUTES.indexOf(route) === -1) {
+			route = '';
 		}
 		
 		if (!params.length) {
@@ -25,13 +34,14 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 		if (this.currentView) {
 			this.$content.html(this.currentView.render().$el);	
 		}
+		if (route === "") {
+			this.currentView.setupIsotope();
+		}
 	},
 	
 	routes: {
-		"": "home",
-		"home": "home",
-		"radio/:id": "radioStation",
-		"radio": "radio",
+		"": "radio",
+		"station/:id": "radioStation",
 		"favorites" : "favorites",
 		"friends": "friends",
 	},
@@ -64,6 +74,10 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 	},
 	
 	selectNewTab: function(route) {
+		console.log("_"+route+"_")
+		if (route === "") {
+			route = "radio";
+		}
 		$("ul.nav").children().filter("li").removeClass("active");
 		$("li#" + route).addClass("active");
 	}

@@ -1,13 +1,12 @@
 SV.Views.NewRadioStationForm = Backbone.View.extend({	
 	events: {
 		"keypress #station-tag" : "enterPressed",
-		"click button#commit" 		  : "createStation"
+		"click button#commit"   : "createStation"
 	},
 	
 	createStation: function() {
 		this.model.set({
 			name: this.$("#station-name").val(),
-			genre: this.$("#station-genre").val(),
 			editable: this.$("#editable").prop("checked")
 		});
 				
@@ -42,7 +41,7 @@ SV.Views.NewRadioStationForm = Backbone.View.extend({
 		});
 		this.$el.html(renderedContent)
 				.append(radioTagsView.render().$el);
-			
+		
 		return this;
 	}
 });

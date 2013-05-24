@@ -338,17 +338,23 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	newStationModal: function() {
-		var newStation = new SV.Models.RadioStation();
-				
+		var newStation = new SV.Models.RadioStation(),
+				  that = this;
 		var newStationForm = new SV.Views.NewRadioStationForm({
 			model: newStation,
-		})
+		});
 		this.$("#new-station-modal .modal-body").html(newStationForm.render().$el);
+		this.$("#new-station-modal").on('shown', function () {
+			that.$("#station-name").focus();
+		});
+		
 		this.$("#new-station-modal").modal();
 	},
 	
 	remove: function() {
+		clearInterval(this.trackerID);
 		this.removeSound();
+		this.model.removed = true;
 	    this.model.unbind();
 		this.$el.html("");
 	    Backbone.View.prototype.remove.call(this);

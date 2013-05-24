@@ -1,7 +1,14 @@
 SV.Views.Navbar = Backbone.View.extend({
+	initialize: function() {
+		var renderCallback = this.render.bind(this);
+		this.listenTo(this, "session", renderCallback);
+	},
+	
 	events: {
-		"click .signin" : "signInModal",
+		"click #signin" : "signInModal",
 		"click #commit-signin" : "signIn",
+		"keypress #password" : "enterPressedSignIn",
+		"keypress #su-password-confirm" : "enterPressedSignUp",
 		"click #commit-signup" : "signUp",
 		"click #signup" : "signUpModal",
 		"click #signout" : "signOut"
@@ -12,6 +19,18 @@ SV.Views.Navbar = Backbone.View.extend({
 		this.$el.html(renderedContent);
 		
 		return this;
+	},
+	
+	enterPressedSignIn: function(event) {
+		if (event.keyCode === 13) {
+			this.signIn();
+		}
+	},
+	
+	enterPressedSignUp: function(event) {
+		if (event.keyCode === 13) {
+			this.signUp();
+		}
 	},
 	
 	signInModal: function() {
@@ -27,7 +46,8 @@ SV.Views.Navbar = Backbone.View.extend({
 	signIn: function() {
 		this.$("#email").val();
 		this.$("#password").val();
-		var remember = this.$("#remember-me").is(":checked") ? 1 : 0;
+		var remember = this.$("#remember-me").is(":checked") ? 1 : 0,
+				that = this;
 
 		$.post(
 			"/users/sign_in",
@@ -35,22 +55,30 @@ SV.Views.Navbar = Backbone.View.extend({
 				email: this.$("#email").val(),
 				password: this.$("#password").val(),
 				remember_me: remember
-			}},
-			function(successData) {
-				window.location = "/";
+			}}
+		).success(
+			function(userSessionData) {	
+				console.log(userSessionData);
+				SV.signIn(userSessionData);
+				that.$("#sign-in-modal").modal("hide");
+				that.trigger("session");
 			}
-		)
+		);
 	},
 	
 	signOut: function() {
+		var that = this;
+
 		$.post(
 			"/users/sign_out",
 			{
 				"_method" : "delete",
-				
-			},
-			function() {
-				window.location = "/";
+			}
+		).success(
+			function(data) {
+				SV.Store.currentUser.clear();
+				SV.Store.currentUser = null;
+				that.trigger("session");
 			}
 		);
 	},

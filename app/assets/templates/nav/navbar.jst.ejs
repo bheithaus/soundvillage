@@ -13,13 +13,8 @@
 	   
 	   <div class="nav-collapse collapse">
 		    <ul class="nav" id="navvy">
-				<li id='home' class="active">
-					<a href='#home'>Home</a>
-				</li>
-			    <li class="divider-vertical"></li>
-				
 				<li id='radio' class="#">
-					<a href='#radio'>Radio</a>
+					<a href='#'>Radio</a>
 				</li>
 			    <li class="divider-vertical"></li>
 				
@@ -31,43 +26,50 @@
 				<li id='friends' class="#">
 					<a href='#friends'>Friends</a>
 				</li>
+			    <li class="divider-vertical"></li>
+				
 				<% if (!SV.Store.currentUser) { %>
-					<li class="signin #">
-						<a href='#'>Sign In</a>
+					<li id="signin" class="#">
+						<a>Sign In</a>
 					</li> 
 				<% } else { %>
 					<li id="signout" class="#">
-						<a href='#'>Sign Out</a>
+						<a>Sign Out</a>
 					</li>
 				<% } %>
 			</ul>
+			<a class="pull-right" href="http://www.soundcloud.com">
+				<img src="<%= SV.assets.imageUrl('powered_by_sc_white.png') %>">
+			</a>
 		</div>
 	</div>
 </div>
 
-<div id="sign-in-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="sign-in-modal" class="modal hide fade sign" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-header">
 	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	    <h3>Please Enter Username and Password</h3>
+	    <h3>Sign In</h3>
 	  </div>
 	<div class="modal-body">
-		<input type="text" id="email" placeholder="email">
-		<input type="password" id="password" placeholder="password">
-		<input id="remember-me" name="user[remember_me]" type="checkbox" value="1">
+		<input type="email" id="email" placeholder="email"><br>
+		<input type="password" id="password" placeholder="password"><br>
+		<label class="checkbox-label">Remember Me
+			<input id="remember-me" name="user[remember_me]" type="checkbox" value="1" checked="true">
+		</label><br><br>
 		<button class="btn" id="commit-signin">Sign In</button>
 		<h4>new user?</h4>
-		<a id="signup">Sign Up Form</a>
+		<a id="signup" class="btn">Sign Up Form</a>
 	</div>
 </div>
-<div id="sign-up-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="sign-up-modal" class="modal hide fade sign" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-header">
 	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	    <h3>Please Sign Up with Username and Password</h3>
 	  </div>
 	<div class="modal-body">
-		<input type="text" id="su-email" placeholder="email"><br>
+		<input type="email" id="su-email" placeholder="email"><br>
 		<input type="password" id="su-password" placeholder="password">
-		<input type="password" id="su-password-confirm" placeholder="confirm password">
+		<input type="password" id="su-password-confirm" placeholder="confirm password"><br>
 		<button class="btn" id="commit-signup">Sign Up</button>
 		<h4>already Signed up?</h4>
 		<a class="signin btn" id="">Sign In</a>

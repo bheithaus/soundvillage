@@ -1,6 +1,6 @@
 <h1>Favorite Tracks</h1>
 
-<% if (favorite_tracks) { %>
+<% if (SV.Store.currentUser) { %>
 	<table class="table">
 	<% favorite_tracks.each(function(track) { %>
 		<tr>
@@ -20,6 +20,8 @@
 	</table>
 <% } else { %>
 	<h4>
-		Please Sign Up / Sign In to Save Favorites and Make Stations
+		<a class="signup btn btn-large btn-custom">Sign Up</a> / 
+		<a class="signin btn btn-large btn-custom">Sign In</a>
+		to Save Favorites and Make Stations
 	</h4>
 <% } %>

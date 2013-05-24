@@ -25,6 +25,7 @@
 //= require spin.min
 //
 //= require soundvillage
+//= require assets
 //
 //= require_tree ./models
 //= require_tree ./collections

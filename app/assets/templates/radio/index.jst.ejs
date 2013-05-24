@@ -1,15 +1,19 @@
 <button class="btn btn-custom btn-large pull-right" id="new-station">Make a new Station</button><br><br>
-
+<input type="text" id="filter" placeholder="search">
 <h3>Public Stations</h3>
-<div id="stations">
+<div id="stations" class="clearfix">
 	<% stations.each(function(station) { %>
-			<div class="radio-station">
-				<h4>
-					<a href="#radio/<%= station.escape("id") %>">
+		<a href="#station/<%= station.escape("id") %>">
+			<% if (station.get("image_url")) { %>
+				<div id="station-<%= station.escape("id") %>" class="radio-station" style="background-image: url('<%= station.escape('image_url') %>'); background-size: 100%">
+			<% } else { %>
+				<div id="station-<%= station.escape("id") %>" class="radio-station">
+			<% } %>
+					<p>
 						<%= station.escape("name") %>
-					</a>
-				</h4>
-			</div>
+					</p>
+				</div>
+		</a>
 	<% }); %>
 </div>
 

@@ -26,5 +26,5 @@ SV.Models.User = Backbone.RelationalModel.extend({
 		delete attrs["id"];
 		
 		return { user: attrs };
-	}
+	},
 });

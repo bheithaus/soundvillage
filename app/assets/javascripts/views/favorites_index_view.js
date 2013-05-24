@@ -1,23 +1,46 @@
 SV.Views.FavoritesIndex = Backbone.View.extend({
 	initialize: function() {
-		this.renderCallback = this.render.bind(this);
+		this.sessionCallback = this.sessionUpdate.bind(this);
+		this.listenTo(SV.navbarView, 'session', this.renderCallback);
 	},
 	
 	events: {
 		"click a#new-station" : "createStation",
-		"click a#unfavorite" : "confirmUnfavorite"
+		"click a#unfavorite" : "confirmUnfavorite",
+		"click a.signin" : "signin",
+		"click a.signup" : "signup"
+	},
+	
+	sessionUpdate: function() {
+		if (SV.Store.currentUser) {
+			var that = this;
+			this.collection = SV.Store.currentUser.get("favorite_tracks");
+			this.collection.fetch({
+				success: function() {
+					that.render();
+				}
+			});
+		}
+	},
+	
+	signin: function() {
+		SV.navbarView.signInModal();
+	},
+	
+	signup: function() {
+		SV.navbarView.signUpModal();
 	},
 	
 	createStation: function(event) {
-		var fromTrackID = parseInt($(event.target).parent().data("id"));
-		var fromTrack = SV.Store.currentUser
-							.get("favorite_tracks")
-							.findWhere({ id: fromTrackID });
+		var	newStationTags,
+		    fromTrackID = parseInt($(event.target).parent().data("id")),
+		      fromTrack = SV.Store.currentUser
+								.get("favorite_tracks")
+								.findWhere({ id: fromTrackID }),	
+		     newStation = new SV.Models.RadioStation({
+								name: fromTrack.get("title"),
+							});
 							
-		var newStation = new SV.Models.RadioStation({
-							name: "station from track " + fromTrack.get("title") });
-		
-		var newStationTags;	
 		SC.get(fromTrack.get("url"), function(track) {
 			//on response from SoundCloud
 			newStationTags = track.tag_list.split(" ");
@@ -29,10 +52,12 @@ SV.Views.FavoritesIndex = Backbone.View.extend({
 			});
 						
 			newStation.get("tags").add(newStationTags);
-			newStation.save({}, {
+			newStation.save({
+				image_url: track.artwork_url
+			}, {
 				success: function(savedStationData) {
 					SV.Store.radioStations.add(savedStationData);
-					Backbone.history.navigate("radio/" + savedStationData.id,
+					Backbone.history.navigate("station/" + savedStationData.id,
 												{ trigger: true });
 				}
 			});

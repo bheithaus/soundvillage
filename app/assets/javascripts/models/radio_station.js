@@ -46,31 +46,34 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 						+ client_id + '&genres=' + this.genres + '&tags='+ tagString +'&order_by=hotness';
 			var that = this;
 					
-			$.getJSON(
-			  url,
-			  function (data) {
-				  that.isLoaded = true;
-	  			  that.firstQuery = false;				  
-				  that.upcomingTracks = helpers.shuffle(data).slice(0, 5);
-				  // console.log("upcoming tracks");
-				  that.printUpcoming();
-				  if (callback) {
-					  callback();
-				  }
-			  }
-			).fail(function() { 
-				that.attempts++;
-				if ( that.attempts > 7) {
-					that.SCAPIRequestErrorCallback();
-					window.setTimeout(function () {
-						that.attempts = 0;
-						that.getUpcomingTracks(callback);
-					}, 8000);
-				} else {
-			        // console.log(that.attempts + " tries querying Soundcloud, retrying");
-					that.getUpcomingTracks(callback);
-				}
-			});
+			$.getJSON(url)
+				.success(
+				  function (data) {
+	  				if (!that.removed) {
+					  that.isLoaded = true;
+		  			  that.firstQuery = false;				  
+					  that.upcomingTracks = helpers.shuffle(data).slice(0, 5);
+					  that.printUpcoming();
+					  if (callback) {
+						  callback();
+					  }
+					}
+				 })
+				.fail(function() {
+					if (!that.removed) {
+						that.attempts++;
+						if ( that.attempts > 7) {
+							that.SCAPIRequestErrorCallback();
+							window.setTimeout(function () {
+								that.attempts = 0;
+								that.getUpcomingTracks(callback);
+							}, 8000);
+						} else {
+					        // console.log(that.attempts + " tries querying Soundcloud, retrying");
+							that.getUpcomingTracks(callback);
+						}
+					}
+				});
 		}
 	},
 	
@@ -79,16 +82,6 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 		this.get("tags").update(tags);
 		this.save();
 	},
-	
-	// savableTags: function() {
-	// 	var tags = this.topTags();
-	// 	
-	// 	// console.log("top tags");
-	// 	// console.log(tags);
-	// 	return _(tags).map(function(tag) {
-	// 		return { name: tag }
-	// 	});
-	// },
 	
 	printUpcoming: function() {
 		_(this.upcomingTracks).each(function(track, i) {

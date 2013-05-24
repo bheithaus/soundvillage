@@ -8,7 +8,9 @@ window.SV = {
 	init: function($navbar, $content, radioStationsData, currentUserData) {
 		//console.log(currentUserData);
 		this.Store.radioStations = new SV.Collections.RadioStations(radioStationsData);
-		this.Store.currentUser = currentUserData ? new SV.Models.User(currentUserData) : null;
+		if (currentUserData) {
+			this.signIn(currentUserData);
+		}
 		
 		this.router = new SV.Routers.SoundVillageRouter($content);
 		this.makeNavbar($navbar);
@@ -23,8 +25,12 @@ window.SV = {
 	},
 	
 	makeNavbar: function($navbar) {
-		var navbarView = new SV.Views.Navbar();
-		$navbar.html(navbarView.render().$el);
+		this.navbarView = new SV.Views.Navbar();
+		$navbar.html(this.navbarView.render().$el);
+	},
+	
+	signIn: function(currentUserData) {
+		this.Store.currentUser = new SV.Models.User(currentUserData);
 	},
 	
 	connectSocket: function() {
