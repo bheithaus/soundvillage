@@ -24,7 +24,7 @@ SV.Views.RadioIndex = Backbone.View.extend({
 		this.$container.isotope({
 			layoutMode: 'masonry',
 			masonry: {
-				columnWidth: 160,
+				columnWidth: 180,
 			},
 			itemSelector : '.radio-station'
 		});
