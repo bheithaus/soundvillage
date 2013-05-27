@@ -5,7 +5,7 @@ SV.Views.Navbar = Backbone.View.extend({
 	},
 	
 	events: {
-		"click #signin" : "signInModal",
+		"click .signin" : "signInModal",
 		"click #commit-signin" : "signIn",
 		"keypress #password" : "enterPressedSignIn",
 		"keypress #su-password-confirm" : "enterPressedSignUp",
@@ -84,6 +84,7 @@ SV.Views.Navbar = Backbone.View.extend({
 	},
 	
 	signUp: function() {
+		var that = this;
 		$.post(
 			"/users",
 			{ user: {
@@ -91,9 +92,14 @@ SV.Views.Navbar = Backbone.View.extend({
 				password: this.$("#su-password").val(),
 				password_confirmation: this.$("#su-password-confirm").val()
 			}},
-			function(successData) {
-				window.location = "/";
+			function(userSessionData) {
+				SV.signIn(userSessionData);
+				that.$("#sign-up-modal").modal("hide");
+				that.trigger("session");
 			}
-		);
+		).fail(function(xhr, errorText) {
+			console.log(xhr);
+			console.log(errorText);
+		});
 	}
 });

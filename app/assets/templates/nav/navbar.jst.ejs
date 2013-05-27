@@ -29,7 +29,7 @@
 			    <li class="divider-vertical"></li>
 				
 				<% if (!SV.Store.currentUser) { %>
-					<li id="signin" class="#">
+					<li id="signin" class="# signin">
 						<a>Sign In</a>
 					</li> 
 				<% } else { %>
@@ -57,8 +57,10 @@
 			<input id="remember-me" name="user[remember_me]" type="checkbox" value="1" checked="true">
 		</label><br><br>
 		<button class="btn" id="commit-signin">Sign In</button>
-		<h4>new user?</h4>
-		<a id="signup" class="btn">Sign Up Form</a>
+		<div class="pull-right">
+			<h4>new user?</h4>
+			<a id="signup" class="btn">Sign Up Form</a>
+		</div>
 	</div>
 </div>
 <div id="sign-up-modal" class="modal hide fade sign" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -71,7 +73,9 @@
 		<input type="password" id="su-password" placeholder="password">
 		<input type="password" id="su-password-confirm" placeholder="confirm password"><br>
 		<button class="btn" id="commit-signup">Sign Up</button>
-		<h4>already Signed up?</h4>
-		<a class="signin btn" id="">Sign In</a>
+		<div class="pull-right">
+			<h4>already Signed up?</h4>
+			<a class="signin btn">Sign In</a>
+		</div>
 	</div>
 </div>
