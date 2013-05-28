@@ -13,16 +13,16 @@
 		
 		<br>
 		<div id="buttons">
-			<a class="pull-left btn btn-custom btn-large disabled" id="play">
+			<a class="btn btn-custom btn-large disabled" id="play">
 				<i class='icon-play'></i>
 			</a>
-			<a class="pull-left btn btn-custom btn-large disabled" id="skip">
+			<a class="btn btn-custom btn-large disabled" id="skip">
 				<i class="icon-chevron-right"></i>
 			</a>
 		</div>
 	</div>
 	
-	<div class="tags float-right span4">
+	<div id="tags" class="tags pull-right span4">
 		<ul class="unstyled inline">
 			<% station.get("tags").each(function(tag) { %>
 				<li class="btn disabled tag"><%= tag.escape("name") %></li>

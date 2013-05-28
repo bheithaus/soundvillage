@@ -23,6 +23,10 @@ body .modal.sign {
 	margin-left: 5px;
 }
 
+#buttons div{
+	display: inline-block;
+}
+
 .btn-custom-large {
 	height: 30px;
 	width: 30px;
@@ -32,7 +36,7 @@ body .modal.sign {
 
 #radio-header {
 	background: #C4C0C2;
-	padding: 5px 20px 5px 20px;
+	padding: 5px 0px 5px 20px;
 }
 
 #radio-inner {
@@ -96,6 +100,7 @@ br {
 
 #waveform-container {
 	position: relative;
+	margin-left:0px;
 }
 
 #buttons {
@@ -107,6 +112,7 @@ br {
 #canvas {
 	-moz-border-radius: 15px;
 	border-radius: 15px;
+	margin-right: 20px;
 }
 
 #comments {
@@ -134,6 +140,10 @@ br {
 	height:20px;
 	margin-right: 30px;
 	margin-top: 30px;
+}
+
+#tags {
+	margin-left: 0px;
 }
 
 .container {
@@ -216,7 +226,6 @@ a.special{
 
 .ui-slider {
 	height: 80px;
-	margin-right: 20px;
 }
 
 .ui-slider .ui-slider-handle {

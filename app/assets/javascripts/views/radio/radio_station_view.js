@@ -9,7 +9,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 						"#8C2B5F",
 						"#393BA8",
 						"#5B26ED",
-						"#C200AB" ];
+						"#C200AB"];
 	},
 	
 	events: {
@@ -23,9 +23,11 @@ SV.Views.RadioStation = Backbone.View.extend({
 		if (this._isFavoriting || !this.isLoaded) {return;}
 		this._isFavoriting = true;
 		
-		var btnText;
-		var $btn = $(event.target);
-		var favorited = SV.Store
+		this.$favButton = this.$favButton || this.$("#favorite");
+		
+		var btnText,
+			that = this
+			favorited = SV.Store
 						.currentUser.get("favorite_tracks").findWhere({
 							url: this.nextSound.uri
 						});
@@ -46,7 +48,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 			url: '/users',
 			success: function(model, resp, options) {
 				SV.Store.currentUser.get("favorite_tracks").reset(resp)
-				$btn.html(btnText);
+				that.$favButton.html(btnText);
 			},
 			error: function(model, xhr, options) {
 				console.log(model);
@@ -388,7 +390,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 				.append(this.radioTagsView.render().$el);
 		this.$("#radio-inner")
 			.append(this.messagesView.render().$el);
-		this.$("#buttons").append(favButtonView.render().$el.children().first());
+		this.$("#buttons").append(favButtonView.render().$el);
 		
 		this.$comments = this.$("#comments");
 		this.setupPlayer();
