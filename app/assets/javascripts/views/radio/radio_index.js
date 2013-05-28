@@ -1,6 +1,7 @@
 SV.Views.RadioIndex = Backbone.View.extend({	
 	initialize: function() {
 		this.stations = [];
+		this.isRadioIndex = true;
 	},
 	
 	events: {
@@ -14,8 +15,6 @@ SV.Views.RadioIndex = Backbone.View.extend({
 			stations: this.collection
 		});
 		this.$el.html(renderedContent);
-		//this.setupIsotope();
-		
 		return this;
 	},
 	
@@ -50,6 +49,8 @@ SV.Views.RadioIndex = Backbone.View.extend({
 	        // reset results arrays
 	        matches = [],
 	       	 misses = [];
+	 		//console.log(kwd);
+			 
 
 	        this.$('.radio-station').removeClass('match miss'); // get rid of any existing classes
 	        $('#noMatches').hide(); // ensure this is always hidden when we start a new query
@@ -64,7 +65,7 @@ SV.Views.RadioIndex = Backbone.View.extend({
 	                        }
 	                });
                 	
-					console.log(matches);
+				//	console.log(matches);
 	                // add appropriate classes and call isotope.filter
 	                $(matches).addClass('match');
 	                $(misses).addClass('miss');

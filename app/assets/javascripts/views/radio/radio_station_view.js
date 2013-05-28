@@ -1,5 +1,6 @@
 SV.Views.RadioStation = Backbone.View.extend({
 	initialize: function() {
+		this.isLoaded = false;
 		this.waveUpdateInterval = 200;
 		this.palette = [
 						"#E01B6A",
@@ -31,14 +32,14 @@ SV.Views.RadioStation = Backbone.View.extend({
 						
 		if (favorited) {
 			SV.Store.currentUser.get("favorite_tracks").remove(favorited);
-			btnText = "Fav";
+			btnText = "<i class='icon-thumbs-up'></i>";
 		} else {
 			SV.Store.currentUser.get("favorite_tracks").add({
 				artist: this.nextSound.user.username,
 				title: this.nextSound.title,
 				url: this.nextSound.uri
 			});
-			btnText = "UnFav";
+			btnText = "<i class='icon-thumbs-down'></i>";
 		}
 		
 		SV.Store.currentUser.save({}, {
@@ -46,6 +47,10 @@ SV.Views.RadioStation = Backbone.View.extend({
 			success: function(model, resp, options) {
 				SV.Store.currentUser.get("favorite_tracks").reset(resp)
 				$btn.html(btnText);
+			},
+			error: function(model, xhr, options) {
+				console.log(model);
+				console.log(xhr);
 			}
 		});
 		
@@ -145,7 +150,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 								url: this.nextSound.uri
 							});
 		
-			btnText = favorited ? "UnFav" : "Fav";
+			btnText = favorited ? "<i class='icon-thumbs-down'></i>" : "<i class='icon-thumbs-up'></i>";
 			this.$("#favorite").html(btnText);
 		}
 	},
@@ -228,6 +233,8 @@ SV.Views.RadioStation = Backbone.View.extend({
 	nextSound: function() {
 		if (this._isSkipping || !this.isLoaded) { return; }
 		this._isSkipping = true;
+		this.isLoaded = false;
+		this.setLoading();
 		
 		this.removeSound();
 		this.clearSoundDetails();
@@ -363,8 +370,10 @@ SV.Views.RadioStation = Backbone.View.extend({
 	render: function() {
 		var renderedContent = JST["radio/station"]({
 			station: this.model
-		});		
+		});
 		
+		var favButtonView = new SV.Views.FavButton();
+
 		this.radioTagsView = new SV.Views.RadioTags({
 			collection: new SV.Collections.Tags()
 		});
@@ -376,8 +385,10 @@ SV.Views.RadioStation = Backbone.View.extend({
 		});
 		
 		this.$el.html(renderedContent)
-				.append(this.radioTagsView.render().$el)
-				.append(this.messagesView.render().$el);
+				.append(this.radioTagsView.render().$el);
+		this.$("#radio-inner")
+			.append(this.messagesView.render().$el);
+		this.$("#buttons").append(favButtonView.render().$el.children().first());
 		
 		this.$comments = this.$("#comments");
 		this.setupPlayer();

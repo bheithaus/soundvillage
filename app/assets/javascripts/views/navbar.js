@@ -1,7 +1,7 @@
 SV.Views.Navbar = Backbone.View.extend({
 	initialize: function() {
 		var renderCallback = this.render.bind(this);
-		this.listenTo(this, "session", renderCallback);
+		this.listenTo(Backbone, "session", renderCallback);
 	},
 	
 	events: {
@@ -11,7 +11,9 @@ SV.Views.Navbar = Backbone.View.extend({
 		"keypress #su-password-confirm" : "enterPressedSignUp",
 		"click #commit-signup" : "signUp",
 		"click #signup" : "signUpModal",
-		"click #signout" : "signOut"
+		"click #signout" : "signOut",
+		"click #favorites": "favoritesModal",
+		"click #radio": "radioModal",
 	},
 	
 	render: function() {
@@ -19,6 +21,15 @@ SV.Views.Navbar = Backbone.View.extend({
 		this.$el.html(renderedContent);
 		
 		return this;
+	},
+	
+	favoritesModal: function() {
+		console.log("calling favorites");
+		SV.router.favorites(true);
+	},
+	
+	radioModal: function() {
+		SV.router.radio(true);
 	},
 	
 	enterPressedSignIn: function(event) {
@@ -34,6 +45,7 @@ SV.Views.Navbar = Backbone.View.extend({
 	},
 	
 	signInModal: function() {
+		console.log(this.$("#sign-in-modal"));
 		this.$("#sign-up-modal").modal("hide");
 		this.$("#sign-in-modal").modal();
 	},
@@ -61,7 +73,7 @@ SV.Views.Navbar = Backbone.View.extend({
 				console.log(userSessionData);
 				SV.signIn(userSessionData);
 				that.$("#sign-in-modal").modal("hide");
-				that.trigger("session");
+				Backbone.trigger("session");
 			}
 		);
 	},
@@ -78,7 +90,7 @@ SV.Views.Navbar = Backbone.View.extend({
 			function(data) {
 				SV.Store.currentUser.clear();
 				SV.Store.currentUser = null;
-				that.trigger("session");
+				Backbone.trigger("session");
 			}
 		);
 	},

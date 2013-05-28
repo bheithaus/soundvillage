@@ -1,7 +1,6 @@
 SV.Views.FavoritesIndex = Backbone.View.extend({
 	initialize: function() {
-		this.sessionCallback = this.sessionUpdate.bind(this);
-		this.listenTo(SV.navbarView, 'session', this.renderCallback);
+		this.renderCallback = this.render.bind(this);
 	},
 	
 	events: {
@@ -11,23 +10,13 @@ SV.Views.FavoritesIndex = Backbone.View.extend({
 		"click a.signup" : "signup"
 	},
 	
-	sessionUpdate: function() {
-		if (SV.Store.currentUser) {
-			var that = this;
-			this.collection = SV.Store.currentUser.get("favorite_tracks");
-			this.collection.fetch({
-				success: function() {
-					that.render();
-				}
-			});
-		}
-	},
-	
 	signin: function() {
+		SV.router.hideModal();
 		SV.navbarView.signInModal();
 	},
 	
 	signup: function() {
+		SV.router.hideModal();
 		SV.navbarView.signUpModal();
 	},
 	

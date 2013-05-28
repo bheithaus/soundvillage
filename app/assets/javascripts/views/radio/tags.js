@@ -14,7 +14,3 @@ SV.Views.RadioTags = Backbone.View.extend({
 		return this;
 	}
 });
-// 
-// <% tags.each(function (tag) { %>
-// 	<li><%= tag.escape("name") %></li>
-// <% }); %>

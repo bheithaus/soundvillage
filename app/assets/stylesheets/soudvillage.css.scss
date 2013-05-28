@@ -1,4 +1,5 @@
 @import "bootstrap";
+@import "font-awesome";
 
 body {
 	background: url(black.jpg);
@@ -6,22 +7,63 @@ body {
 	width: 100%;
 }
 
+body .modal.wide {
+	width: 90%; /* desired relative width */
+	left: 5%; /* (100%-width)/2 */
+	top: 100px;
+	margin: 0 auto; /* place center */
+	opacity: .7;
+}
+
+body .modal.sign {
+	opacity: .7;
+}
+
+#remember-me {
+	margin-left: 5px;
+}
+
+.btn-custom-large {
+	height: 30px;
+	width: 30px;
+    font-size: 2em;
+	margin: auto auto auto auto;	
+}
+
+#radio-header {
+	background: #C4C0C2;
+	padding: 5px 20px 5px 20px;
+}
+
+#radio-inner {
+	margin-top: 10px;
+	padding: 0 50px;
+}
+
+#logo {
+  float: left;
+  margin-right: 10px;
+  text-size: x-large;
+  color: white;
+  text-transform: uppercase;
+  padding-top: 9px;
+  line-height: 1;
+}
+
 #now-listening {
 	background: #9AA7B3;
 	opacity: .8;
-	text-size: large;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	text-align: center;
-	margin-bottom: 10px;
-	padding: 5px;
+	padding: 0 5px 0 5px;
 	width: auto;
 }
 
 #stations {
 	margin: 0 auto;
 	height: 1000px;
-	text-align:center;
+	text-align: center;
 //	padding: 20px;	
 }
 
@@ -50,6 +92,16 @@ br {
 	a {
 		font-size: x-large;
 	}	
+}
+
+#waveform-container {
+	position: relative;
+}
+
+#buttons {
+	position: absolute;
+	bottom: -30px;
+	right: 50px;
 }
 
 #canvas {
@@ -86,7 +138,6 @@ br {
 
 .container {
     background: url(dust.png) repeat 0 0;
-	padding: 0 50px;
 	height: 900px;
 	//margin: 0 auto;
 }

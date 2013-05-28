@@ -1,37 +1,46 @@
-
 <button class="btn btn-custom btn-large pull-right" id="new-station">Make a new Station</button>
+
 <div class="pull-right" id="loading"></div>
 
-<h4 class="inline">Now listening to</h4>
-<div id="now-listening" class="span6"><strong><%= station.escape("name") %></strong></div><br>
+<div id="radio-header">
+	<h3 class="pull-left">Now listening to</h3>
+	<h3 id="now-listening" class="pull-left span6"><%= station.escape("name") %></h3>
+	<br>
 
-
-<div class="tags">
-	<ul class="unstyled inline">
-		<% station.get("tags").each(function(tag) { %>
-			<li class="btn disabled tag"><%= tag.escape("name") %></li>
-		<% }) %>
-	</ul>
+	<div id="waveform-container" class="span7">
+		<canvas class="pull-left" id="canvas" height="80" width="500"></canvas>
+		<div class="pull-left" id="volume"></div>
+		
+		<br>
+		<div id="buttons">
+			<a class="pull-left btn btn-custom btn-large disabled" id="play">
+				<i class='icon-play'></i>
+			</a>
+			<a class="pull-left btn btn-custom btn-large disabled" id="skip">
+				<i class="icon-chevron-right"></i>
+			</a>
+		</div>
+	</div>
+	
+	<div class="tags float-right span4">
+		<ul class="unstyled inline">
+			<% station.get("tags").each(function(tag) { %>
+				<li class="btn disabled tag"><%= tag.escape("name") %></li>
+			<% }) %>
+		</ul>
+	</div>
+	<br>
 </div>
 
-<div><canvas class="pull-left" id="canvas" height="80" width="500"></div>
-<div class="pull-left" id="volume"></div>
-<div class="pull-right">
-	<img id='artwork' class='img-polaroid' alt='sound artwork'></img>
+<div id="radio-inner">
+	<div class="pull-right">
+		<img id='artwork' class='img-polaroid' alt='sound artwork'></img>
+	</div>
+
+	<div class="pull-left span6" id="description"></div><br>
+
+	<div class="pull-right span4" id="comments"></div>
 </div>
-
-<div class="pull-left span6" id="description"></div>
-
-<a class="btn btn-custom btn-large disabled" id="play">
-	<i class='icon-play'></i>
-</a>
-<a class="btn btn-custom btn-large disabled" id="skip">
-	<i class="icon-chevron-right"></i>
-</a>
-<% if (SV.Store.currentUser) { %>
-	<a class="btn btn-custom btn-large disabled" id="favorite">Fav</a>
-<% } %>
-<div class="pull-right span4" id="comments"></div>
 
 <div id="new-station-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">

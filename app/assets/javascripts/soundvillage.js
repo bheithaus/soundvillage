@@ -5,14 +5,14 @@ window.SV = {
 	Views: {},
 	Store: {},
 
-	init: function($navbar, $content, radioStationsData, currentUserData) {
+	init: function($navbar, $content, $modal, radioStationsData, currentUserData) {
 		//console.log(currentUserData);
 		this.Store.radioStations = new SV.Collections.RadioStations(radioStationsData);
 		if (currentUserData) {
 			this.signIn(currentUserData);
 		}
 		
-		this.router = new SV.Routers.SoundVillageRouter($content);
+		this.router = new SV.Routers.SoundVillageRouter($content, $modal);
 		this.makeNavbar($navbar);
 		this.connectSocket();
 		
@@ -35,9 +35,5 @@ window.SV = {
 	
 	connectSocket: function() {
 		this.pusher = new Pusher('6a57463cf6800154ee3d');
-		// var channel = pusher.subscribe('my-channel');
-	// 	channel.bind('my-event', function(data) {
-	// 	  alert('An event was triggered with message: ' + data.message);
-	// 	});
 	}
 };

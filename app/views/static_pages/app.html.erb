@@ -1,16 +1,23 @@
 <div id="navbar"></div>
 <div id="content"></div>
+<div id="main-modal" class="modal hide fade sign wide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-body">
+	</div>
+</div>
+
 
 <script>
 	$(function() {
-		var radioStationsData = <%= @radio_stations.to_json.html_safe %>;
-		var currentUserData = <%= @current_user.to_json(include: :favorite_tracks).html_safe %>;
-		var $navbar = $("#navbar");
-		var $content = $("#content");
+		var radioStationsData = <%= @radio_stations.to_json.html_safe %>,
+			currentUserData = <%= @current_user.to_json(include: :favorite_tracks).html_safe %>,
+			$navbar = $("#navbar"),
+			$content = $("#content"),
+			$modal = $("#main-modal");
 		
 		window.SV.init(
 			$navbar,
 			$content,
+			$modal,
 			radioStationsData,
 			currentUserData
 		);
