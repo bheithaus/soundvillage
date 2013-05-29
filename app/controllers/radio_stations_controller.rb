@@ -27,5 +27,4 @@ class RadioStationsController < ApplicationController
       render json: {}, status: 422
     end
   end
-
 end

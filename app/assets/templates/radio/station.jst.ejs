@@ -3,8 +3,8 @@
 <div class="pull-right" id="loading"></div>
 
 <div id="radio-header">
-	<h3 class="pull-left">Now listening to</h3>
-	<h3 id="now-listening" class="pull-left span6"><%= station.escape("name") %></h3>
+	<h4 class="pull-left">Now listening to</h4>
+	<h4 id="now-listening" class="pull-left span6"><%= station.escape("name") %></h4>
 	<br>
 
 	<div id="waveform-container" class="span7">
@@ -13,10 +13,10 @@
 		
 		<br>
 		<div id="buttons">
-			<a class="btn btn-custom btn-large disabled" id="play">
+			<a class="btn btn-custom disabled" id="play">
 				<i class='icon-play'></i>
 			</a>
-			<a class="btn btn-custom btn-large disabled" id="skip">
+			<a class="btn btn-custom disabled" id="skip">
 				<i class="icon-chevron-right"></i>
 			</a>
 		</div>
@@ -39,7 +39,7 @@
 
 	<div class="pull-left span6" id="description"></div><br>
 
-	<div class="pull-right span4" id="comments"></div>
+	<div class="hidden-phone pull-right span4" id="comments"></div>
 </div>
 
 <div id="new-station-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

@@ -125,9 +125,11 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	showSoundDetails: function() {
+		var artworkSRC = this.nextSound.artwork_url || SV.assets.imageUrl('default-artwork.png');
+		
 		this.setFavButtonText();
 		this.$("#description").html(this.formatDetails());
-		this.$("#artwork").attr("src", this.nextSound.artwork_url)
+		this.$("#artwork").attr("src", artworkSRC)
 							.attr("height", "250")
 							.attr("width", "250");
 	},

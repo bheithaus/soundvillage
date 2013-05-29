@@ -28,6 +28,11 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 			this.currentView.remove();
 			this.currentView = null;
 		}
+		
+		if (this.currentStation) {
+			this.currentStation.remove();
+			this.currentStation = null;
+		}
 	},	
 	
 	after: function(route) {

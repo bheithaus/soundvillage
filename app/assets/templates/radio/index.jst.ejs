@@ -1,14 +1,11 @@
-<!-- <button class="btn btn-custom btn-large pull-right" id="new-station">Make a new Station</button><br><br> -->
+<!-- Station Index -->
 <input type="text" id="filter" placeholder="search">
 <h3>Public Stations</h3>
 <div id="stations" class="clearfix">
 	<% stations.each(function(station) { %>
 		<a href="#station/<%= station.escape("id") %>">
-			<% if (station.get("image_url")) { %>
-				<div id="station-<%= station.escape("id") %>" class="radio-station" style="background-image: url('<%= station.escape('image_url') %>'); background-size: 100%">
-			<% } else { %>
-				<div id="station-<%= station.escape("id") %>" class="radio-station">
-			<% } %>
+				<% var artworkSRC = station.escape('image_url') || SV.assets.imageUrl('station-default-image.png'); %>
+				<div id="station-<%= station.escape("id") %>" class="radio-station" style="background-image: url('<%= artworkSRC %>'); background-size: 100%;">
 					<p>
 						<%= station.escape("name") %>
 					</p>

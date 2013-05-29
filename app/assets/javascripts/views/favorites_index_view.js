@@ -21,6 +21,7 @@ SV.Views.FavoritesIndex = Backbone.View.extend({
 	},
 	
 	createStation: function(event) {
+		console.log("station id" + parseInt($(event.target).parent().data("id")));
 		var	newStationTags,
 		    fromTrackID = parseInt($(event.target).parent().data("id")),
 		      fromTrack = SV.Store.currentUser
