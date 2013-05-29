@@ -1,38 +1,37 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
-  <div class="navbar-inner center">
-	   <button class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-		   <span class="icon-bar"></span>
-		   <span class="icon-bar"></span>
-		   <span class="icon-bar"></span>
-	   </button>
-   	  <a class="brand"></a>
-   	  <a class="brand"></a>
-   	  <a class="brand"></a>
-	   
-	   <a id="logo" class="brand">SoundVillage</a>
-	   
-	   <div class="nav-collapse collapse">
-		    <ul class="nav" id="navvy">
-				<li id='radio' class="#">
-					<a>Radio</a>
-				</li>
-			    <li class="divider-vertical"></li>
-				
-				<li id='favorites' class="#">
-					<a>Favorites</a>
-				</li>
-			    <li class="divider-vertical"></li>
-				
-				<% if (!SV.Store.currentUser) { %>
-					<li id="signin" class="# signin">
-						<a>Sign In</a>
-					</li> 
-				<% } else { %>
-					<li id="signout" class="#">
-						<a>Sign Out</a>
+	<div class="navbar-inner center">
+		 <div class="container">
+			<button class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			   <span class="icon-bar"></span>
+			   <span class="icon-bar"></span>
+			   <span class="icon-bar"></span>
+			</button>
+
+			<a id="logo" class="brand">SoundVillage</a>
+
+			<div class="nav-collapse collapse">
+			    <ul class="nav" id="navvy">
+					<li id='radio' class="#">
+						<a>Radio</a>
 					</li>
-				<% } %>
-			</ul>
+				    <li class="divider-vertical"></li>
+			
+					<li id='favorites' class="#">
+						<a>Favorites</a>
+					</li>
+				    <li class="divider-vertical"></li>
+			
+					<% if (!SV.Store.currentUser) { %>
+						<li id="signin" class="# signin">
+							<a>Sign In</a>
+						</li> 
+					<% } else { %>
+						<li id="signout" class="#">
+							<a>Sign Out</a>
+						</li>
+					<% } %>
+				</ul>
+			</div>
 			<a class="pull-right" id="sc-pow" href="http://www.soundcloud.com">
 				<img src="<%= SV.assets.imageUrl('powered_by_sc_white.png') %>">
 			</a>
@@ -73,4 +72,13 @@
 			<a class="signin btn">Sign In</a>
 		</div>
 	</div>
+</div>
+
+<!-- new station modal -->
+<div id="new-station-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+       <h3 id="myModalLabel">Create Your Station</h3>
+     </div>
+	<div class="modal-body"></div>
 </div>

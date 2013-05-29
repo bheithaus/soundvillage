@@ -21,7 +21,7 @@ SV.Views.NewRadioStationForm = Backbone.View.extend({
 			success: function(savedStationData) {
 				SV.Store.radioStations.add(savedStationData);
 				$("#new-station-modal").modal('hide');
-				Backbone.history.navigate("radio/" + savedStationData.id,
+				Backbone.history.navigate("station/" + savedStationData.id,
 											{ trigger: true });
 			}
 		});

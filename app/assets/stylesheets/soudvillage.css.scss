@@ -1,4 +1,5 @@
 @import "bootstrap";
+@import "bootstrap-responsive";
 
 @import "font-awesome";
 
@@ -17,7 +18,7 @@ body .modal.wide {
 }
 
 body .modal.sign {
-	opacity: .7;
+	opacity: .98;
 }
 
 #remember-me {
@@ -45,7 +46,8 @@ body .modal.sign {
 }
 
 #radio-header {
-	background: #C4C0C2;
+	background-color: #C4C0C2;
+    background: url(radio-header-bg.png) repeat 0 0;
 	padding: 5px 20px 20px 20px;
 }
 
@@ -110,7 +112,9 @@ br {
 
 #waveform-container {
 	position: relative;
-	margin-left:0px;
+	margin: 0 0 10px 0;
+	min-width: 540px;
+	max-width: 540px;
 }
 
 #buttons {
@@ -157,7 +161,7 @@ br {
 	margin-left: 0px;
 }
 
-.container {
+#content {
     background: url(dust.png) repeat 0 0;
 	height: 900px;
 	//margin: 0 auto;
@@ -166,7 +170,7 @@ br {
 #new-station-modal {
 	text-align:center;
 	background-color: #755964;
-	opacity: .8;
+	opacity: .95;
 }
 
 #new-station {

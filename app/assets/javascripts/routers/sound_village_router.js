@@ -54,8 +54,8 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 	},
 	
 	routes: {
-		"station/:id": "radioStation",
-		"": "radio"
+		"station/:id" : "radioStation",
+				   "" : "radio"
 	},
 	
 	hideModal: function() {

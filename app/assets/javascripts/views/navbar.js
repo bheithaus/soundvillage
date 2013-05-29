@@ -113,5 +113,20 @@ SV.Views.Navbar = Backbone.View.extend({
 			console.log(xhr);
 			console.log(errorText);
 		});
-	}
+	},
+	
+	newStationModal: function() {
+		var newStation = new SV.Models.RadioStation(),
+				  that = this;
+				
+		var newStationForm = new SV.Views.NewRadioStationForm({
+			model: newStation,
+		});
+		this.$("#new-station-modal").on('shown', function () {
+			that.$("#station-name").focus();
+		});
+		this.$("#new-station-modal .modal-body").html(newStationForm.render().$el);
+		
+		this.$("#new-station-modal").modal();
+	},
 });
