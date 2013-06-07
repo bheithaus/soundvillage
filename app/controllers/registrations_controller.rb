@@ -1,4 +1,5 @@
-class RegistrationsController < Devise::RegistrationsController  
+class RegistrationsController < Devise::RegistrationsController 
+  include RedisHelper
   respond_to :json, :html
   
   def create
@@ -31,15 +32,14 @@ class RegistrationsController < Devise::RegistrationsController
                                 trackData[:url],
                                 trackData[:title],
                                 trackData[:artist])
-          puts "response from find or create by url"
-          p track
+
           attrs[:favorite_track_ids] << track.id
           tracks << track
         end
     end
     
     if @user.update_attributes(attrs)
-      set_flash_message :notice, :updated
+      reset_user_and_favorites
       # Sign in the user bypassing validation in case his password changed
       render json: tracks
     else

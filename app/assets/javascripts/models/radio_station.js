@@ -53,7 +53,7 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 	  				if (!that.removed) {
 					  that.isLoaded = true;
 		  			  that.firstQuery = false;				  
-					  that.upcomingTracks = helpers.shuffle(data).slice(0, 5);
+					  that.upcomingTracks = helpers.shuffle(data).slice(0, 20);
 					  that.printUpcoming();
 					  if (callback) {
 						  callback();

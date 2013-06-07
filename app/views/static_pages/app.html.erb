@@ -5,11 +5,10 @@
 	</div>
 </div>
 
-
 <script>
 	$(function() {
-		var radioStationsData = <%= @radio_stations.to_json.html_safe %>,
-			currentUserData = <%= @current_user.to_json(include: :favorite_tracks).html_safe %>,
+		var radioStationsData = <%= @radio_stations_json.html_safe %>,
+			currentUserData = <%= @current_user_json.html_safe %>,
 			$navbar = $("#navbar"),
 			$content = $("#content"),
 			$modal = $("#main-modal");

@@ -49,6 +49,10 @@ SV.Views.FavoritesIndex = Backbone.View.extend({
 					SV.Store.radioStations.add(savedStationData);
 					Backbone.history.navigate("station/" + savedStationData.id,
 												{ trigger: true });
+				},
+				error: function(xhr, data, options) {
+					console.log(xhr);
+					console.log(data);
 				}
 			});
 		});

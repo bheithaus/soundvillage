@@ -1,8 +1,10 @@
 class StaticPagesController < ApplicationController
+  include RedisHelper
+  
   def app
-    @radio_stations = RadioStation.includes(:tags).all
+    @radio_stations_json = public_stations
     if current_user
-      @current_user = User.includes(:favorite_tracks).find_by_email(current_user.email)
+      @current_user_json = current_user_and_favorite_tracks #in AppCtrl
     end
         
     respond_to do |format|

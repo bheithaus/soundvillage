@@ -6,7 +6,6 @@ SV.Views.FavButton = Backbone.View.extend({
 	},
 	
 	render: function() {
-		console.log("rendering fav button");
 		var renderedContent = JST["radio/fav_button"]();
 		this.$el.html(renderedContent);
 		
