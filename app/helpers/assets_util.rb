@@ -1,5 +1,4 @@
 module AssetsUtil
- 
   def self.assets_url
     self.config["environments"][Rails.env]["assets"]
   end
