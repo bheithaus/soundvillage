@@ -7,8 +7,8 @@
 
 <script>
 	$(function() {
-		var radioStationsData = <%= @radio_stations_json.html_safe %>,
-			currentUserData = <%= @current_user_json.html_safe %>,
+		var radioStationsData = <%= @radio_stations_json %>,
+			currentUserData = <%= @current_user_json %>,
 			$navbar = $("#navbar"),
 			$content = $("#content"),
 			$modal = $("#main-modal");
