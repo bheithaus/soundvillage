@@ -103,7 +103,6 @@ a.special{
 }
 /* END Buttons  */
 
-
 /* Radio Player */
 #radio-header {
 	background-color: #C4C0C2;
@@ -197,9 +196,9 @@ a.special{
 
 /* <Modals> */
 body .modal.wide {
-	width: 90%; /* desired relative width */
-	left: 5%; /* (100%-width)/2 */
-	top: 100px;
+	width: 90%;
+	left: 5%;
+	top: 5%;
 	margin: 0 auto; /* place center */
 	opacity: .7;
 }

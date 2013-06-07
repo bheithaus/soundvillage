@@ -36,6 +36,7 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 		that.get("tags").each(function(tag) {
 			that.tags[tag.get("name")] = tag.get("weight");
 		});
+		// console.log(that.tags);
 	},
 	
 	getUpcomingTracks: function(callback) {
@@ -67,7 +68,7 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 							window.setTimeout(function () {
 								that.attempts = 0;
 								that.getUpcomingTracks(callback);
-							}, 8000);
+							}, 4000);
 						} else {
 					        // console.log(that.attempts + " tries querying Soundcloud, retrying");
 							that.getUpcomingTracks(callback);
@@ -85,12 +86,12 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 	
 	printUpcoming: function() {
 		_(this.upcomingTracks).each(function(track, i) {
-			// console.log("Track #" + i + ": " + track.title);
+			console.log("Track #" + i + ": " + track.title);
 		});
 	},
 	
 	nextTrack: function() {
-		if (!this.upcomingTracks) {
+		if (!this.upcomingTracks || this.upcomingTracks.length < 1) {
 			this.getUpcomingTracks();
 			return;
 		} else if (this.upcomingTracks.length == 1) {

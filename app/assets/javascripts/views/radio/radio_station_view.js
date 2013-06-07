@@ -15,7 +15,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 	events: {
 		"click button#new-station": "newStationModal",
 		"click a#play" 		      : "playOrPause",
-		"click a#skip" 		  	  : "nextSound",
+		"click a#skip" 		  	  : "skipToNextSound",
 		"click a#favorite"		  : "favoriteTrack",
 	},
 	
@@ -73,7 +73,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 							}));
 		this.spinner.stop();
 	},
-	
+
 	setupPlayer: function() {
   		var	that = this,
 			newSoundUrl;
@@ -87,14 +87,14 @@ SV.Views.RadioStation = Backbone.View.extend({
 				newSoundUrl = that.nextSound.uri;
 				SC.stream(newSoundUrl, {
 					ontimedcomments: that.showComment.bind(that)
-				}, function(sound){
+				},
+				function(sound){
 					that.setSound(sound);
 				});
 				that.showSoundDetails();
 			} else {
 				that.nextTrackCallback();
 			}
-			
   	  	};
 		
 		this.comments = 0;
@@ -102,6 +102,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 		this.setupSpinner();
 		this.setLoading();
 		this.setupVolumeSlider();
+		this.bindBodyKeypresses();
   	},
 	
 	showComment: function(comments) {
@@ -130,8 +131,8 @@ SV.Views.RadioStation = Backbone.View.extend({
 		this.setFavButtonText();
 		this.$("#description").html(this.formatDetails());
 		this.$("#artwork").attr("src", artworkSRC)
-							.attr("height", "250")
-							.attr("width", "250");
+						  .attr("height", "250")
+						  .attr("width", "250");
 	},
 	
 	visuallyEnableButtons: function() {
@@ -234,7 +235,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 		this.spinner = new Spinner(opts);
 	},
 	
-	nextSound: function() {
+	skipToNextSound: function() {
 		if (this._isSkipping || !this.isLoaded) { return; }
 		this._isSkipping = true;
 		this.isLoaded = false;
@@ -258,16 +259,26 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	play: function() {
+		if (this._isPressingPlay || !this.isLoaded) { return; }
+		this._isPressingPlay = true;
+		
 		this.spinner.stop();
 		this.playing = true;
 		this.sound.play();
 		this.$("#play").html("<i class='icon-pause'></i>");
+		
+		this._isPressingPlay = false;
 	},
 	
 	pause: function() {
+		if (this._isPressingPause || !this.isLoaded) { return; }
+		this._isPressingPause = true;
+		
 		this.playing = false;
 		this.sound.pause();
 		this.$("#play").html("<i class='icon-play'></i>");
+		
+		this._isPressingPause = false;
 	},
 	
 	playOrPause: function() {
@@ -282,6 +293,20 @@ SV.Views.RadioStation = Backbone.View.extend({
 		this.showPosition();
 		
 		this._isPlayingOrPausing = false;
+	},
+	
+	bindBodyKeypresses: function() {
+		$("body").on('keyup', this.spaceOrArrowPressed.bind(this));
+	},
+	
+	spaceOrArrowPressed: function(event) {	
+		if ($(event.target).context.localName === "input" || !this.isLoaded) { return; }
+
+		if (event.keyCode === 32) {
+			this.playOrPause();
+		} else if (event.keyCode === 39) {
+			this.skipToNextSound();
+		}
 	},
 	
 	installButtons: function() {
@@ -326,6 +351,10 @@ SV.Views.RadioStation = Backbone.View.extend({
 		wave.src = url;
 	},
 	
+	skipToEnd: function() {
+		this.sound.setPosition(this.sound.durationEstimate - 100);	
+	},
+	
 	updateWaveform: function() {
 		var percentComplete = this.sound.position / this.sound.durationEstimate;
 		
@@ -353,6 +382,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	remove: function() {
+		$("window").off('keypress');
 		clearInterval(this.trackerID);
 		this.removeSound();
 		this.model.removed = true;

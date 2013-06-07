@@ -17,6 +17,9 @@ gem 'omniauth-facebook'
 
 gem 'newrelic_rpm'
 
+#redis
+gem 'redis'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

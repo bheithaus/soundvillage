@@ -1,7 +1,8 @@
 class RadioStationsController < ApplicationController
   respond_to :json
   
-  def index 
+  def index
+    
     @radio_stations = RadioStation.all
     
     render json: @radio_stations

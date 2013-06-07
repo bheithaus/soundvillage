@@ -1,7 +1,5 @@
 SV.Collections.RadioStationTags = Backbone.Collection.extend({
 	initialize: function(data, options) {
-		// console.log(data);
-// 		console.log(options);
 		this.radio_station = options.radio_station;
 	},
 	
@@ -12,10 +10,12 @@ SV.Collections.RadioStationTags = Backbone.Collection.extend({
 	},
 	
 	update: function(tags) {
+		console.log(tags);
+		
 		var that = this,
 			tag;
 		_(tags).each(function(tagOBJ) {
-			tag = tagOBJ.name.toLowerCase()
+			tag = tagOBJ.name.toLowerCase();
 			model = that.findWhere({ name: tag });			
 			if (!model) {
 				if (tagOBJ.weight > 2) {
