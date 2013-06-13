@@ -14,6 +14,7 @@ SV.Views.Navbar = Backbone.View.extend({
 		"click #signout" : "signOut",
 		"click #favorites": "favoritesModal",
 		"click #radio": "radioModal",
+		"click #connect-fb": "connectFB",
 	},
 	
 	render: function() {
@@ -21,6 +22,12 @@ SV.Views.Navbar = Backbone.View.extend({
 		this.$el.html(renderedContent);
 		
 		return this;
+	},
+	
+	connectFB: function() {
+		newwindow = window.open(SV.paths.facebook_omniauth_url, 'Connect Faceboon',
+								'height=200,width=150');
+		if (window.focus) { newwindow.focus(); }
 	},
 	
 	favoritesModal: function() {

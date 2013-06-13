@@ -3,8 +3,8 @@ module RedisHelper
     $redis.del("PublicStations")
   end
   
-  def reset_user_and_favorites
-    $redis.del(redis_user_key(current_user))
+  def reset_redis_user_and_favorites(user = current_user)
+    $redis.del(redis_user_key(user))
   end
   
   

@@ -136,15 +136,13 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	visuallyEnableButtons: function() {
-		this.$("a#play").removeClass("disabled");
-		this.$("a#skip").removeClass("disabled"); 	
-		this.$("a#favorite").removeClass("disabled");
+		$(".disabled").toggleClass("disabled");
+		this.sharer.enable();
 	},
 	
 	visuallyDisableButtons: function() {
-		this.$("a#play").addClass("disabled");
-		this.$("a#skip").addClass("disabled");
-		this.$("a#favorite").addClass("disabled");
+		this.$("div#buttons .btn").toggleClass("disabled");
+		this.sharer.disable();
 	},
 	
 	setFavButtonText: function() {
@@ -398,6 +396,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 		
 		var favButtonView = new SV.Views.FavButton();
 
+		this.sharer = new SV.Views.FacebookShare();
 		this.radioTagsView = new SV.Views.RadioTags({
 			collection: new SV.Collections.Tags()
 		});
@@ -410,6 +409,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 		
 		this.$el.html(renderedContent)
 				.append(this.radioTagsView.render().$el);
+		this.$("#share-space").append(this.sharer.render().$el);
 		this.$("#radio-inner")
 			.append(this.messagesView.render().$el);
 		this.$("#buttons").append(favButtonView.render().$el);

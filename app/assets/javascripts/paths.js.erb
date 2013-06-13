@@ -1,0 +1,5 @@
+<% url = Soundvillage::Application.routes.url_helpers %>
+
+SV.paths = {
+	facebook_omniauth_url: "<%= url.user_omniauth_authorize_path(:facebook) %>?display=popup"
+}

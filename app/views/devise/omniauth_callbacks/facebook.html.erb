@@ -1,0 +1,11 @@
+<% if @connection[:success] %>
+<script>
+	window.close();
+</script>
+<% else %>
+<div class="alert">
+	<h1>
+		Something went wrong :(
+	</h1>
+</div>
+<% end %>

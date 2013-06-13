@@ -20,6 +20,7 @@
 						<a>Favorites</a>
 					</li>
 				    <li class="divider-vertical"></li>
+
 			
 					<% if (!SV.Store.currentUser) { %>
 						<li id="signin" class="# signin">
@@ -29,6 +30,15 @@
 						<li id="signout" class="#">
 							<a>Sign Out</a>
 						</li>
+						
+					    <li class="divider-vertical"></li>
+						<% if (!SV.Store.currentUser.get("provider")) { %>
+							<li id='connect-fb' class="#">
+								<a>
+									<img src="<%= SV.assets.imageUrl('facebook-connect.png') %>" alt="Connect with Facebook">
+								</a>
+							</li>
+						<% } %>
 					<% } %>
 				</ul>
 			</div>

@@ -4,9 +4,11 @@
 	<div class="modal-body">
 	</div>
 </div>
+<%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
  
 <script>
 	$(function() {
+		
 		var radioStationsData = <%= @radio_stations_json %>,
 			currentUserData = <%= @current_user_json %>,
 			$navbar = $("#navbar"),

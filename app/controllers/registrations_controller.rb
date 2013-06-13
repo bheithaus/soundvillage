@@ -39,7 +39,7 @@ class RegistrationsController < Devise::RegistrationsController
     end
     
     if @user.update_attributes(attrs)
-      reset_user_and_favorites
+      reset_redis_user_and_favorites
       # Sign in the user bypassing validation in case his password changed
       render json: tracks
     else
