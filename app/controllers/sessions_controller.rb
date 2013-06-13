@@ -29,13 +29,12 @@ class SessionsController < Devise::SessionsController
       # We actually need to hardcode this as Rails default responder doesn't
       # support returning empty response on GET request
       respond_to do |format|
-        format.all { head :no_content }
+        format.json { render json: signed_out }
         format.any(*navigational_formats) { redirect_to redirect_path }
       end
     end
 
-    protected
-
+protected
     def sign_in_params
       devise_parameter_sanitizer.for(:sign_in)
     end

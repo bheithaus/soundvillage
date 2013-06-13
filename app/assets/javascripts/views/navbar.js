@@ -1,7 +1,7 @@
 SV.Views.Navbar = Backbone.View.extend({
 	initialize: function() {
-		var renderCallback = this.render.bind(this);
-		this.listenTo(Backbone, "session", renderCallback);
+		var sessionCallback = this.sessionCallback.bind(this);
+		this.listenTo(Backbone, "session", sessionCallback);
 	},
 	
 	events: {
@@ -17,6 +17,11 @@ SV.Views.Navbar = Backbone.View.extend({
 		"click #connect-fb": "connectFB",
 	},
 	
+	sessionCallback: function() {
+		this.render();
+		this.fbCallback();
+	},
+	
 	render: function() {
 		var renderedContent = JST["nav/navbar"]();
 		this.$el.html(renderedContent);
@@ -25,9 +30,15 @@ SV.Views.Navbar = Backbone.View.extend({
 	},
 	
 	connectFB: function() {
-		newwindow = window.open(SV.paths.facebook_omniauth_url, 'Connect Faceboon',
-								'height=200,width=150');
+		newwindow = window.open(SV.paths.facebook_omniauth_url, 'Connect Facebook',
+								'height=400,width=500');
 		if (window.focus) { newwindow.focus(); }
+	},
+	
+	fbCallback: function() {
+		if (SV.router.currentStation) {
+			SV.router.currentStation.sharer.render();
+		}
 	},
 	
 	favoritesModal: function() {
@@ -95,6 +106,7 @@ SV.Views.Navbar = Backbone.View.extend({
 			}
 		).success(
 			function(data) {
+				console.log(data);
 				SV.Store.currentUser.clear();
 				SV.Store.currentUser = null;
 				Backbone.trigger("session");

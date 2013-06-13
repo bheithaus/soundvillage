@@ -1,11 +1,13 @@
 <% if @connection[:success] %>
-<script>
-	window.close();
-</script>
+	<script>
+		window.opener.SV.Store.currentUser.set("provider", "facebook");
+		window.opener.SV.navbarView.render();
+		window.close();
+	</script>
 <% else %>
-<div class="alert">
-	<h1>
-		Something went wrong :(
-	</h1>
-</div>
+	<div class="alert well">
+		<h1>
+			Something went wrong :(
+		</h1>
+	</div>
 <% end %>

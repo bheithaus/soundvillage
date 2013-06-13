@@ -1,6 +1,6 @@
 SV.Views.FacebookShare = Backbone.View.extend({	
 	events: {
-		"click #fb-share": "shareToFB"
+		"click #fb-share": "shareToFB",
 	},
 	
 	render: function() {
