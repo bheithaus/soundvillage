@@ -28,6 +28,7 @@
 //
 //= require soundvillage
 //= require assets
+//= require paths
 //
 //= require_tree ./models
 //= require_tree ./collections
