@@ -129,7 +129,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 		var artworkSRC = this.nextSound.artwork_url || SV.assets.imageUrl('default-artwork.png');
 		
 		this.setFavButtonText();
-		this.$("#description").html(this.formatDetails());
+		this.$("#description").html(this.formatDescription());
 		this.$("#artwork").attr("src", artworkSRC)
 						  .attr("height", "250")
 						  .attr("width", "250");
@@ -158,11 +158,11 @@ SV.Views.RadioStation = Backbone.View.extend({
 		}
 	},
 	
-	formatDetails: function() {
+	formatDescription: function() {
 		var nextSound = this.nextSound;
-		return "<h1><a class='special' target='_blank' href='"+ nextSound.permalink_url +"'>"+ nextSound.title + "</a></h1>" +
+		return "<h1><a class='special' target='_blank' href='"+ nextSound.permalink_url +"'>"+ String.prototype.autoLink.apply(nextSound.title) + "</a></h1>" +
 				"<h3><a class='special' target='_blank' href='"+ nextSound.user.permalink_url +"'>"+ nextSound.user.username + "</a></h3>" +
-				"<p>" + nextSound.description.slice(0,500) + "</p>"
+				"<p>" + String.prototype.autoLink.apply(nextSound.description.slice(0,500),[nil, nil ]) + "</p>"
 	},
 	
 	showPosition: function() {

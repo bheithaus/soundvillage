@@ -19,6 +19,8 @@
 //= require bootstrap
 //= require backbone.routefilter
 //
+//= require autolink.js
+//
 //= require sdk.js
 //
 //= require pusher.min

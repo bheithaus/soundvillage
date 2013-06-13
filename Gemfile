@@ -20,6 +20,9 @@ gem 'fb_graph'
 
 gem 'newrelic_rpm'
 
+gem 'rinku'
+
+
 #redis
 gem 'redis'
 
