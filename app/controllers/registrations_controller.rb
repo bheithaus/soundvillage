@@ -21,6 +21,8 @@ class RegistrationsController < Devise::RegistrationsController
   
   def update
     #this is fun, I am using this method only to favorite / unfavorite tracks
+    puts "CURRENT USER"
+    p current_user
     @user = User.find(current_user.id)
     attrs = {}
     attrs[:favorite_track_ids] = []
@@ -36,12 +38,14 @@ class RegistrationsController < Devise::RegistrationsController
           attrs[:favorite_track_ids] << track.id
           tracks << track
         end
-    end
     
-    if @user.update_attributes(attrs)
-      reset_redis_user_and_favorites
-      # Sign in the user bypassing validation in case his password changed
-      render json: tracks
+        if @user.update_attributes(attrs)
+          reset_redis_user_and_favorites
+          # Sign in the user bypassing validation in case his password changed
+          render json: tracks
+        else
+          render json: {}, status: 422
+        end
     else
       render json: {}, status: 422
     end
