@@ -30,6 +30,7 @@ SV.Views.Navbar = Backbone.View.extend({
 	},
 	
 	connectFB: function() {
+		console.log(SV.paths.facebook_omniauth_url);
 		newwindow = window.open(SV.paths.facebook_omniauth_url, 'Connect Facebook',
 								'height=400,width=500');
 		if (window.focus) { newwindow.focus(); }
