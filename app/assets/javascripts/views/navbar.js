@@ -127,7 +127,7 @@ SV.Views.Navbar = Backbone.View.extend({
 			function(userSessionData) {
 				SV.signIn(userSessionData);
 				that.$("#sign-up-modal").modal("hide");
-				that.trigger("session");
+				Backbone.trigger("session");
 			}
 		).fail(function(xhr, errorText) {
 			console.log(xhr);
