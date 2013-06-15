@@ -94,7 +94,9 @@ SV.Views.Navbar = Backbone.View.extend({
 				that.$("#sign-in-modal").modal("hide");
 				Backbone.trigger("session");
 			}
-		);
+		).fail(function(xhr) {
+			$("#si-alert").html(that.prettyErrors(xhr));
+		});
 	},
 	
 	signOut: function() {
@@ -129,10 +131,24 @@ SV.Views.Navbar = Backbone.View.extend({
 				that.$("#sign-up-modal").modal("hide");
 				Backbone.trigger("session");
 			}
-		).fail(function(xhr, errorText) {
-			console.log(xhr);
-			console.log(errorText);
+		).fail(function(xhr, text, statusCode) {
+			$("#su-alert").html(that.prettyErrors(xhr));
 		});
+	},
+	
+	prettyErrors: function(xhr) {
+		console.log(xhr);	
+		if (xhr.responseText.match(/:/)) {
+			var errorsJSON = $.parseJSON("heyfail");//xhr.responseText);
+			errorsString,
+			errorsList = _(errorsJSON).map(function(errors, field) {
+				return "<li>" + field + " " + errors.join(", and ") + "</li>";
+			});
+		} else {
+			var errorsList = xhr.responseText;
+		}
+		
+		return "<ul id='errors' class='unstyled'>" + errorsList + "</ul>";
 	},
 	
 	newStationModal: function() {
