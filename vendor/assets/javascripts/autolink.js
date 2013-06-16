@@ -7,7 +7,7 @@
   autoLink = function() {
     var k, linkAttributes, option, options, pattern, v;
     options = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
-    pattern = /(^|\s)((?:https?|ftp|www)?(:\/\/)?([\-A-Z0-9+\u0026@#\/%?=~_|!:,.;])*[\-A-Z0-9+\u0026@#\/%=~_|]\.[a-zA-z]{1,}(\/[\-A-Z0-9+\u0026@#\/%=~_|]{1,})?)/gi;
+    pattern = /(^|\s)((^|\s?:https?|ftp|www)?(:\/\/)?([\-A-Z0-9+\u0026@#\/%?=~_|!:,.;])*[\-A-Z0-9+\u0026@#\/%=~_|]\.[a-zA-z]{2,}(\/[\-A-Z0-9?+\u0026@#\/%=~_|]{1,})?)/gi;
 	
 	if (!(options.length > 0)) {
 		url = this.replace(pattern, "$1<a href='$2'>$2</a>");
