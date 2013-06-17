@@ -29,6 +29,7 @@ SV.Views.NewRadioStationForm = Backbone.View.extend({
 		
 		this.model.set({
 			name: this.$stationNameOutput.text(),
+			// might make editable not an option for track based station...?
 			editable: this.$("#editable").prop("checked")
 		});
 				
@@ -128,21 +129,21 @@ SV.Views.NewRadioStationForm = Backbone.View.extend({
 		this.addTrackToStation(track);
 	},
 	
-	addTags: function(track) {
+	cleanTags: function(track) {
 		var tags, tagString, that = this;
 		
 		tagString = track.tag_list || track.permalink.replace(/-/g, " "); 
-		tags = _(tagString.split(" ")).map(function(tag) {
+		return _(tagString.split(" ")).map(function(tag) {
 			tag.replace(/\"/g, "");
 			tag.replace(/\'/g, "");
 			return { name: tag, weight: 4 };
 		});
-		
 		this.model.get("tags").reset(tags);
 	},
 	
 	addTrackToStation: function(track) {
-		this.addTags(track);
+		this.model.get("tags").reset(this.cleanTags(track));
+		this.model.set("image_url", track.artwork_url);
 		this.model.set("name", track.title);
 	},
 	
