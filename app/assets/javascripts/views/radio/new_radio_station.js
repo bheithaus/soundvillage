@@ -28,7 +28,7 @@ SV.Views.NewRadioStationForm = Backbone.View.extend({
 		if (!tag && this.model.get("tags").length == 0) {return;}
 		
 		this.model.set({
-			name: this.$stationNameOutput.val(),
+			name: this.$stationNameOutput.text(),
 			editable: this.$("#editable").prop("checked")
 		});
 				
