@@ -387,10 +387,6 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 		
 	render: function() {
-		//Facebook JS SDK
-		var fbSDKView = new SV.Views.FacebookSDK();
-		$("body").prepend(fbSDKView.render().$el);
-		
 		var renderedContent = JST["radio/station"]({
 			station: this.model
 		});

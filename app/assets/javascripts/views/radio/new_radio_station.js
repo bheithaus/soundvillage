@@ -128,7 +128,6 @@ SV.Views.NewRadioStationForm = Backbone.View.extend({
 	},
 	
 	selectTrack: function(event) {
-		console.log($(event.target).parents("tr").data("id"));
 		var track = _(this.trackResults).findWhere({ id: $(event.target).parents("tr").data("id") });
 		if (!track) { return; }
 		
@@ -148,6 +147,7 @@ SV.Views.NewRadioStationForm = Backbone.View.extend({
 	},
 	
 	addTrackToStation: function(track) {
+		if (this.model.get("name") === track.title) { return; } //might want to use id
 		this.model.get("tags").reset(this.cleanTags(track));
 		this.model.set("image_url", track.artwork_url);
 		this.model.set("name", track.title);

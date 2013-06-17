@@ -14,6 +14,7 @@ window.SV = {
 		
 		this.router = new SV.Routers.SoundVillageRouter($content, $modal);
 		this.makeNavbar($navbar);
+		this.FBinit();
 		this.connectSocket();
 		
 		//soundcloud SDK
@@ -27,6 +28,11 @@ window.SV = {
 	makeNavbar: function($navbar) {
 		this.navbarView = new SV.Views.Navbar();
 		$navbar.html(this.navbarView.render().$el);
+	},
+	
+	FBinit: function() {
+		var fbSDKView = new SV.Views.FacebookSDK();
+		$("body").prepend(fbSDKView.render().$el);
 	},
 	
 	signIn: function(currentUserData) {

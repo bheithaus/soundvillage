@@ -30,6 +30,7 @@ SV.Views.Navbar = Backbone.View.extend({
 	},
 	
 	connectFB: function() {
+		
 		//use FB JS SDK
 		if (window.FB) {
 			FB.login(function(response) {
@@ -47,6 +48,8 @@ SV.Views.Navbar = Backbone.View.extend({
 			     console.log('User cancelled login or did not fully authorize.');
 			   }
 			 }, {scope: 'email,publish_stream'});
+		} else {
+			console.log("FB not initialized");
 		}
 		
 		

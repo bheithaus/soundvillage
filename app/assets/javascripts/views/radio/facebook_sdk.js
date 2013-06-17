@@ -14,7 +14,8 @@ SV.Views.FacebookSDK = Backbone.View.extend({
 	        status     : true,                                 // Check Facebook Login status
 	        xfbml      : true                                  // Look for social plugins on the page
 	      });
-
+		  
+		  console.log()
 	      // Additional initialization code such as adding Event Listeners goes here
 	    };
 
