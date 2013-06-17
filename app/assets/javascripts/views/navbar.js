@@ -30,10 +30,30 @@ SV.Views.Navbar = Backbone.View.extend({
 	},
 	
 	connectFB: function() {
-		console.log(SV.paths.facebook_omniauth_url);
-		newwindow = window.open(SV.paths.facebook_omniauth_url, 'Connect Facebook',
-								'height=400,width=500');
-		if (window.focus) { newwindow.focus(); }
+		
+		//use FB JS SDK
+		if (window.FB) {
+			FB.login(function(response) {
+			   if (response.authResponse) {
+				   
+				 // need to track auth another way..
+		 		 SV.Store.currentUser.set("provider", "facebook");
+				 
+				 Backbone.trigger("session");
+				 
+			     FB.api('/me', function(response) {
+			         console.log('Good to see you, ' + response.name + '.');
+			     });
+			   } else {
+			     console.log('User cancelled login or did not fully authorize.');
+			   }
+			 }, {scope: 'email,publish_stream'});
+		}
+		
+		
+		// newwindow = window.open(SV.paths.facebook_omniauth_url, 'Connect Facebook',
+// 								'height=400,width=500');
+// 		if (window.focus) { newwindow.focus(); }
 	},
 	
 	fbCallback: function() {
@@ -139,7 +159,7 @@ SV.Views.Navbar = Backbone.View.extend({
 	prettyErrors: function(xhr) {
 		console.log(xhr);	
 		if (xhr.responseText.match(/:/)) {
-			var errorsJSON = $.parseJSON("heyfail");//xhr.responseText);
+			var errorsJSON = $.parseJSON(xhr.responseText);
 			errorsString,
 			errorsList = _(errorsJSON).map(function(errors, field) {
 				return "<li>" + field + " " + errors.join(", and ") + "</li>";

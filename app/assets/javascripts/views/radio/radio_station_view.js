@@ -297,7 +297,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 		$("body").on('keyup', this.spaceOrArrowPressed.bind(this));
 	},
 	
-	spaceOrArrowPressed: function(event) {	
+	spaceOrArrowPressed: function(event) {
 		if ($(event.target).context.localName === "input" || !this.isLoaded) { return; }
 
 		if (event.keyCode === 32) {
@@ -310,12 +310,7 @@ SV.Views.RadioStation = Backbone.View.extend({
 	installButtons: function() {
 		this.setupVolumSlider();
 	},
-	
-	// installPlayHandler: function() {
-	// 	this.$("#play").on
-	// 	sound.play();	
-	// },
-	
+
 	setupVolumeSlider: function() {
 		var slideCallback = function(event, ui) {
 			this.sound.setVolume(ui.value);
@@ -390,6 +385,10 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 		
 	render: function() {
+		//Facebook JS SDK
+		var fbSDKView = new SV.Views.FacebookSDK();
+		$("body").prepend(fbSDKView.render().$el);
+		
 		var renderedContent = JST["radio/station"]({
 			station: this.model
 		});

@@ -25,29 +25,31 @@ SV.Views.FacebookShare = Backbone.View.extend({
 	},
 	
 	shareToFB: function() {
-		if (!SV.router.currentStation.nextSound || !this.shareable) {return;}
+		if (!SV.router.currentStation.nextSound || !this.shareable || !window.FB) {return;}
 		console.log(SV.router.currentStation.nextSound);
 		console.log(SV.router.currentStation.model.get("name"));
 		console.log(window.location.href);
 		var trackData = { title: SV.router.currentStation.nextSound.title,
 						 artist: SV.router.currentStation.nextSound.user.username,
-						    url: SV.router.currentStation.nextSound.permalink_url },
-		  stationData = { name: SV.router.currentStation.model.get("name"),
-							 url: window.location.href },
+						    url: SV.router.currentStation.nextSound.permalink_url };
 				 that = this;
 							
-		$.post("/post_to_fb_wall",
-				{ wall_post:
-					{ track: trackData,
-					station: stationData }
-				},
-				function(successData) {
-					that.setShared();
-					console.log(successData);
+		var params = {};
+		params['message'] = "I'm listening to " + trackData.title + " by " + trackData.artist +
+					" (" + trackData.url + ") on SoundVillage Radio!";
+		params['name'] = "SoundVillage Internet Radio";
+		params["link"] = 'http://soundvillage.herokuapp.com/' + window.location.hash;
+		params['description'] = 'SoundVillage Radio, powered by www.soundcloud.com, a great way to discover independent electronic music!';
+		FB.api('/me/feed', 'post', params,
+				function(response) {
+					if (!response || response.error) {
+						console.log(response);
+						console.log(window.location.href);
+						alert('Error occured');
+					} else {
+						alert('Post ID: ' + response.id);
+					}
 				}
-		)
-		.fail(function(failData) {
-			
-		});
+		);
 	}
 });
