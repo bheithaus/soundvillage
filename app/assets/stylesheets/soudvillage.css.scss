@@ -207,10 +207,28 @@ body .modal.sign {
 	opacity: .98;
 }
 
+// sign up alert area
+#su-alert {
+	li {
+		line-height: 1px;
+	}
+}
+
 #new-station-modal {
-	text-align:center;
+	width: 77%;
+	left: 12.5%;
+	top: 5%;
+	margin: 0 auto; /* place center */
 	background-color: #755964;
 	opacity: .95;
+}
+
+table#track-results tr {
+	opacity: .9;
+	&:hover {
+		text-shadow: 0 0 0.2em #8F7;
+		opacity: 1;
+	}
 }
 
 #new-station {

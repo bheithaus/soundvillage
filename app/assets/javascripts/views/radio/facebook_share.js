@@ -40,6 +40,7 @@ SV.Views.FacebookShare = Backbone.View.extend({
 		params['name'] = "SoundVillage Internet Radio";
 		params["link"] = 'http://soundvillage.herokuapp.com/' + window.location.hash;
 		params['description'] = 'SoundVillage Radio, powered by www.soundcloud.com, a great way to discover independent electronic music!';
+		params['picture'] = '';
 		FB.api('/me/feed', 'post', params,
 				function(response) {
 					if (!response || response.error) {

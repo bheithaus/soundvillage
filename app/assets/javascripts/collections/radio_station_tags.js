@@ -16,7 +16,7 @@ SV.Collections.RadioStationTags = Backbone.Collection.extend({
 			tag;
 		_(tags).each(function(tagOBJ) {
 			tag = tagOBJ.name.toLowerCase();
-			model = that.findWhere({ name: tag });			
+			model = that.findWhere({ name: tag });
 			if (!model) {
 				if (tagOBJ.weight > 2) {
 					that.add({

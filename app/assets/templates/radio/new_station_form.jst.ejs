@@ -1,12 +1,33 @@
-<input id="station-name" type="text" placeholder="station name"> 
-<label>
-	<input id="station-tag" type="text" placeholder="tags">
-	<h4>enter multiple tags by pressing enter, then adding another</h4>
-</label>
-	<div href="#" class="checkbox-label" data-toggle="tooltip" title="This Station's Tags will Evolve with your listening tendencies">
-		Evolving Station? 
+<div class="row">
+	<div class="pull-left well span3">
+		<h4>By Tags</h4>
+		<input id="station-name" type="text" placeholder="station name"> 
+		<label>
+			<input id="station-tag" type="text" placeholder="tags">
+			<p>enter multiple tags by pressing enter, then adding another</p>
+		</label>
+		<label>
+			<div href="#" class="checkbox-label" data-toggle="tooltip" title="This Station's Tags will Evolve with your listening tendencies">
+				Evolving Station? 
+			</div>
+			<input id="editable" type="checkbox">
+		</label>
+			<br>
 	</div>
-	<input id="editable" type="checkbox">
-<br>
 
-<button class="btn pull-right" id="commit">Create New Station</button>
+	<div id="tagSpace" class="well pull-left span3">
+		<div class="well">
+			<button class="btn center" id="commit">Create New Station</button>
+			<h4 id="station-name-output">Station Name</h4>
+		</div>
+	</div>
+	
+	<div class="pull-left well span5">
+		<h4>Make Station From Track</h4>
+		<div id="search-error"></div>
+		<input id="track-search" placeholder="track search">
+		<div class="inline" id="searching-tracks-spinner"></div>
+		
+		<table id="track-results" class="table table-hover"></table>
+	</div>
+</div>

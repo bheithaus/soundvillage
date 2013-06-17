@@ -1,7 +1,9 @@
-<ul class="unstyled">
-	<% if (tags) {%>
-		<% tags.each(function (tag) { %>
-			<li><%= tag.escape("name") %></li>
-		<% }); %>
+<div id="tags" class="tags pull-right span3">
+	<% if (tags) { %>
+	<ul class="unstyled inline">
+		<% tags.each(function(tag) { %>
+			<li class="btn tag"><%= tag.escape("name") %></li>
+		<% }) %>
+	</ul>
 	<% } %>
-</ul>
+</div>
