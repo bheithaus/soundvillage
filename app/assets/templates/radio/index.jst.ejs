@@ -2,7 +2,6 @@
 <button class="btn btn-custom btn-large pull-right" id="new-station-index">Make a new Station</button>
 
 <input type="text" id="filter" placeholder="search">
-<h3>Public Stations</h3>
 <div id="stations" class="clearfix">
 	<% stations.each(function(station) { %>
 		<a href="#station/<%= station.escape("id") %>">

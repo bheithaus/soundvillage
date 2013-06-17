@@ -30,7 +30,6 @@ SV.Views.Navbar = Backbone.View.extend({
 	},
 	
 	connectFB: function() {
-		
 		//use FB JS SDK
 		if (window.FB) {
 			FB.login(function(response) {

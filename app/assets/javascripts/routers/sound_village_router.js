@@ -44,6 +44,7 @@ SV.Routers.SoundVillageRouter = Backbone.Router.extend({
 			var that = this;
 			
 			this.$modal.children(".modal-body").html(this.currentView.render().$el);
+			$("#modal-title").text(this.currentView.title);
 			this.$modal.modal('show')
 				.on("shown", function() {
 					if (that.currentView.isRadioIndex) {

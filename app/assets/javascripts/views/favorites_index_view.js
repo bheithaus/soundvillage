@@ -1,6 +1,7 @@
 SV.Views.FavoritesIndex = Backbone.View.extend({
 	initialize: function() {
 		this.renderCallback = this.render.bind(this);
+		this.title = "Favorite Tracks";
 	},
 	
 	events: {

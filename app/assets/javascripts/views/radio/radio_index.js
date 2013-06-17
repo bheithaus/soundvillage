@@ -2,6 +2,7 @@ SV.Views.RadioIndex = Backbone.View.extend({
 	initialize: function() {
 		this.stations = [];
 		this.isRadioIndex = true;
+		this.title = "Radio Stations";
 	},
 	
 	events: {

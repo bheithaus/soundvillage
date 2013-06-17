@@ -115,17 +115,23 @@ SV.Views.NewRadioStationForm = Backbone.View.extend({
 	},
 	
 	injectSearchResults: function() {
-		var that = this,
+		var thumbnailURL, that = this,
 		tracks = this.trackResults;
 		
 		this.$trackResults.html('');
 		_(tracks).each(function(track) {
-			that.$trackResults.append("<tr><td data-id=" + track.id + ">" + track.title + "</td></tr>");
+			thumbnailURL = track.artwork_url ? track.artwork_url.replace(/large/, "t67x67") :
+												SV.assets.imageUrl('default-artwork.png');
+			that.$trackResults.append("<tr data-id='" + track.id + "'><td>" + track.title + "</td>"+
+									 "<td><img src='" + thumbnailURL + "'></img></td></tr>");
 		});
 	},
 	
 	selectTrack: function(event) {
-		var track = _(this.trackResults).findWhere({ id: $(event.target).data("id") });
+		console.log($(event.target).parents("tr").data("id"));
+		var track = _(this.trackResults).findWhere({ id: $(event.target).parents("tr").data("id") });
+		if (!track) { return; }
+		
 		this.addTrackToStation(track);
 	},
 	
