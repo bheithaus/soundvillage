@@ -159,10 +159,12 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	formatDescription: function() {
-		var nextSound = this.nextSound;
+		var nextSound = this.nextSound
+		description = nextSound.description ? String.prototype.autoLink.apply(nextSound.description.slice(0,500),[{ target: "_blank"}]) :
+												"";
 		return "<h1><a class='special' target='_blank' href='"+ nextSound.permalink_url +"'>"+ nextSound.title + "</a></h1>" +
 				"<h3><a class='special' target='_blank' href='"+ nextSound.user.permalink_url +"'>"+ nextSound.user.username + "</a></h3>" +
-				"<p>" + String.prototype.autoLink.apply(nextSound.description.slice(0,500),[{ target: "_blank"}]) + "</p>"
+				"<p>" + description + "</p>"
 	},
 	
 	showPosition: function() {
