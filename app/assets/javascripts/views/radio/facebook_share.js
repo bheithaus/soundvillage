@@ -26,9 +26,7 @@ SV.Views.FacebookShare = Backbone.View.extend({
 	
 	shareToFB: function() {
 		if (!SV.router.currentStation.nextSound || !this.shareable || !window.FB) {return;}
-		console.log(SV.router.currentStation.nextSound);
-		console.log(SV.router.currentStation.model.get("name"));
-		console.log(window.location.href);
+		
 		var trackData = { title: SV.router.currentStation.nextSound.title,
 						 artist: SV.router.currentStation.nextSound.user.username,
 						    url: SV.router.currentStation.nextSound.permalink_url };
@@ -44,11 +42,9 @@ SV.Views.FacebookShare = Backbone.View.extend({
 		FB.api('/me/feed', 'post', params,
 				function(response) {
 					if (!response || response.error) {
-						console.log(response);
-						console.log(window.location.href);
-						alert('Error occured');
+						console.log('Error occured');
 					} else {
-						alert('Post ID: ' + response.id);
+						that.setShared();
 					}
 				}
 		);

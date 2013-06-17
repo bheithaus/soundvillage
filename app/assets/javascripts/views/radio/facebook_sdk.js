@@ -16,7 +16,13 @@ SV.Views.FacebookSDK = Backbone.View.extend({
 	      });
 		  
 		  console.log()
-	      // Additional initialization code such as adding Event Listeners goes here
+		  
+		  FB.Event.subscribe('auth.authResponseChange', function(response) {
+		    // Here we specify what we do with the response anytime this event occurs. 
+		    if (response.status === 'connected') {
+				SV.setFBConnected();
+		    }
+		  });
 	    };
 
 	    // Load the SDK asynchronously

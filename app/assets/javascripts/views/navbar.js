@@ -30,32 +30,8 @@ SV.Views.Navbar = Backbone.View.extend({
 	},
 	
 	connectFB: function() {
-		
 		//use FB JS SDK
-		if (window.FB) {
-			FB.login(function(response) {
-			   if (response.authResponse) {
-				   
-				 // need to track auth another way..
-		 		 SV.Store.currentUser.set("provider", "facebook");
-				 
-				 Backbone.trigger("session");
-				 
-			     FB.api('/me', function(response) {
-			         console.log('Good to see you, ' + response.name + '.');
-			     });
-			   } else {
-			     console.log('User cancelled login or did not fully authorize.');
-			   }
-			 }, {scope: 'email,publish_stream'});
-		} else {
-			console.log("FB not initialized");
-		}
-		
-		
-		// newwindow = window.open(SV.paths.facebook_omniauth_url, 'Connect Facebook',
-// 								'height=400,width=500');
-// 		if (window.focus) { newwindow.focus(); }
+		SV.connectFB();
 	},
 	
 	fbCallback: function() {
@@ -65,7 +41,6 @@ SV.Views.Navbar = Backbone.View.extend({
 	},
 	
 	favoritesModal: function() {
-		console.log("calling favorites");
 		SV.router.favorites(true);
 	},
 	

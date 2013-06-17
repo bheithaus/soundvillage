@@ -14,7 +14,7 @@ window.SV = {
 		
 		this.router = new SV.Routers.SoundVillageRouter($content, $modal);
 		this.makeNavbar($navbar);
-		this.FBinit();
+		this.initFB();
 		this.connectSocket();
 		
 		//soundcloud SDK
@@ -30,9 +30,32 @@ window.SV = {
 		$navbar.html(this.navbarView.render().$el);
 	},
 	
-	FBinit: function() {
+	initFB: function() {
 		var fbSDKView = new SV.Views.FacebookSDK();
 		$("body").prepend(fbSDKView.render().$el);
+	},
+	
+	setFBConnected: function() {
+		 SV.Store.currentUser.set("provider", "facebook");
+		 Backbone.trigger("session");
+		 
+	     FB.api('/me', function(response) {
+	         console.log('Good to see you, ' + response.name + '.');
+	     });
+	},
+	
+	connectFB: function() {
+		if (window.FB) {
+			FB.login(function(response) {
+			   if (response.authResponse) {
+  				 SV.setFBConnected();
+			   } else {
+			     console.log('User cancelled login or did not fully authorize.');
+			   }
+			 }, {scope: 'email,publish_stream'});
+		} else {
+			console.log("FB not initialized");
+		}
 	},
 	
 	signIn: function(currentUserData) {
