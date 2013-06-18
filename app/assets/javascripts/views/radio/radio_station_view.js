@@ -86,12 +86,13 @@ SV.Views.RadioStation = Backbone.View.extend({
 			that.nextSound = that.model.nextTrack();
 			if (that.nextSound.streamable) {
 				newSoundUrl = that.nextSound.uri;
-				SC.stream(newSoundUrl, {
-					ontimedcomments: that.showComment.bind(that)
-				},
-				function(sound){
-					that.setSound(sound);
-				});
+				SC.stream(newSoundUrl, 
+							{
+								ontimedcomments: that.showComment.bind(that)
+							},
+							function(sound){
+								that.setSound(sound);
+							});
 				that.showSoundDetails();
 			} else {
 				that.nextTrackCallback();
@@ -137,12 +138,12 @@ SV.Views.RadioStation = Backbone.View.extend({
 	},
 	
 	visuallyEnableButtons: function() {
-		$(".disabled").toggleClass("disabled");
+		this.$("div#buttons .btn").removeClass("disabled");
 		this.sharer.enable();
 	},
 	
 	visuallyDisableButtons: function() {
-		this.$("div#buttons .btn").toggleClass("disabled");
+		this.$("div#buttons .btn").addClass("disabled");
 		this.sharer.disable();
 	},
 	
@@ -178,8 +179,9 @@ SV.Views.RadioStation = Backbone.View.extend({
 	
 	removeSound: function() {
 		if (this.sound) {
-			this.showPosition();
 			this.sound.stop();
+			this.playing = false;
+			this.showPosition();
 			this.sound.destruct();
 		}
 	},
@@ -378,7 +380,6 @@ SV.Views.RadioStation = Backbone.View.extend({
 	
 	remove: function() {
 		$("window").off('keypress');
-		clearInterval(this.trackerID);
 		this.removeSound();
 		this.model.removed = true;
 	    this.model.unbind();

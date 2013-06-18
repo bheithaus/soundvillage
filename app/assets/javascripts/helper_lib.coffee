@@ -7,7 +7,11 @@ window.helpers =
 		
 			temp = array[counter]
 			array[counter] = array[index]
-			array[index] = temp
+			
+			if temp.title.indexOf("Planetary (Go!)") != -1
+				array.splice(index, 1)
+			else
+				array[index] = temp
 	
 		array
 		
