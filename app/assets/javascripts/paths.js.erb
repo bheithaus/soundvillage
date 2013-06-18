@@ -1,7 +1,2 @@
-<% url = Soundvillage::Application.routes.url_helpers %>
-
-SV.paths = {
-	facebook_omniauth_url: "<%= url.user_omniauth_authorize_path(:facebook) %>?display=popup"
-}
-
-SV.paths.FBclientID = <%= Rails.env.production? ? "546663425385632" : "463608627058869" %>;
+SV.paths = {};
+SV.paths.FBclientID = <%= ENV["FACEBOOK_APP_ID"] %>;

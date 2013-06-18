@@ -1,5 +1,5 @@
 <% if (SV.Store.currentUser && SV.Store.currentUser.get("provider")) { %>
-	<a class="btn btn-custom" id="fb-share">
+	<a class="btn btn-custom <%= disabled %>" id="fb-share">
 		<img src="<%= SV.assets.imageUrl('facebook-icon.png') %>">
 		<div class="text">
 			Share on Facebook

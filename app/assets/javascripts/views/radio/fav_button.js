@@ -6,7 +6,12 @@ SV.Views.FavButton = Backbone.View.extend({
 	},
 	
 	render: function() {
-		var renderedContent = JST["radio/fav_button"]();
+		console.log("rendering");
+		console.log(SV.router.currentStation.isLoaded);
+		
+		var renderedContent = JST["radio/fav_button"]({
+			disabled: SV.router.currentStation.isLoaded ? "" : "disabled"
+		});
 		this.$el.html(renderedContent);
 		
 		return this;

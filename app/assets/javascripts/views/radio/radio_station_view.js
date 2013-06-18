@@ -1,6 +1,7 @@
 SV.Views.RadioStation = Backbone.View.extend({
 	initialize: function() {
 		this.isLoaded = false;
+		
 		this.waveUpdateInterval = 200;
 		this.palette = [
 						"#E01B6A",
@@ -250,12 +251,11 @@ SV.Views.RadioStation = Backbone.View.extend({
 	
 	start: function() {
 		var that = this;
-		setTimeout(function() {
-			that.sound.setVolume(that.$("#volume").slider("option", "value"));
-			that.visuallyEnableButtons();
-			that.play();
-			that.showPosition();
-		}, 50);
+		
+		that.sound.setVolume(that.$("#volume").slider("option", "value"));
+		that.visuallyEnableButtons();
+		that.play();
+		that.showPosition();
 	},
 	
 	play: function() {

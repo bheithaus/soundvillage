@@ -1,10 +1,12 @@
-SV.Views.FacebookShare = Backbone.View.extend({	
+SV.Views.FacebookShare = Backbone.View.extend({
 	events: {
 		"click #fb-share": "shareToFB",
 	},
 	
 	render: function() {
-		var renderedContent = JST["radio/fb_share"]();
+		var renderedContent = JST["radio/fb_share"]({
+			disabled: SV.router.currentStation.isLoaded ? "" : "disabled"
+		});
 		this.$el.html(renderedContent);	
 		
 		return this;
