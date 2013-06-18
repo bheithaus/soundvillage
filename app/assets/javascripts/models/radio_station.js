@@ -49,11 +49,14 @@ SV.Models.RadioStation = Backbone.RelationalModel.extend({
 					
 			$.getJSON(url)
 				.success(
-				  function (data) {
+				  function (tracks) {
 	  				if (!that.removed) {
+					  tracks = _(tracks).filter(function(track) {
+						  return track.title.indexOf("Planetary (Go!)") === -1;
+					  });
 					  that.isLoaded = true;
-		  			  that.firstQuery = false;				  
-					  that.upcomingTracks = helpers.shuffle(data).slice(0, 20);
+		  			  that.firstQuery = false;	  
+					  that.upcomingTracks = helpers.shuffle(tracks).slice(0, 20);
 					  that.printUpcoming();
 					  if (callback) {
 						  callback();
