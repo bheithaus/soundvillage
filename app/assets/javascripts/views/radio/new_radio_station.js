@@ -59,7 +59,7 @@ SV.Views.NewRadioStationForm = Backbone.View.extend({
 	enterPressedSearch: function(event) {
 		var that = this;
 		if (event.keyCode == 13) {
-			var searchQuery = $("#track-search").val();
+			var searchQuery = $("#track-search").val().replace(/ /g, "%20");
 			if (searchQuery.length >= 3) {
 				that.setLoading();
 				SC.get('/tracks', { q: searchQuery, license: 'cc-by-sa' }, function(tracks) {
@@ -71,7 +71,7 @@ SV.Views.NewRadioStationForm = Backbone.View.extend({
 					} else {
 						that.searchError();
 					}
-
+					
 					that.unsetLoading();
 				});
 			}
