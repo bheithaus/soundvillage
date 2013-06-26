@@ -124,6 +124,7 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
+    rack-timeout (0.0.4)
     rails (3.2.13)
       actionmailer (= 3.2.13)
       actionpack (= 3.2.13)
@@ -190,6 +191,7 @@ DEPENDENCIES
   omniauth-facebook (= 1.4.0)
   pg
   pusher
+  rack-timeout
   rails (= 3.2.13)
   redis
   sass-rails (~> 3.2.3)

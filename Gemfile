@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.13'
 
 gem 'unicorn'
+gem "rack-timeout"
+
 
 gem 'bootstrap-sass'
 gem 'font-awesome-sass-rails'
