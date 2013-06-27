@@ -9,6 +9,14 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
+module AssetsInitializers
+  class Railtie < Rails::Railtie
+    initializer "assets_initializers.initialize_rails", :group => :assets do |app|
+      require "#{Rails.root}/app/helpers/assets_util.rb"
+    end
+  end
+end
+
 module Soundvillage
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
