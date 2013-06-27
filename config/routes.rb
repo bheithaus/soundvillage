@@ -4,7 +4,6 @@ Soundvillage::Application.routes.draw do
   devise_for :users,
                 controllers: { registrations: "registrations",
                                     sessions: "sessions" }
-                                    
   post '/pusher/auth' => 'pusher#auth'
   
   resources :messages

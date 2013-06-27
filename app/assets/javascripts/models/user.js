@@ -1,6 +1,6 @@
 SV.Models.User = Backbone.RelationalModel.extend({
-	urlRoot: function() {
-		return "/users";
+	url: function() {
+		return "/users.json";
 	},
 	
 	relations: [{
@@ -19,7 +19,7 @@ SV.Models.User = Backbone.RelationalModel.extend({
 	
 	toJSON: function() {
 		var attrs = _.clone(this.attributes);
-		attrs["favorite_tracks_attributes"] = attrs["favorite_tracks"];
+		attrs["favorite_tracks_attributes"] = attrs["favorite_tracks_attributes"] || attrs["favorite_tracks"];
 		delete attrs["favorite_tracks"];
 		delete attrs["created_at"];
 		delete attrs["updated_at"];

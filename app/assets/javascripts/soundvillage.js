@@ -36,30 +36,42 @@ window.SV = {
 	},
 	
 	setFBConnected: function() {
-		 SV.Store.currentUser.set("provider", "facebook");
-		 Backbone.trigger("session");
-		 
-	     FB.api('/me', function(response) {
-	         console.log('Good to see you, ' + response.name + '.');
-	     });
+		if (SV.Store.currentUser) {
+			 if (SV.Store.currentUser.get("provider") !== "facebook") {
+				 //hackity hack
+				SV.Store.currentUser.save({ provider: "facebook", favorite_tracks_attributes: "no" }, {
+					success: function() {
+						SV.Store.currentUser.set("favorite_tracks_attributes", null);
+					}
+				});
+			 }
+			 Backbone.trigger("session");
+
+			 FB.api('/me', function(response) {
+			     console.log('Good to see you, ' + response.name + '.');
+			 });
+		}
 	},
 	
 	connectFB: function() {
 		if (window.FB) {
 			FB.login(function(response) {
 			   if (response.authResponse) {
-  				 SV.setFBConnected();
+  				   SV.setFBConnected();
 			   } else {
-			     console.log('User cancelled login or did not fully authorize.');
+			       console.log('User cancelled login or did not fully authorize.');
 			   }
-			 }, {scope: 'email,publish_stream'});
+			 }, {scope: 'email, publish_stream'});
 		} else {
 			console.log("FB not initialized");
 		}
 	},
 	
-	signIn: function(currentUserData) {
+	signIn: function(currentUserData, reload_to_get_cookie) {
 		this.Store.currentUser = new SV.Models.User(currentUserData);
+		if (reload_to_get_cookie) {
+			window.location.reload();
+		}
 	},
 	
 	connectSocket: function() {

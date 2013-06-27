@@ -12,12 +12,20 @@ class SessionsController < Devise::SessionsController
 
     # POST /resource/sign_in
     def create
-      self.resource = warden.authenticate!(auth_options)
-      set_flash_message(:notice, :signed_in) if is_navigational_format?
-      sign_in(resource_name, resource)
-      respond_to do |format|
-        format.json { render json: resource }
-      end
+      resource = warden.authenticate!(:scope => resource_name, :recall => :failure)
+
+      return sign_in_and_redirect(resource_name, resource)
+    end
+    
+    def sign_in_and_redirect(resource_or_scope, resource=nil)
+      scope = Devise::Mapping.find_scope!(resource_or_scope)
+      resource ||= resource_or_scope
+      sign_in(scope, resource) unless warden.user(scope) == resource
+      return render json: { user: resource }
+    end
+ 
+    def failure
+      return render json: resource, status: 422
     end
 
     # DELETE /resource/sign_out

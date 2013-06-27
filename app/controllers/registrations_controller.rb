@@ -1,4 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController 
+  before_filter :authenticate_user!, except: :create
+  
   include RedisHelper
   respond_to :json, :html
   
@@ -20,15 +22,12 @@ class RegistrationsController < Devise::RegistrationsController
   end
   
   def update
-    #this is fun, I am using this method only to favorite / unfavorite tracks
-    puts "CURRENT USER"
-    p current_user
     @user = User.find(current_user.id)
     attrs = {}
     attrs[:favorite_track_ids] = []
     tracks = []
-    
-    if (params[:user][:favorite_tracks_attributes])
+  
+    if params[:user][:favorite_tracks_attributes] && params[:user][:favorite_tracks_attributes] != "no"
         params[:user][:favorite_tracks_attributes].each do |trackData|
           track = FavoriteTrack.find_or_create_by_url_and_title_and_artist(
                                 trackData[:url],
@@ -46,6 +45,13 @@ class RegistrationsController < Devise::RegistrationsController
         else
           render json: {}, status: 422
         end
+    elsif params[:user][:provider]
+      if @user.update_attributes(provider: params[:user][:provider])
+        reset_redis_user_and_favorites
+        render json: @user
+      else
+        render json: {}, status: 422
+      end
     else
       render json: {}, status: 422
     end

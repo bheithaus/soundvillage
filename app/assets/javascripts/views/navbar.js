@@ -78,7 +78,7 @@ SV.Views.Navbar = Backbone.View.extend({
 				that = this;
 
 		$.post(
-			"/users/sign_in",
+			"/users/sign_in.json",
 			{ user: {
 				email: this.$("#email").val(),
 				password: this.$("#password").val(),
@@ -86,8 +86,7 @@ SV.Views.Navbar = Backbone.View.extend({
 			}}
 		).success(
 			function(userSessionData) {	
-				console.log(userSessionData);
-				SV.signIn(userSessionData);
+				SV.signIn(userSessionData, true);
 				that.$("#sign-in-modal").modal("hide");
 				Backbone.trigger("session");
 			}
@@ -124,7 +123,7 @@ SV.Views.Navbar = Backbone.View.extend({
 				password_confirmation: this.$("#su-password-confirm").val()
 			}},
 			function(userSessionData) {
-				SV.signIn(userSessionData);
+				SV.signIn(userSessionData, true);
 				that.$("#sign-up-modal").modal("hide");
 				Backbone.trigger("session");
 			}
@@ -134,12 +133,11 @@ SV.Views.Navbar = Backbone.View.extend({
 	},
 	
 	prettyErrors: function(xhr) {
-		console.log(xhr);	
 		if (xhr.responseText.match(/:/)) {
-			var errorsJSON = $.parseJSON(xhr.responseText);
-			errorsString,
+			var errorsJSON = $.parseJSON(xhr.responseText),
 			errorsList = _(errorsJSON).map(function(errors, field) {
-				return "<li>" + field + " " + errors.join(", and ") + "</li>";
+				errors = typeof errors === "string" ? errors : errors.join(", and ");
+				return "<li>" + field + " : " + errors + "</li>";
 			});
 		} else {
 			var errorsList = xhr.responseText;
