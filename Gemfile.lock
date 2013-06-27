@@ -29,6 +29,9 @@ GEM
       i18n (= 0.6.1)
       multi_json (~> 1.0)
     arel (3.0.2)
+    asset_sync (0.5.4)
+      activemodel
+      fog
     attr_required (0.0.5)
     bcrypt-ruby (3.0.1)
     better_errors (0.9.0)
@@ -55,6 +58,7 @@ GEM
       warden (~> 1.2.1)
     ejs (1.1.1)
     erubis (2.7.0)
+    excon (0.23.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
     faraday (0.8.7)
@@ -67,9 +71,20 @@ GEM
     figaro (0.6.3)
       bundler (~> 1.0)
       rails (>= 3, < 5)
+    fog (1.12.1)
+      builder
+      excon (~> 0.23.0)
+      formatador (~> 0.2.0)
+      mime-types
+      multi_json (~> 1.0)
+      net-scp (~> 1.1)
+      net-ssh (>= 2.1.3)
+      nokogiri (~> 1.5.0)
+      ruby-hmac
     font-awesome-sass-rails (3.0.2.2)
       railties (>= 3.1.1)
       sass-rails (>= 3.1.1)
+    formatador (0.2.4)
     hashie (2.0.4)
     hike (1.2.2)
     httpauth (0.2.0)
@@ -89,7 +104,11 @@ GEM
     mime-types (1.23)
     multi_json (1.7.3)
     multipart-post (1.2.0)
+    net-scp (1.1.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.6.7)
     newrelic_rpm (3.6.2.96)
+    nokogiri (1.5.10)
     oauth2 (0.8.1)
       faraday (~> 0.8)
       httpauth (~> 0.1)
@@ -142,6 +161,7 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     redis (3.0.4)
+    ruby-hmac (0.4.0)
     sass (3.2.8)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -169,6 +189,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  asset_sync
   better_errors
   binding_of_caller
   bootstrap-sass

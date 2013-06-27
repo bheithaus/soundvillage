@@ -8,6 +8,8 @@ gem 'ejs'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
+gem 'asset_sync'
+
 gem 'pg'
 gem 'figaro'
 gem 'pusher'
